@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Fontawesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'styles/app.css' %}">
+    <title>{% block title %}{% endblock %} | Django Mastery</title>
+</head>
+<body class="d-flex flex-column h-100 vh-100">
+
+    <div class="flex-shrink-0">
+
+        <header class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="container">
+                <span class="navbar-brand text-white">
+                    {% block navbrand %}
+                    <i class="text-warning fas fa-chart-pie pe-1"></i> Django Mastery
+                    {% endblock navbrand %}
+                </span>
+                <!-- Link to navigate between pages -->
+                {% block secondarynav %}{% endblock secondarynav %}
+            </nav>
+        </header>
+
+        <div class="container">
+            {% block content %}{% endblock content %}
+        </div> <!--=== END // .container ===-->
+        
+    </div>
+
+    <footer class="bg-dark py-4 mt-auto text-center text-lg-start">
+        <div class="container">
+            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                <div class="col-auto">
+                    <div class="small m-0 text-warning">&copy;{% now "Y" %} &bull; Django Mastery</div>
+                </div>
+                <div class="col-auto">
+                    <span class="text-white mx-1">&middot;</span>
+                    <a class="link-warning small" href="javascript:void()">Seyi Pythonian</a>
+                    <span class="text-white mx-1">&middot;</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</body>
+</html>

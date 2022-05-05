@@ -1,5 +1,6 @@
 body {
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url("https://picsum.photos/id/366/1920/1080");
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.3)),
+                      url("/static/images/bg-image.jpg");
     background-position: center 0px;
     background-repeat: no-repeat;
     background-attachment: fixed;

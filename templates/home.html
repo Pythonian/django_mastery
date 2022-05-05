@@ -2,32 +2,37 @@
 
 {% block title %}Home{% endblock %}
 
+{% block secondarynav %}
+<a href="" class="text-decoration-none" title="Menu">
+    <i class="text-warning fas fa-bars"></i>
+</a>
+{% endblock secondarynav %}
+
 <!-- Page content -->
 {% block content %}
 
 <h1 class="text-light end-50 pt-5 mt-5 text-center">Django <span class="text-warning" id="typing"></span></h1>
 
 <a href="{% url 'opportunities' %}" class="position-absolute top-50 start-50 translate-middle btn btn-lg rounded-pill shadow-lg btn-outline-warning border border-3 border-warning">
-    <i class="fas fa-chart-pie pe-1"></i>Job opportunities
+    <i class="fas fa-chart-pie pe-1"></i> Job Opportunities
 </a>
-
 
 {% endblock content %}
 
-{% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-<script>
-    var typed = new Typed('#typing', {
-        strings: [
-            'is a Python web framework',
-            'provides rapid development',
-            'is versatile in Nature',
-            'is batteries included',
-            'offers high security'
-        ],
-        typeSpeed: 50,
-        backSpeed: 30,
-        loop: true,
-    })
+{% block script %}
+<script type="text/javascript">
+// Typed JS
+var typed = new Typed('#typing', {
+    strings: [
+        'is a Python web framework',
+        'provides for rapid development',
+        'is versatile in nature',
+        'is batteries included',
+        'offers high security'
+    ],
+    typeSpeed: 50,
+    backSpeed: 30,
+    loop: true,
+})
 </script>
-{% endblock scripts %}
+{% endblock script %}

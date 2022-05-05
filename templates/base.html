@@ -22,7 +22,7 @@
             <nav class="container">
                 <span class="navbar-brand text-white">
                     {% block navbrand %}
-                    <i class="text-warning fas fa-chart-pie pe-1"></i> Django Mastery
+                    <i class="text-warning fas fa-cubes pe-1"></i> Django Mastery
                     {% endblock navbrand %}
                 </span>
                 <!-- Link to navigate between pages -->
@@ -55,7 +55,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Bootstrap JS bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    {% block scripts %}{% endblock scripts %}
+    <!-- Inputmask -->
+    <script src="{% static 'scripts/jquery.inputmask.js' %}"></script>
+    <!-- Sweetalert JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- TypedJS-->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <!-- Custom JS-->
+    <script src="{% static 'scripts/app.js' %}"></script>
+    {% block script %}{% endblock script %}
 
 </body>
 </html>

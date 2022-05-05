@@ -1,7 +1,23 @@
 body {
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url("https://picsum.photos/id/1033/1920/1080");
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url("https://picsum.photos/id/366/1920/1080");
     background-position: center 0px;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+}
+
+#preloader {
+    border: 6px solid #e5e5e5;
+    border-top-color: #ffc107;
+    left: calc(50% - 32px);
+    z-index: 1;
+    animation: preloader 1.2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes preloader {
+    to {
+        transform: rotate(360deg);
+        opacity: 0;
+    }
 }

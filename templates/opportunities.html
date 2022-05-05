@@ -15,5 +15,50 @@
 <!-- Page content -->
 {% block content %}
 
+<div class="justify-content-center align-items-center row">
+    <h6 class="bg-warning my-3 py-2 text-center">
+        <strong>AVAILABLE JOB OPPORTUNITIES</strong>
+    </h6>
+    <div class="card shadow p-3 bg-dark">
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 p-1">
+                <div class="card bg-transparent">
+                    <button class="btn btn-outline-light btn-lg" disabled>
+                        <i class="fab fa-figma fa-5x"></i>
+                        <span class="d-block">Design (closed)</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-1">
+                <div class="card bg-transparent">
+                    <button class="btn btn-outline-warning btn-lg" data-bs-toggle="modal" data-bs-target="#frontendModal">
+                        <i class="fab fa-html5 fa-5x"></i>
+                        <span class="d-block">Frontend</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-1">
+                <div class="card bg-transparent">
+                    <button class="btn btn-outline-warning btn-lg" data-bs-toggle="modal" data-bs-target="#backendModal">
+                        <i class="fab fa-python fa-5x"></i>
+                        <span class="d-block">Backend</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-1">
+                <div class="card bg-transparent">
+                    <button class="btn btn-outline-light btn-lg" disabled>
+                        <i class="fab fa-docker fa-5x"></i>
+                        <span class="d-block">Devops (closed)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=== Modals ===-->
+{% include "modals/frontend.html" %}
+{% include "modals/backend.html" %}
 
 {% endblock content %}

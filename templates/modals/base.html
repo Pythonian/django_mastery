@@ -1,0 +1,53 @@
+<!-- Modal -->
+<div class="modal fade" {% block modal-id %}{% endblock modal-id %} tabindex="-1" aria-labelledby="baseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="baseModalLabel">{% block modal-title %}{% endblock modal-title %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" enctype="multipart/form-data" autocomplete="off">
+                <div class="modal-body">
+                    <div class="input-group input-group-sm mb-2">
+                        <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
+                        <input type="text" class="form-control" placeholder="Full name" name="fullname">
+                    </div>
+                    <div class="input-group input-group-sm mb-2">
+                        <span class="input-group-text"><i class="fas fa-universal-access"></i></span>
+                        <input type="number" class="form-control" placeholder="Your age" name="age">
+                    </div>
+                    <div class="input-group input-group-sm mb-2">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="text" class="form-control" placeholder="Your email" name="email">
+                    </div>
+                    <div class="input-group input-group-sm mb-2">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        <input type="text" class="form-control" placeholder="Your phonenumber" name="phone">
+                    </div>
+                    <div class="input-group input-group-sm mb-2">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        <input type="text" class="form-control" placeholder="Your address" name="address">
+                    </div>
+                    <div class="my-2">
+                        <textarea name="experience" id="id_experience" rows="3" class="form-control" placeholder="Talk a little about yourself..."></textarea>
+                    </div>
+                    <div class="my-2">
+                        <textarea name="skills" id="id_skills" rows="3" class="form-control" placeholder="Describe your skills..."></textarea>
+                    </div>
+                    <hr>
+                    <div class="mb-3">
+                        <div class="mb-1">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload your C.V
+                        </div>
+                        <input type="file" class="form-control form-control-sm" name="file" accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                        <div class="form-text small">* Allowed extensions: pdf - doc - docx</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-warning btn-sm">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

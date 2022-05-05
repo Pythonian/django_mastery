@@ -4,8 +4,12 @@
 
 <!-- Page content -->
 {% block content %}
-<a href="{% url 'opportunities' %}" class="btn btn-outline-warning border-light mt-4 mt-sm-5">
-    <i class="fas fa-chart-pie pe-1"></i> Job opportunities
-</a>
+
+<div class="position-absolute top-50 start-50 translate-middle">
+    <h1 class="text-light">We <span class="text-warning">Effect here...</span></h1>
+    <a href="{% url 'opportunities' %}" class="btn btn-lg rounded-pill shadow-lg btn-outline-warning border border-3 border-warning mt-4 mt-sm-5">
+        <i class="fas fa-chart-pie pe-1"></i> Job opportunities
+    </a>
+</div>
 
 {% endblock content %}

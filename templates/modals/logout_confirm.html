@@ -1,0 +1,16 @@
+{% extends "modals/base_modal_confirmation.html" %}
+
+{% block modal-id %}id="logoutModal"{% endblock modal-id %}
+
+{% block modal-title %}<i class="fas fa-door-closed pe-1"></i> Logout{% endblock modal-title %}
+
+{% block modal-body %}
+<span class="text-danger"><i class="fas fa-door-open fa-3x"></i></span>
+<div class="text-danger mt-4 py-3">
+    Are you sure you want to exit the system?
+</div>
+{% endblock modal-body %}
+
+{% block modal-btn-action %}
+<a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
+{% endblock modal-btn-action %}

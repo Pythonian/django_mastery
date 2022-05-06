@@ -1,4 +1,4 @@
-body {
+.background-image {
     background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.3)),
                       url("/static/images/bg-image.jpg");
     background-position: center 0px;
@@ -9,7 +9,7 @@ body {
 
 #preloader {
     border: 6px solid #e5e5e5;
-    border-top-color: #ffc107;
+    border-top-color: orange;
     left: calc(50% - 32px);
     z-index: 1;
     animation: preloader 1.2s;
@@ -21,6 +21,31 @@ body {
         transform: rotate(360deg);
         opacity: 0;
     }
+}
+
+.watermark {
+    color: #e8e8e8;
+}
+
+.card-border-top {
+    border-top: 6px solid #ffc107;
+    border-radius: 10px;
+}
+
+.form-check-input:checked {
+    background-color: #ffc107;
+    border: #ffc107;
+    box-shadow: 0 0 8px rgba(250, 190, 88, 1);
+}
+
+.form-check-input {
+    border: #ffc107;
+    box-shadow: 0 0 8px rgba(250, 190, 88, 1);
+}
+
+.form-control:focus {
+    border-color: #ffc107;
+    box-shadow: none;
 }
 
 /* Sweetalert Custom Styles */

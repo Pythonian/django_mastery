@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block navbrand %}
+<i class="text-warning fas fa-gauge pe-1"></i> Dashboard
+{% endblock navbrand %}
+
+<!-- Offcanvas menu -->
+{% block offcanvasmenu %}
+<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+<hr>
+<center>
+    <i class="fas fa-gauge fa-7x watermark mt-5"></i>
+</center>
+{% endblock offcanvasmenu %}
+
+{% block content %}
+
+<div class="justify-content-center align-items-center row mb-5">
+    <h5 class="bg-warning my-3 py-2 text-center">
+        <strong><i class="fas fa-cog pe-1"></i> Control Panel</strong>
+    </h5>
+    <div class="border-dark card mt-3">
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 p-1">
+                <div class="card bg-transparent">
+                    <button class="btn btn-success btn-lg">
+                        <i class="fas fa-user-alt fa-7x mb-2"></i>
+                        <span class="d-block">Candidates</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-1">
+                <div class="card bg-transparent">
+                    <button class="btn btn-warning btn-lg">
+                        <i class="fas fa-users fa-7x mb-2"></i>
+                        <span class="d-block">Opportunities</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-1">
+                <div class="card bg-transparent">
+                    <button class="btn btn-danger btn-lg">
+                        <i class="fas fa-clock fa-7x mb-2"></i>
+                        <span class="d-block">Countdown</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 p-1">
+                <div class="card bg-transparent">
+                    <button class="btn btn-primary btn-lg">
+                        <i class="fas fa-file-alt fa-7x mb-2"></i>
+                        <span class="d-block">Notepad</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--=== Modals ===-->
+{% include "modals/logout_confirm.html" %}
+
+{% endblock content %}

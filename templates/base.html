@@ -12,21 +12,26 @@
     <link rel="stylesheet" href="{% static 'styles/app.css' %}">
     <title>{% block title %}{% endblock %} | Django Mastery</title>
 </head>
-<body class="d-flex flex-column h-100 vh-100">
-
+<body class="d-flex flex-column h-100 vh-100 background-image">
+    
     <div id="preloader" class="rounded-circle position-absolute top-50 p-3"></div>
 
     <div class="flex-shrink-0">
 
         <header class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <nav class="container">
+            <nav class="container px-lg-0">
                 <span class="navbar-brand text-white">
                     {% block navbrand %}
                     <i class="text-warning fas fa-cubes pe-1"></i> Django Mastery
                     {% endblock navbrand %}
                 </span>
                 <!-- Link to navigate between pages -->
-                {% block secondarynav %}{% endblock secondarynav %}
+                {% block secondarynav %}
+                <a href="#" class="text-decoration-none" title="Menu" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+                    <i class="text-warning fas fa-bars"></i>
+                </a>
+                {% endblock secondarynav %}
+
             </nav>
         </header>
 
@@ -36,37 +41,71 @@
         
     </div>
 
-    <footer class="bg-dark py-4 mt-auto text-center text-lg-start">
-        <div class="container">
+    <!--=== Footer ===-->
+    <footer class="bg-dark py-4 mt-auto">
+        <div class="container px-0">
             <div class="row align-items-center justify-content-between flex-column flex-sm-row">
                 <div class="col-auto">
-                    <div class="small m-0 text-warning">&copy;{% now "Y" %} &bull; Django Mastery</div>
+                    <div class="small m-0 text-warning">
+                        &copy;{% now "Y" %} 
+                        <span class="text-white mx-1">&middot;</span> 
+                        Django Mastery
+                    </div>
                 </div>
                 <div class="col-auto">
                     <span class="text-white mx-1">&middot;</span>
-                    <a class="link-warning small" href="javascript:void()">Seyi Pythonian</a>
+                    <a class="link-warning small" href="/">Seyi Pythonian</a>
                     <span class="text-white mx-1">&middot;</span>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Offcanvas menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasMenuLabel">MENU</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="d-grid gap-2">
+                {% block offcanvasmenu %}
+                <a href="{% url 'dashboard' %}" class="btn btn-warning">Login</a>
+                <a href="#" class="btn btn-secondary">FAQ</a>
+                <a href="#" class="btn btn-info">Support</a>
+                <hr>
+                <center>
+                    <i class="fas fa-key fa-7x watermark mt-5"></i>
+                </center>
+                {% endblock offcanvasmenu %}
+            </div>
+        </div>
+    </div>
+
     <!-- Message notifications -->
     {% if messages %}
-    {% for message in messages %}
+        {% for message in messages %}
+            <script src="{% static 'scripts/sweetalert.min.js' %}"></script>
+            {% if message.tags == 'success' %}        
+            <script>
+                var m = "{{ message }}";
+                swal("Perfect!", m, "success")
+            </script>
+            {% elif message.tags == 'error' %}        
+            <script>
+                var m = "{{ message }}";
+                swal("Sorry!", m, "error")
+            </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <!-- Login errors -->
+    {% if form.errors %} 
         <script src="{% static 'scripts/sweetalert.min.js' %}"></script>
-        {% if message.tags == 'success' %}        
         <script>
-            var m = "{{ message }}";
-            swal("Perfect!", m, "success")
+            swal("Denied!", "Enter your data correctly.", "error")
         </script>
-        {% elif message.tags == 'error' %}        
-        <script>
-            var m = "{{ message }}";
-            swal("Sorry!", m, "error")
-        </script>
-        {% endif %}
-    {% endfor %}
     {% endif %}
 
     <!-- jQuery -->

@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 
 from .models import RegisteredEmail
 
@@ -74,6 +76,17 @@ def frontend_email(request):
 def backend_email(request):
 
     template_name = 'backend_email.html'
+    context = {}
+
+    return render(request, template_name, context)
+
+
+# Destroy session upon logout
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required
+def dashboard(request):
+
+    template_name = 'dashboard.html'
     context = {}
 
     return render(request, template_name, context)

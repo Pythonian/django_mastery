@@ -205,3 +205,13 @@ $("input[name=age]").on("input", function() {
         this.value = this.value.replace(/^0/, "")
     }
 });
+
+// Hide/show passwordt toggle
+function togglePassword() {
+    var p = document.getElementById("id_password");
+    if (p.type === 'password') {
+        p.type = "text";
+    } else {
+        p.type = "password";
+    }
+}

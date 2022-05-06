@@ -54,11 +54,16 @@
     <!-- Message notifications -->
     {% if messages %}
     {% for message in messages %}
-        {% if message.tags == 'success' %}
         <script src="{% static 'scripts/sweetalert.min.js' %}"></script>
+        {% if message.tags == 'success' %}        
         <script>
             var m = "{{ message }}";
             swal("Perfect!", m, "success")
+        </script>
+        {% elif message.tags == 'error' %}        
+        <script>
+            var m = "{{ message }}";
+            swal("Sorry!", m, "error")
         </script>
         {% endif %}
     {% endfor %}

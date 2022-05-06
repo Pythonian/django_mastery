@@ -5,6 +5,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 from django.conf import settings
 
+from .models import RegisteredEmail
+
 
 def home(request):
 
@@ -24,38 +26,49 @@ def opportunities(request):
 
 def frontend_email(request):
     if request.method == 'POST':
-        fullname = request.POST.get('fullname')
-        age = request.POST.get('age')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        address = request.POST.get('address')
-        experience = request.POST.get('experience')
-        skills = request.POST.get('skills')
 
-        template = loader.get_template('resume_form.txt')
-        context = {
-            'fullname': fullname,
-            'age': age,
-            'email': email,
-            'phone': phone,
-            'address': address,
-            'experience': experience,
-            'skills': skills,
-        }
-        message = template.render(context)
-        email = EmailMultiAlternatives(
-            "Frontend - Candidate",
-            message,
-            "Frontend Opportunity",
-            [settings.EMAIL_HOST_USER]
-        )
-        email.content_subtype = 'html'
-        file = request.FILES['file']
-        email.attach(file.name, file.read(), file.content_type)
-        email.send()
-        messages.success(
-            request, "Frontend resume sent successfully.")
-        return HttpResponseRedirect("/")
+        email = request.POST['email']
+        if RegisteredEmail.objects.filter(email=email).exists():
+            messages.error(
+                request, "You have already submitted your CV.")
+            return HttpResponseRedirect('/opportunities/')
+        else:
+            fullname = request.POST.get('fullname')
+            age = request.POST.get('age')
+            email = request.POST.get('email')
+            phone = request.POST.get('phone')
+            address = request.POST.get('address')
+            experience = request.POST.get('experience')
+            skills = request.POST.get('skills')
+
+            candidate = RegisteredEmail()
+            candidate.email = email
+            candidate.save()
+
+            template = loader.get_template('resume_form.txt')
+            context = {
+                'fullname': fullname,
+                'age': age,
+                'email': email,
+                'phone': phone,
+                'address': address,
+                'experience': experience,
+                'skills': skills,
+            }
+            message = template.render(context)
+            email = EmailMultiAlternatives(
+                "Frontend - Candidate",
+                message,
+                "Frontend Opportunity",
+                [settings.EMAIL_HOST_USER]
+            )
+            email.content_subtype = 'html'
+            file = request.FILES['file']
+            email.attach(file.name, file.read(), file.content_type)
+            email.send()
+            messages.success(
+                request, "Frontend resume sent successfully.")
+            return HttpResponseRedirect("/")
 
 
 def backend_email(request):

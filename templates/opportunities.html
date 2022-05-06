@@ -15,7 +15,7 @@
 <!-- Page content -->
 {% block content %}
 
-<div class="justify-content-center align-items-center row">
+<div class="justify-content-center align-items-center row mb-5">
     <h6 class="bg-warning my-3 py-2 text-center">
         <strong>AVAILABLE JOB OPPORTUNITIES</strong>
     </h6>
@@ -60,5 +60,12 @@
 <!--=== Modals ===-->
 {% include "modals/frontend.html" %}
 {% include "modals/backend.html" %}
+
+<!--=== Spinner ===-->
+<div id="spinner-bg">
+    <div id="spinner-position">
+        <span id="spinner"></span>
+    </div>
+</div>
 
 {% endblock content %}

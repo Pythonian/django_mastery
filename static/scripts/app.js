@@ -1,11 +1,10 @@
 jQuery(function() {
     // Inputmask (Phone numbers)
     $("input[name=phone]").inputmask("(+234) 999-9999999", {"onincomplete": function() {
-        $("input[name=phone]").val("");
         swal("Oops!", "Incomplete phone number, please review!", "info");
         return false;
     }});
-    
+
     // File size limit
     $("#id_file, #id_file2").bind('change', function() {
         var a = (this.files[0].size);
@@ -13,6 +12,11 @@ jQuery(function() {
             swal("Attention!", "Maximum allowed size is 2MB.", "info");
             this.value = "";
         }
+    });
+
+    // Convert email to Lowercase
+    $("input[name=email]").keyup(function() {
+        this.value = this.value.toLowerCase();
     });
 
 });
@@ -24,7 +28,7 @@ function validateEmail(email) {
 }
 
 // Frontend Form Validation
-function validateForm() {
+function validateFrontendForm() {
     const fullname = document.getElementById("id_fullname").value;
     const age = document.getElementById("id_age").value;
     const email = document.getElementById("id_email").value;
@@ -180,4 +184,24 @@ $("input[name=fullname]").keyup(function() {
 $("input[name=fullname]").on('keydown', function() {
     var $this = $(this);
     $(this).val($this.val().replace(/(\s{2,})|[^a-zA-Z0-9_']/g, ' ').replace(/^\s*/, ''));
+});
+
+// Prevent starting whitespace in inputs
+$("input[type='text'], input[type='tel'], textarea").on('keypress', function(e) {
+    if (e.which === 32 && !this.value.length)
+        e.preventDefault();
+});
+
+// Allow only numbers in Age field
+$("input[name=age]").keyup(function() {
+    if (!/^[0-9]*$/.test(this.value)) {
+        this.value = this.value.split(/[^0-9]/).join('');
+    }
+});
+
+// Prevent starting by Zero in Age field
+$("input[name=age]").on("input", function() {
+    if(/^0/.test(this.value)) {
+        this.value = this.value.replace(/^0/, "")
+    }
 });

@@ -1,0 +1,43 @@
+<body style="background-color: #d3d3d3;">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+    </style>
+    <br>
+    <center>
+        <div style="background-color: #fff; width: 85%; height: auto; border-radius: 5px; margin-top: 50px; margin-bottom: 50px; font-family: roboto;">
+            <br>
+            <p style="font-size: 28px; color: black;"><strong>{{ fullname }}</strong></p>
+            
+            <hr style="width: 90%;">
+            <br>
+            
+            <p style="font-size: 18px; text-align: left; margin-left: 40px;">
+                <strong>PERSONAL DATA</strong>
+            </p>
+            <p style="font-size: 15px; text-align: left; margin-left: 40px;">
+                <strong>Age:</strong> {{ age }}
+            </p>
+            <p style="font-size: 15px; text-align: left; margin-left: 40px;">
+                <strong>Phone:</strong> {{ phone }}
+            </p>
+            <p style="font-size: 15px; text-align: left; margin-left: 40px;">
+                <strong>Email:</strong> {{ email }}
+            </p>
+            <p style="font-size: 15px; text-align: left; margin-left: 40px;">
+                <strong>Address:</strong> {{ address }}
+            </p>
+
+            <div style="text-align: left; margin-left: 40px; margin-right: 35px; margin-bottom: 15px;">
+                <br>
+                <p style="font-size: 18px;"><strong>EXPERIENCE</strong></p>
+                <p style="font-size: 15px;">{{ experience }}</p>
+                <p style="font-size: 18px;"><strong>SKILLS</strong></p>
+                <p style="font-size: 15px;">{{ skills }}</p>
+            </div>
+
+            <hr style="color: #d3d3d3; width: 90%;">
+            {% now "m/d/Y (H:i)" %}
+            <br><br>
+        </div>
+    </center>
+</body>

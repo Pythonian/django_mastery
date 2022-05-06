@@ -6,8 +6,11 @@
 <!-- Modal Title -->
 {% block modal-title %}Frontend opportunities{% endblock modal-title %}
 
+<!-- Form Action -->
+{% block action %}action="/frontend_email/"{% endblock action %}
+
 <!-- Form Validation -->
-{% block validation %}onsubmit="return validateForm()"{% endblock validation %}
+{% block validation %}onsubmit="return validateFrontendForm()"{% endblock validation %}
 
 <!-- Input IDs -->
 {% block fullname-id %}id="id_fullname"{% endblock fullname-id %}

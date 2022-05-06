@@ -6,49 +6,50 @@
                 <h5 class="modal-title" id="baseModalLabel">{% block modal-title %}{% endblock modal-title %}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form enctype="multipart/form-data" autocomplete="off" {% block validation %}{% endblock validation %}>
+            <form method="post" {% block action %}{% endblock action %} enctype="multipart/form-data" autocomplete="off" {% block validation %}{% endblock validation %}>
+                {% csrf_token %}
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="input-group input-group-sm mb-2">
                                 <span class="input-group-text"><i class="fas fa-user-alt"></i></span>
-                                <input type="text" class="form-control" {% block fullname-id %}{% endblock fullname-id %} placeholder="Full name" name="fullname">
+                                <input type="text" class="form-control" {% block fullname-id %}{% endblock fullname-id %} placeholder="Full name" maxlength="40" name="fullname">
                             </div>
                         </div>
                         <div class="col-lg-5">
                             <div class="input-group input-group-sm mb-2">
                                 <span class="input-group-text"><i class="fas fa-universal-access"></i></span>
-                                <input type="number" class="form-control" {% block age-id %}{% endblock age-id %} placeholder="Your age" name="age">
+                                <input type="text" class="form-control" {% block age-id %}{% endblock age-id %} placeholder="Your age" maxlength="2" name="age">
                             </div>
                         </div>
 
                         <div class="col-lg-7">
                             <div class="input-group input-group-sm mb-2">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                <input type="text" class="form-control" {% block email-id %}{% endblock email-id %} placeholder="Your email" name="email">
+                                <input type="text" class="form-control" {% block email-id %}{% endblock email-id %} placeholder="Your email" maxlength="40" name="email">
                             </div>
                         </div>
                         <div class="col-lg-5">
                             <div class="input-group input-group-sm mb-2">
                                 <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                <input type="text" class="form-control" {% block phone-id %}{% endblock phone-id %} placeholder="Your phonenumber" name="phone">
+                                <input type="tel" class="form-control" {% block phone-id %}{% endblock phone-id %} placeholder="Your phone number" name="phone">
                             </div>
                         </div>
 
                         <div class="col-12">
                             <div class="input-group input-group-sm mb-2">
                                 <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                                <input type="text" class="form-control" {% block address-id %}{% endblock address-id %} placeholder="Your address" name="address">
+                                <input type="text" class="form-control" {% block address-id %}{% endblock address-id %} placeholder="Your address" maxlength="60" name="address">
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="my-2">
-                                <textarea name="experience" {% block experience-id %}{% endblock experience-id %} rows="3" class="form-control form-control-sm" placeholder="Talk a little about yourself..."></textarea>
+                                <textarea name="experience" {% block experience-id %}{% endblock experience-id %} rows="3" class="form-control form-control-sm" placeholder="Talk a little about yourself..." maxlength="500"></textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="my-2">
-                                <textarea name="skills" {% block skills-id %}{% endblock skills-id %} rows="3" class="form-control form-control-sm" placeholder="Describe your skills..."></textarea>
+                                <textarea name="skills" {% block skills-id %}{% endblock skills-id %} rows="3" class="form-control form-control-sm" maxlength="500" placeholder="Describe your skills..."></textarea>
                             </div>
                         </div>
                         <div class="col-12">

@@ -1,0 +1,17 @@
+{% extends "modals/base_modal_dialog.html" %}
+
+{% block modal-id %}id="supportModal"{% endblock modal-id %}
+
+{% block modal-title %}<i class="text-danger far fa-times-circle pe-1"></i> Sorry!{% endblock modal-title %}
+
+{% block modal-body %}
+<div class="text-center text-primary">
+    <i class="text-danger far fa-times-circle fa-5x"></i>
+</div>
+<div class="text-danger mb-3 mt-3">
+    You still have a pending request
+</div>
+<div class="mb-3">
+    Note: To make any new request, you must wait till the end of your pending request
+</div>
+{% endblock modal-body %}

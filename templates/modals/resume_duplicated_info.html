@@ -1,0 +1,22 @@
+{% extends "modals/base_modal_dialog.html" %}
+
+{% block modal-id %}id="popupDuplicateinfo"{% endblock modal-id %}
+
+{% block modal-title %}<i class="text-danger far fa-times-circle pe-1"></i> Sorry!{% endblock modal-title %}
+
+{% block modal-body %}
+<div class="text-center text-primary">
+    <i class="text-danger far fa-times-circle fa-5x"></i>
+</div>
+<div class="text-danger mb-3 mt-3">
+    We already have your resume in our DB
+</div>
+<div class="mb-3">
+    Note: If you are trying to update your resume, send us a request through the support page.
+</div>
+
+{% endblock modal-body %}
+
+{% block modal-btn-action %}
+<a href="{% url 'support' %}" class="btn btn-outline-info btn-sm">Go to support</a>
+{% endblock modal-btn-action %}

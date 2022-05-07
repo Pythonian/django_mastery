@@ -9,6 +9,7 @@
 <!-- Offcanvas menu -->
 {% block offcanvasmenu %}
 <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+<a href="{% url 'admin:index' %}" target="_blank" class="btn btn-primary">Admin</a>
 <hr>
 <center>
     <i class="fas fa-gauge fa-7x watermark mt-5"></i>
@@ -58,8 +59,5 @@
         </div>
     </div>
 </div>
-
-<!--=== Modals ===-->
-{% include "modals/logout_confirm.html" %}
 
 {% endblock content %}

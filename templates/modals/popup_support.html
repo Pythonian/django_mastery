@@ -1,0 +1,21 @@
+{% extends "modals/base_modal_dialog.html" %}
+
+{% block modal-id %}id="popupSupport"{% endblock modal-id %}
+
+{% block modal-title %}<i class="fas fa-headset pe-1"></i> Support{% endblock modal-title %}
+
+{% block modal-body %}
+<div class="text-center text-warning">
+    <span class="fa-stack fa-3x">
+        <i class="fas fa-cloud fa-stack-2x"></i>
+        <i class="fas fa-user-cog fa-stack-1x fa-inverse text-dark"></i>
+    </span>
+</div>
+<div class="text-center mt-3 mb-4">
+    24 hours per day, 7 days per week!
+</div>
+{% endblock modal-body %}
+
+{% block modal-btn-action %}
+<a href="{% url 'support' %}" class="btn btn-outline-info btn-sm">Go</a>
+{% endblock modal-btn-action %}

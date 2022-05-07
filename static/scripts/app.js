@@ -19,6 +19,20 @@ jQuery(function() {
         this.value = this.value.toLowerCase();
     });
 
+    // Enable/Disable select options
+    $('#id_person').on('change', function() {
+        var value = $(this).val();
+        $('#id_subject option[value="Update resume"]').prop('disabled', ($(this).val() == 'Employee'));
+        $('#id_subject option[value="I lost my account"]').prop('disabled', ($(this).val() == 'Candidate'));
+        $('#id_subject option[value="My password does not work"]').prop('disabled', ($(this).val() == 'Candidate'));
+    });
+    $('#id_person').trigger('change');
+
+    // Hide offcanvas when Support button is clicked
+    $("#offcanvasRight, .offcanvas-body a").click(function() {
+        $('.offcanvas').offcanvas('hide');
+    });
+
 });
 
 // Frontend Email validation

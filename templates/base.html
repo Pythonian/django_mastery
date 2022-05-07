@@ -72,10 +72,10 @@
                 {% block offcanvasmenu %}
                 <a href="{% url 'dashboard' %}" class="btn btn-warning">Login</a>
                 <a href="#" class="btn btn-secondary">FAQ</a>
-                <a href="#" class="btn btn-info">Support</a>
+                <a data-bs-toggle="modal" data-bs-target="#popupSupport" class="btn btn-info">Support</a>
                 <hr>
                 <center>
-                    <i class="fas fa-key fa-7x watermark mt-5"></i>
+                    <i class="fas fa-cubes fa-7x watermark mt-5"></i>
                 </center>
                 {% endblock offcanvasmenu %}
             </div>
@@ -83,22 +83,39 @@
     </div>
 
     <!-- Message notifications -->
-    {% if messages %}
-        {% for message in messages %}
-            <script src="{% static 'scripts/sweetalert.min.js' %}"></script>
-            {% if message.tags == 'success' %}        
-            <script>
-                var m = "{{ message }}";
-                swal("Perfect!", m, "success")
-            </script>
-            {% elif message.tags == 'error' %}        
-            <script>
-                var m = "{{ message }}";
-                swal("Sorry!", m, "error")
-            </script>
-            {% endif %}
-        {% endfor %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <script src="{% static 'scripts/sweetalert.min.js' %}"></script>        
+        <script>
+            var m = "{{ message }}";
+            swal("Perfect!", m, "success")
+        </script>
+        {% endif %}
+    {% endfor %}
+
+    <!-- Support message for pending request (duplicated request) -->
+    {% for message in messages %}
+    {% if message.tags == 'info' %}
+    <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#supportModal').modal('show');
+        });
+    </script>
     {% endif %}
+    {% endfor %}
+
+    <!-- Modal message for duplicated resume -->
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#popupDuplicateinfo').modal('show');
+        });
+    </script>
+    {% endif %}
+    {% endfor %}
 
     <!-- Login errors -->
     {% if form.errors %} 
@@ -107,6 +124,14 @@
             swal("Denied!", "Enter your data correctly.", "error")
         </script>
     {% endif %}
+
+    <!--=== Modals ===-->
+    {% include "modals/support_dialog_modal.html" %}
+    {% include "modals/logout_confirm_modal.html" %}
+    {% include "modals/frontend_modal_form.html" %}
+    {% include "modals/backend.html" %}
+    {% include "modals/popup_support.html" %}
+    {% include "modals/resume_duplicated_info.html" %}
 
     <!-- jQuery -->
     <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>

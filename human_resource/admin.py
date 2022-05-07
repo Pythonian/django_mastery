@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import RegisteredEmail, Support
+from .models import RegisteredEmail, Support, Message
 
 
 @admin.register(Support)
@@ -29,7 +29,10 @@ class SupportAdmin(admin.ModelAdmin):
             color = '#28a745'
         else:
             color = 'red'
-        return format_html(f"<strong><p style='color: {color}'>{obj.status}</p></strong>")
+        return format_html(
+            f"<strong><p style='color: {color}'>{obj.status}</p></strong>")
     status.allow_tags = True
 
+
 admin.site.register(RegisteredEmail)
+admin.site.register(Message)

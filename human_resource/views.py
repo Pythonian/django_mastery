@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 
-from .models import RegisteredEmail, Support
+from .models import RegisteredEmail, Support, Message
 
 
 def home(request):
@@ -110,6 +110,19 @@ def support(request):
     context = {}
 
     return render(request, template_name, context)
+
+
+def send_message(request):
+    if request.method == 'POST':
+        if request.POST.get('message'):
+            message = Message()
+            message.body = request.POST.get('message')
+            message.save()
+            messages.success(
+                request, "Your message has been sent to us.")
+            return HttpResponseRedirect("/")
+    else:
+        return render(request, 'home.html')
 
 
 # Destroy session upon logout

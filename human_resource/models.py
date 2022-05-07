@@ -35,10 +35,25 @@ class Support(models.Model):
     message = models.TextField()
     person = models.CharField(max_length=10, choices=PERSON_CHOICES)
     subject = models.CharField(max_length=50, choices=SUBJECT_CHOICES)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PENDING)
+    status = models.CharField(
+        max_length=1, choices=STATUS_CHOICES, default=PENDING)
     email = models.EmailField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.person
+
+
+class Message(models.Model):
+    DONE = 'D'
+    PENDING = 'P'
+    STATUS_CHOICES = (
+        (DONE, 'Done'),
+        (PENDING, 'Pending'),
+    )
+    status = models.CharField(
+        max_length=1, choices=STATUS_CHOICES, default=PENDING)
+    body = models.TextField(max_length=1000)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)

@@ -48,6 +48,42 @@
     box-shadow: none;
 }
 
+.pulse {
+    right: 100px;
+    bottom: 100px;
+    animation: animate 3s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        box-shadow: 0 0 0 0 rgba(218, 165, 32, .7), 0 0 0 0 rgba(218, 165, 32, .7);
+    }
+    40% {
+        box-shadow: 0 0 0 30px rgba(255, 109, 74, 0), 0 0 0 0 rgba(218, 165, 32, .7);
+    }
+    80% {
+        box-shadow: 0 0 0 50px rgba(255, 109, 74, 0), 0 0 0 30px rgba(255, 109, 74, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 109, 74, 0), 0 0 0 30px rgba(255, 109, 74, 0);
+    }
+}
+
+#modalMessage {
+    position: absolute;
+    bottom: 50px;
+    right: 100px;
+    width: 400px;
+}
+
+@media(max-width: 575px) {
+    #modalMessage {
+        bottom: 55px;
+        right: 12px;
+        width: 90%;
+    }    
+}
+
 /* Sweetalert Custom Styles */
 .swal-text {
     text-align: center;

@@ -229,3 +229,15 @@ function togglePassword() {
         p.type = "password";
     }
 }
+
+// Dependent select option
+function dependentSelect() {
+    // if ($("#id_person").value != '')
+    //     $("#id_subject").prop('disabled', false);
+    // else
+    //     $("#id_subject").prop('disabled', 'disabled');
+    if (document.getElementById("id_person").value != '')
+        document.getElementById("id_subject").disabled = false;
+    else
+        document.getElementById("id_subject").disabled = true;
+}

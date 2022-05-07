@@ -9,5 +9,6 @@ urlpatterns = [
     path('backend_email/', views.backend_email, name='backend_email'),
     path('send_message/', views.send_message, name='send_message'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('faq/', views.faq, name='faq'),
     path('', views.home, name='home'),
 ]

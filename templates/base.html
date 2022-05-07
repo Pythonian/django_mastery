@@ -71,7 +71,7 @@
             <div class="d-grid gap-2">
                 {% block offcanvasmenu %}
                 <a href="{% url 'dashboard' %}" class="btn btn-warning">Login</a>
-                <a href="#" class="btn btn-secondary">FAQ</a>
+                <a href="{% url 'faq' %}" class="btn btn-secondary">FAQ</a>
                 <a data-bs-toggle="modal" data-bs-target="#popupSupport" class="btn btn-info">Support</a>
                 <hr>
                 <center>
@@ -132,6 +132,7 @@
     {% include "modals/backend.html" %}
     {% include "modals/popup_support.html" %}
     {% include "modals/resume_duplicated_info.html" %}
+    {% include "modals/candidates_modal.html" %}
 
     <!-- jQuery -->
     <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>

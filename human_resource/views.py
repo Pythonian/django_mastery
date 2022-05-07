@@ -129,8 +129,17 @@ def send_message(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required
 def dashboard(request):
+    total_candidates = RegisteredEmail.objects.all().count()
 
     template_name = 'dashboard.html'
+    context = {'total_candidates': total_candidates}
+
+    return render(request, template_name, context)
+
+
+def faq(request):
+
+    template_name = 'faq.html'
     context = {}
 
     return render(request, template_name, context)

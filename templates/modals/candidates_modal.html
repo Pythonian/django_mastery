@@ -1,0 +1,11 @@
+{% extends "modals/base_modal_dialog.html" %}
+
+{% block modal-id %}id="candidateModal"{% endblock modal-id %}
+
+{% block modal-title %}<i class="text-success fas fa-user-alt pe-1"></i> Total candidates{% endblock modal-title %}
+
+{% block modal-body %}
+<h1 class="text-center text-success">
+    {{ total_candidates }}
+</h1>
+{% endblock modal-body %}

@@ -49,7 +49,8 @@
 }
 
 .pulse {
-    right: 100px;
+    /*right: 7.1875em;*/
+    left: calc(100% - 190px);
     bottom: 100px;
     animation: animate 3s linear infinite;
 }

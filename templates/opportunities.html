@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Opportunities{% endblock %}
+{% block title %}Job Opportunities{% endblock %}
 
 {% block navbrand %}
 <i class="text-warning fas fa-chart-pie pe-1"></i> Job Opportunities
@@ -12,16 +12,15 @@
 </a>
 {% endblock secondarynav %}
 
-<!-- Page content -->
 {% block content %}
 
-<div class="justify-content-center align-items-center row mb-5">
-    <h6 class="bg-warning my-3 py-2 text-center">
-        <strong>AVAILABLE JOB OPPORTUNITIES</strong>
+<div class="row mb-5">
+    <h6 class="bg-warning my-3 py-3 text-center fw-bold">
+        AVAILABLE JOB OPPORTUNITIES
     </h6>
-    <div class="card shadow p-3 bg-dark">
+    <div class="card p-3 bg-dark">
         <div class="row">
-            <div class="col-xl-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-outline-light btn-lg" disabled>
                         <i class="fab fa-figma fa-5x"></i>
@@ -29,7 +28,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-outline-warning btn-lg" data-bs-toggle="modal" data-bs-target="#frontendModal">
                         <i class="fab fa-html5 fa-5x"></i>
@@ -37,7 +36,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-outline-warning btn-lg" data-bs-toggle="modal" data-bs-target="#backendModal">
                         <i class="fab fa-python fa-5x"></i>
@@ -45,7 +44,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-outline-light btn-lg" disabled>
                         <i class="fab fa-docker fa-5x"></i>
@@ -56,5 +55,9 @@
         </div>
     </div>
 </div>
+
+<button type="button" class="btn btn-warning text-dark pulse position-fixed rounded-circle px-4 py-3" data-bs-toggle="modal" data-bs-target="#opportunityModal">
+    <i class="fas fa-lightbulb fa-2x"></i>
+</button>
 
 {% endblock content %}

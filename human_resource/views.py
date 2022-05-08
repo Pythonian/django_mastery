@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 
-from .models import RegisteredEmail, Support, Message
+from .models import RegisteredEmail, Support, Message, Vacancy
 
 
 def home(request):
@@ -19,9 +19,10 @@ def home(request):
 
 
 def opportunities(request):
+    vacancies = Vacancy.objects.all()
 
     template_name = 'opportunities.html'
-    context = {}
+    context = {'vacancies': vacancies}
 
     return render(request, template_name, context)
 
@@ -104,7 +105,10 @@ def support(request):
 
             support.save()
             messages.success(request, "We will review your request")
-            return HttpResponseRedirect('/')
+            if request.user.is_authenticated:
+                return redirect('dashboard')
+            else:
+                return redirect('home')
 
     template_name = 'support.html'
     context = {}
@@ -120,7 +124,7 @@ def send_message(request):
             message.save()
             messages.success(
                 request, "Your message has been sent to us.")
-            return HttpResponseRedirect("/")
+            return redirect("home")
     else:
         return render(request, 'home.html')
 
@@ -130,9 +134,13 @@ def send_message(request):
 @login_required
 def dashboard(request):
     total_candidates = RegisteredEmail.objects.all().count()
+    vacancy = Vacancy.objects.first()
 
     template_name = 'dashboard.html'
-    context = {'total_candidates': total_candidates}
+    context = {
+        'total_candidates': total_candidates,
+        'vacancy': vacancy,
+    }
 
     return render(request, template_name, context)
 
@@ -143,3 +151,24 @@ def faq(request):
     context = {}
 
     return render(request, template_name, context)
+
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required
+def edit_vacancy(request):
+    if request.method == 'POST':
+        vacancy = Vacancy.objects.get(id=request.POST.get('id'))
+        if vacancy is not None:
+            vacancy.frontend = request.POST.get('frontend')
+            vacancy.frontend = request.POST.get('frontend')
+            vacancy.frontend = request.POST.get('frontend')
+            vacancy.frontend = request.POST.get('frontend')
+            vacancy.save()
+            messages.success(request, "Job vacancies updated.")
+            return redirect("dashboard")
+    else:
+        return render(request, 'dashboard.html')
+    # template_name = 'edit_vacancy.html'
+    # context = {}
+
+    # return render(request, template_name, context)

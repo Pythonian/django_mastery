@@ -57,3 +57,10 @@ class Message(models.Model):
     body = models.TextField(max_length=1000)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+
+class Vacancy(models.Model):
+    frontend = models.PositiveIntegerField(default=0)
+    backend = models.PositiveIntegerField(default=0)
+    devops = models.PositiveIntegerField(default=0)
+    design = models.PositiveIntegerField(default=0)

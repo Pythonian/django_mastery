@@ -7,70 +7,92 @@
 {% endblock navbrand %}
 
 {% block offcanvasmenu %}
-<a href="{% url 'home' %}" class="btn btn-warning">Home</a>
-<a href="#" class="btn btn-secondary">FAQ</a>
+<a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+<a href="{% url 'faq' %}" class="btn btn-secondary">FAQ</a>
+{% if request.user.is_staff %}
+<a href="{% url 'dashboard' %}" class="btn btn-warning">Dashboard</a>
+{% endif %}
 <hr>
 <center>
     <i class="fas fa-headset fa-7x watermark mt-5"></i>
 </center>
 {% endblock offcanvasmenu %}
 
-<!-- Page content -->
 {% block content %}
-<div class="row">
+<div class="row mb-5">
     <div class="col-lg-8 mx-auto">
-        <div class="card p-3 my-5 card-border-top">
-            <span class="bg-dark text-white py-2 text-center my-3">
-                <i class="fas fa-tools pe-1"></i> TECHNICAL SUPPORT
-            </span>
-            <form method="post" action="" autocomplete="off" class="was-validated">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <textarea class="form-control" name="message" id="id_message" rows="6" maxlength="1000" placeholder="Describe your problem here..." required></textarea>
-                    <div class="invalid-feedback">Summarize as much as possible</div>
-                </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" value="True" name="terms" type="checkbox" id="id_terms" required>
-                    <label for="id_terms" class="form-check-label">I take responsibility</label>
-                    <div class="invalid-feedback">You will take responsibility</div>
-                </div>
-                <div class="mb-3">
-                    <select class="form-select" onchange="dependentSelect()" name="person" id="id_person" required>
-                        <option value="">Who are you?</option>
-                        <option disabled></option>
-                        <option value="Employee">Employee</option>
-                        <option value="Candidate">Candidate</option>
-                    </select>
-                    <div class="invalid-feedback">Select one personality</div>
-                </div>
-                <div class="mb-3">
-                    <select class="form-select" name="subject" id="id_subject" required>
-                        <option value="">Select a subject</option>
-                        <option disabled></option>
-                        <option value="I lost my account">I lost my account</option>
-                        <option value="My password does not work">My password does not work</option>
-                        <option value="Update resume">Update resume</option>
-                        <option value="Others">Others</option>
-                    </select>
-                    <div class="invalid-feedback">Only one topic</div>
-                </div>
-                <div class="mb-4">
-                    <input type="email" name="email" id="id_email" maxlength="50" class="form-control" placeholder="Your email" required>
-                </div>
-                <hr>
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-outline-success mb-3">
-                        Submit <i class="fas fa-paper-plane ps-1"></i>
-                    </button>
-                    <a href="{% url 'home' %}" class="btn btn-outline-danger mb-3 ms-2" title="Exit"><i class="fas fa-times"></i></a>
-                    <button type="submit" class="btn btn-outline-dark mb-3 ms-2 border-dark" title="Help">
-                        <i class="fas fa-question"></i>
-                    </button>
-                </div>
-            </form>
-            <center>
-                <i class="fas fa-paper-plane fa-7x watermark my-5"></i>
-            </center>
+        <div class="card mt-5 card-border-top">
+            <div class="card-body">
+                <h6 class="bg-dark text-white py-3 text-center my-3">
+                    <i class="fas fa-tools pe-1"></i> TECHNICAL SUPPORT
+                </h6>
+                <form method="post" action="" autocomplete="off" class="was-validated">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <textarea class="form-control" name="message" id="id_message" rows="6" maxlength="1000" placeholder="Describe your problem here..." required></textarea>
+                        <div class="invalid-feedback">Summarize as much as possible</div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" value="True" name="terms" type="checkbox" id="id_terms" required>
+                        <label for="id_terms" class="form-check-label">I take responsibility</label>
+                        <div class="invalid-feedback">You will take responsibility</div>
+                    </div>
+                    {% if request.user.is_staff %}
+                    <div class="mb-3">
+                        <select class="form-select" onchange="dependentSelect()" name="person" id="id_person" required>
+                            <option value="Employee">Employee</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" name="subject" id="id_subject" required>
+                            <option value="">Select a subject</option>
+                            <option disabled></option>
+                            <option value="I lost my account">I lost my account</option>
+                            <option value="My password does not work">My password does not work</option>
+                            <option value="Others">Others</option>
+                        </select>
+                        <div class="invalid-feedback">Only one topic</div>
+                    </div>
+                    {% else %}
+                    <div class="mb-3">
+                        <select class="form-select" onchange="dependentSelect()" name="person" id="id_person" required>
+                            <option value="">Who are you?</option>
+                            <option disabled></option>
+                            <option value="Employee">Employee</option>
+                            <option value="Candidate">Candidate</option>
+                        </select>
+                        <div class="invalid-feedback">Select one personality</div>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" name="subject" id="id_subject" required>
+                            <option value="">Select a subject</option>
+                            <option disabled></option>
+                            <option value="I lost my account">I lost my account</option>
+                            <option value="My password does not work">My password does not work</option>
+                            <option value="Update resume">Update resume</option>
+                            <option value="Others">Others</option>
+                        </select>
+                        <div class="invalid-feedback">Only one topic</div>
+                    </div>
+                    {% endif %}
+                    <div class="mb-4">
+                        <input type="email" name="email" id="id_email" maxlength="50" class="form-control" placeholder="Your email" required>
+                    </div>
+                    <hr>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-outline-success mb-3">
+                            Submit <i class="fas fa-paper-plane ps-1"></i>
+                        </button>
+                        <a href="{% url 'home' %}" class="btn btn-outline-danger mb-3 ms-2" title="Exit"><i class="fas fa-times"></i></a>
+                        <button type="submit" class="btn btn-outline-dark mb-3 ms-2 border-dark" title="Help">
+                            <i class="fas fa-question"></i>
+                        </button>
+                    </div>
+                </form>
+                <center>
+                    <i class="fas fa-paper-plane fa-7x watermark my-5"></i>
+                </center>
+            </div>
         </div>        
     </div>
 </div>

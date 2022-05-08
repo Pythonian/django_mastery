@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
-    <!-- Fontawesome icons -->
     <link rel="stylesheet" href="{% static 'styles/fontawesome/all.min.css' %}">
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'styles/app.css' %}">
     <title>{% block title %}{% endblock %} | Django Mastery</title>
 </head>
@@ -16,32 +13,25 @@
     
     <div id="preloader" class="rounded-circle position-absolute top-50 p-3"></div>
 
-    <div class="flex-shrink-0">
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="container px-lg-0">
+            <span class="navbar-brand text-white">
+                {% block navbrand %}
+                <i class="text-warning fas fa-cubes pe-1"></i> Django Mastery
+                {% endblock navbrand %}
+            </span>
+            {% block secondarynav %}
+            <button class="bg-transparent border-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+                <i class="text-warning fas fa-bars"></i>
+            </button>
+            {% endblock secondarynav %}
+        </nav>
+    </header>
 
-        <header class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <nav class="container px-lg-0">
-                <span class="navbar-brand text-white">
-                    {% block navbrand %}
-                    <i class="text-warning fas fa-cubes pe-1"></i> Django Mastery
-                    {% endblock navbrand %}
-                </span>
-                <!-- Link to navigate between pages -->
-                {% block secondarynav %}
-                <a href="#" class="text-decoration-none" title="Menu" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-                    <i class="text-warning fas fa-bars"></i>
-                </a>
-                {% endblock secondarynav %}
+    <main class="container">
+        {% block content %}{% endblock content %}
+    </main>
 
-            </nav>
-        </header>
-
-        <div class="container">
-            {% block content %}{% endblock content %}
-        </div> <!--=== END // .container ===-->
-        
-    </div>
-
-    <!--=== Footer ===-->
     <footer class="bg-dark py-4 mt-auto">
         <div class="container px-0">
             <div class="row align-items-center justify-content-between flex-column flex-sm-row">
@@ -64,20 +54,12 @@
     <!-- Offcanvas menu -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
         <div class="offcanvas-header">
-            <h5 id="offcanvasMenuLabel">MENU</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <h6 id="offcanvasMenuLabel">MENU</h6>
+            <button type="button" class="btn-close btn-sm text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <div class="d-grid gap-2">
-                {% block offcanvasmenu %}
-                <a href="{% url 'dashboard' %}" class="btn btn-warning">Login</a>
-                <a href="{% url 'faq' %}" class="btn btn-secondary">FAQ</a>
-                <a data-bs-toggle="modal" data-bs-target="#popupSupport" class="btn btn-info">Support</a>
-                <hr>
-                <center>
-                    <i class="fas fa-cubes fa-7x watermark mt-5"></i>
-                </center>
-                {% endblock offcanvasmenu %}
+                {% block offcanvasmenu %}{% endblock offcanvasmenu %}
             </div>
         </div>
     </div>
@@ -132,7 +114,8 @@
     {% include "modals/backend.html" %}
     {% include "modals/popup_support.html" %}
     {% include "modals/resume_duplicated_info.html" %}
-    {% include "modals/candidates_modal.html" %}
+    {% include "modals/opportunity_info_modal.html" %}
+    {% include "modals/message_modal.html" %}
 
     <!-- jQuery -->
     <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>

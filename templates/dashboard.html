@@ -6,10 +6,14 @@
 <i class="text-warning fas fa-gauge pe-1"></i> Dashboard
 {% endblock navbrand %}
 
-<!-- Offcanvas menu -->
 {% block offcanvasmenu %}
+<a href="{% url 'home' %}" class="btn btn-primary">Home</a>
 <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
-<a href="{% url 'admin:index' %}" target="_blank" class="btn btn-primary">Admin</a>
+{% if request.user.is_superuser %}
+<a href="{% url 'admin:index' %}" target="_blank" class="btn btn-dark">Admin</a>
+{% else %}
+<a href="{% url 'support' %}" class="btn btn-info">Support</a>
+{% endif %}
 <hr>
 <center>
     <i class="fas fa-gauge fa-7x watermark mt-5"></i>
@@ -18,46 +22,48 @@
 
 {% block content %}
 
-<div class="justify-content-center align-items-center row mb-5">
-    <h5 class="bg-warning my-3 py-2 text-center">
-        <strong><i class="fas fa-cog pe-1"></i> Control Panel</strong>
-    </h5>
-    <div class="border-dark card mt-3">
+<div class="row mb-5">
+    <h6 class="bg-warning my-3 py-3 text-center fw-bold">
+        CONTROL PANEL
+    </h6>
+    <div class="border-dark card">
         <div class="row">
-            <div class="col-xl-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
-                    <button class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#candidateModal">
-                        <i class="fas fa-user-alt fa-7x mb-2"></i>
+                    <button class="btn btn-success btn-lg">
+                        <i class="fas fa-user-alt fa-7x"></i>
                         <span class="d-block">Candidates</span>
                     </button>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
-                    <button class="btn btn-warning btn-lg">
-                        <i class="fas fa-users fa-7x mb-2"></i>
+                    <button class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#vacancyModal">
+                        <i class="fas fa-users fa-7x"></i>
                         <span class="d-block">Opportunities</span>
                     </button>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-danger btn-lg">
-                        <i class="fas fa-clock fa-7x mb-2"></i>
+                        <i class="fas fa-clock fa-7x"></i>
                         <span class="d-block">Countdown</span>
                     </button>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-primary btn-lg">
-                        <i class="fas fa-file-alt fa-7x mb-2"></i>
-                        <span class="d-block">Notepad</span>
+                        <i class="fas fa-envelope fa-7x"></i>
+                        <span class="d-block">Inbox</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+{% include "modals/vacancies.html" %}
 
 {% endblock content %}

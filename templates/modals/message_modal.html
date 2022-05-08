@@ -1,0 +1,22 @@
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+  <div class="modal-dialog" id="modalMessage">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="messageModalLabel"><i class="fas fa-envelope pe-1 text-warning"></i> Message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="/send_message/">
+        {% csrf_token %}
+          <div class="modal-body">
+            <div class="form-group">
+                <textarea name="message" rows="10" class="form-control" maxlength="1000" placeholder="Write your message..." required></textarea>                
+            </div>
+            <div class="d-grid mb-2 mt-3 gap-2">
+                <button class="btn btn-warning" type="submit">Send message <i class="fas fa-paper-plane ps-1"></i></button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>

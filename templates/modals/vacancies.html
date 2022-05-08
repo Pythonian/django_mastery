@@ -1,0 +1,63 @@
+<div class="modal fade" id="vacancyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-users pe-1"></i> Opportunities</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="card border-dark p-2 text-center">Number of job opportunities</h6>
+                <form method="post" action="{% url 'edit_vacancy' %}" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="modal-body px-0 py-0">
+                        <input type="hidden" name="id" value="{{ vacancy.pk }}" readonly>
+                        <div class="justify-content-between my-3">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-6">
+                                    <button class="btn btn-lg btn-secondary mb-2 w-100">
+                                        <i class="fab fa-figma fa-3x"></i>
+                                        <span class="d-block fs-6">Design</span>
+                                    </button>
+                                    <div class="input-group input-group-sm mb-2">
+                                        <input type="text" class="form-control text-center" name="design" value="{{ vacancy.design }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <button class="btn btn-lg btn-secondary mb-2 w-100">
+                                        <i class="fab fa-html5 fa-3x"></i>
+                                        <span class="d-block fs-6">Frontend</span>
+                                    </button>
+                                    <div class="input-group input-group-sm mb-2">
+                                        <input type="text" class="form-control text-center" name="frontend" value="{{ vacancy.frontend }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <button class="btn btn-lg btn-secondary mb-2 w-100">
+                                        <i class="fab fa-python fa-3x"></i>
+                                        <span class="d-block fs-6">Backend</span>
+                                    </button>
+                                    <div class="input-group input-group-sm mb-2">
+                                        <input type="text" class="form-control text-center" name="backend" value="{{ vacancy.backend }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6">
+                                    <button class="btn btn-lg btn-secondary mb-2 w-100">
+                                        <i class="fab fa-docker fa-3x"></i>
+                                        <span class="d-block fs-6">DevOps</span>
+                                    </button>
+                                    <div class="input-group input-group-sm mb-2">
+                                        <input type="text" class="form-control text-center" name="devops" value="{{ vacancy.devops }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>              
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                <button type="submit" class="btn btn-warning btn-sm">Update</button>
+            </div>
+        </div>
+    </div>
+</div>

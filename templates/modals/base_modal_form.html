@@ -6,7 +6,7 @@
                 <h5 class="modal-title" id="baseModalLabel">{% block modal-title %}{% endblock modal-title %}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post" {% block action %}{% endblock action %} enctype="multipart/form-data" autocomplete="off" {% block validation %}{% endblock validation %}>
+            <form method="post" {% block action %}{% endblock action %} enctype="multipart/form-data" autocomplete="off" {% block formname %}{% endblock formname %} {% block validation %}{% endblock validation %}>
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="row">

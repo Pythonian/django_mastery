@@ -19,10 +19,10 @@ def home(request):
 
 
 def opportunities(request):
-    vacancies = Vacancy.objects.all()
+    vacancy = Vacancy.objects.first()
 
     template_name = 'opportunities.html'
-    context = {'vacancies': vacancies}
+    context = {'vacancy': vacancy}
 
     return render(request, template_name, context)
 
@@ -157,12 +157,13 @@ def faq(request):
 @login_required
 def edit_vacancy(request):
     if request.method == 'POST':
-        vacancy = Vacancy.objects.get(id=request.POST.get('id'))
+        vacancy = Vacancy.objects.first()
+        # vacancy = Vacancy.objects.get(id=request.POST.get('id'))
         if vacancy is not None:
             vacancy.frontend = request.POST.get('frontend')
-            vacancy.frontend = request.POST.get('frontend')
-            vacancy.frontend = request.POST.get('frontend')
-            vacancy.frontend = request.POST.get('frontend')
+            vacancy.design = request.POST.get('design')
+            vacancy.backend = request.POST.get('backend')
+            vacancy.devops = request.POST.get('devops')
             vacancy.save()
             messages.success(request, "Job vacancies updated.")
             return redirect("dashboard")
@@ -172,3 +173,15 @@ def edit_vacancy(request):
     # context = {}
 
     # return render(request, template_name, context)
+
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required
+def edit_countdown(request):
+    if request.method == 'POST':
+        vacancy = Vacancy.objects.first()
+        if vacancy is not None:
+            vacancy.timer = request.POST.get('timer')
+            vacancy.save()
+            messages.success(request, "Countdown timer updated.")
+            return redirect("dashboard")

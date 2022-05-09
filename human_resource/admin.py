@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import RegisteredEmail, Support, Message
+from .models import RegisteredEmail, Support, Message, Vacancy
 
 
 @admin.register(Support)
@@ -36,3 +36,4 @@ class SupportAdmin(admin.ModelAdmin):
 
 admin.site.register(RegisteredEmail)
 admin.site.register(Message)
+admin.site.register(Vacancy)

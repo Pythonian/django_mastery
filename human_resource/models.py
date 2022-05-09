@@ -64,3 +64,4 @@ class Vacancy(models.Model):
     backend = models.PositiveIntegerField(default=0)
     devops = models.PositiveIntegerField(default=0)
     design = models.PositiveIntegerField(default=0)
+    timer = models.CharField(max_length=100)

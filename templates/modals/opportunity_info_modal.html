@@ -2,7 +2,7 @@
 
 {% block modal-id %}id="opportunityModal"{% endblock modal-id %}
 
-{% block modal-title %}<i class="fas fa-code pe-1"></i> About Opportunities{% endblock modal-title %}
+{% block modal-title %}<i class="fas fa-lightbulb pe-1"></i> About Opportunities{% endblock modal-title %}
 
 {% block modal-body %}
 <h6 class="card border-dark p-2">Number of available job openings</h6>
@@ -12,28 +12,28 @@
             <i class="fab fa-figma fa-3x"></i>
             <span class="d-block fs-6">Design</span>
         </button>
-        <span>10</span>
+        <span>{{ vacancy.design }}</span>
     </div>
     <div class="col-lg-3 col-sm-6">
         <button class="btn btn-lg btn-secondary mb-2 w-100">
             <i class="fab fa-html5 fa-3x"></i>
             <span class="d-block fs-6">Frontend</span>
         </button>
-        <span>10</span>
+        <span>{{ vacancy.frontend }}</span>
     </div>
     <div class="col-lg-3 col-sm-6">
         <button class="btn btn-lg btn-secondary mb-2 w-100">
             <i class="fab fa-python fa-3x"></i>
             <span class="d-block fs-6">Backend</span>
         </button>
-        <span>10</span>
+        <span>{{ vacancy.backend }}</span>
     </div>
     <div class="col-lg-3 col-sm-6">
         <button class="btn btn-lg btn-secondary mb-2 w-100">
             <i class="fab fa-docker fa-3x"></i>
             <span class="d-block fs-6">DevOps</span>
         </button>
-        <span>10</span>
+        <span>{{ vacancy.devops }}</span>
     </div>
 </div>
 <hr>
@@ -41,7 +41,7 @@
     <h6 class="card p-2 text-light bg-danger mb-2">
         Job vacancies will close in:
     </h6>
-    <span class="text-center fw-bold">03/26/2022 05:30:00</span>
+    <span id="timer" class="text-center fw-bold">{{ vacancy.timer|date:"M d, Y H:i:s" }}</span>
 </div>
 {% endblock modal-body %}
 

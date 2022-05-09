@@ -8,12 +8,12 @@
 
 {% block offcanvasmenu %}
 <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
-<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
 {% if request.user.is_superuser %}
 <a href="{% url 'admin:index' %}" target="_blank" class="btn btn-dark">Admin</a>
 {% else %}
 <a href="{% url 'support' %}" class="btn btn-info">Support</a>
 {% endif %}
+<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
 <hr>
 <center>
     <i class="fas fa-gauge fa-7x watermark mt-5"></i>
@@ -46,7 +46,7 @@
             </div>
             <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
-                    <button class="btn btn-danger btn-lg">
+                    <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#countdownModal">
                         <i class="fas fa-clock fa-7x"></i>
                         <span class="d-block">Countdown</span>
                     </button>
@@ -65,5 +65,6 @@
 </div>
 
 {% include "modals/vacancies.html" %}
+{% include "modals/countdown.html" %}
 
 {% endblock content %}

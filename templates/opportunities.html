@@ -60,4 +60,31 @@
     <i class="fas fa-lightbulb fa-2x"></i>
 </button>
 
+<!-- Modals -->
+{% include "modals/opportunity_info_modal.html" %}
+
 {% endblock content %}
+
+{% block script %}
+<script>
+// Countdown timer
+var dataTime = new Date('{{ vacancy.timer }}').getTime();
+var control = setInterval(function() {
+    var now = new Date().getTime();
+    var sub = dataTime - now;
+    // DT Format
+    var d = Math.floor(sub / (1000 * 60 * 60 * 24));
+    var h = Math.floor((sub % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var m = Math.floor((sub % (1000 * 60 * 60)) / (1000 * 60));
+    var s = Math.floor((sub % (1000 * 60)) / 1000);
+    // Output
+    document.getElementById("timer").innerHTML = d + "d " + h + "h " + m + "m " + s + "s ";
+    if (sub < 0) {
+        clearInterval(control);
+        document.getElementById("timer").innerHTML = "JOB VACANCIES CLOSED";
+        document.getElementById("timer").style.color = "red";
+    }
+}, 1000);
+
+</script>
+{% endblock script %}

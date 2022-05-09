@@ -1,0 +1,26 @@
+<div class="modal fade" id="countdownModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="text-danger fas fa-clock pe-1"></i> Countdown</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'edit_countdown' %}" autocomplete="off">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <h6 class="card bg-danger p-2 text-center">Countdown for job vacancies</h6>
+                    <div class="modal-body px-0 py-0">
+                        <input type="hidden" name="id" value="{{ vacancy.pk }}" readonly>
+                        <div class="input-group mb-4">
+                            <input type="text" class="form-control form-control-lg fs-3 text-center border-light text-danger" id="id_timer" name="timer" value="{{ vacancy.timer }}">
+                        </div>
+                    </div>              
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    <button type="submit" class="btn btn-warning btn-sm">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

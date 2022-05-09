@@ -35,6 +35,7 @@ jQuery(function() {
 
 });
 
+
 // Frontend Email validation
 function validateEmail(email) {
     const regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -51,6 +52,11 @@ function validateFrontendForm() {
     const experience = document.getElementById("id_experience").value;
     const skills = document.getElementById("id_skills").value;
     const file = document.getElementById("id_file").value;
+
+    // Prevent bad word filter
+    var badwords = new Array("Fuck you", "Kiss my ass");
+    var regex = new RegExp('\\b(' + badwords.join('|') + ')\\b', 'i');
+    var text = document.frontend.experience.value;
 
     if (fullname == "") {
         swal("Oops!", "Fullname field cannot be empty.", "error");
@@ -94,6 +100,10 @@ function validateFrontendForm() {
     else if (experience == "") {
         swal("Oops!", "Experience field cannot be empty.", "error");
         return false;
+    }
+    else if (regex.test(text)) {
+        swal("Oops!", "Your experience field contains bad words.", "error");
+        return false;    
     }
     else if (skills == "") {
         swal("Oops!", "Skills field cannot be empty.", "error");

@@ -6,14 +6,48 @@ from django.template import loader
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
+from django.core.paginator import Paginator
+from django.db.models import Q
+from datetime import datetime
 
 from .models import RegisteredEmail, Support, Message, Vacancy
+from .forms import MessageForm
 
 
 def home(request):
 
     template_name = 'home.html'
     context = {}
+
+    return render(request, template_name, context)
+
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required
+def inbox(request):
+    if 'q' in request.GET:
+        q = request.GET['q']
+        messages = Message.objects.filter(
+            Q(name__icontains=q) | Q(email__icontains=q) |
+            Q(subject__icontains=q) | Q(body__icontains=q) |
+            Q(status__icontains=q))
+    else:
+        messages = Message.objects.all()
+
+    total_messages = Message.objects.count()
+    read_messages = Message.objects.filter(status=Message.READ).count()
+    unread_messages = Message.objects.filter(status=Message.PENDING).count()
+    now = datetime.now().date()
+    today = Message.objects.filter(created__gt=now).count()
+
+    template_name = 'inbox.html'
+    context = {
+        'messages': messages,
+        'today': today,
+        'total_messages': total_messages,
+        'read_messages': read_messages,
+        'unread_messages': unread_messages,
+    }
 
     return render(request, template_name, context)
 
@@ -118,15 +152,22 @@ def support(request):
 
 def send_message(request):
     if request.method == 'POST':
-        if request.POST.get('message'):
-            message = Message()
-            message.body = request.POST.get('message')
-            message.save()
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            form.save()
             messages.success(
                 request, "Your message has been sent to us.")
             return redirect("home")
+        # if request.POST.get('message'):
+        #     message = Message()
+        #     message.body = request.POST.get('message')
+        #     message.save()
+        #     messages.success(
+        #         request, "Your message has been sent to us.")
+        #     return redirect("home")
     else:
-        return render(request, 'home.html')
+        form = MessageForm()
+    return render(request, 'home.html', {'form': form})
 
 
 # Destroy session upon logout

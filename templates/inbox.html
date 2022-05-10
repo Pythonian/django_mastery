@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Inbox{% endblock %}
+
+{% block navbrand %}
+<i class="text-warning fas fa-envelope pe-1"></i> Inbox
+{% endblock navbrand %}
+
+{% block datetime %}
+<div class="text-light">
+    {% now "l (m/d/Y)" %} <span class="text-warning" id="clock"></span>
+</div>
+{% endblock datetime %}
+
+{% block secondarynav %}
+<a href="{% url 'dashboard' %}" class="text-decoration-none" title="Go Back">
+    <i class="text-warning fas fa-angle-double-left"></i>
+</a>
+{% endblock secondarynav %}
+
+{% block content %}
+
+<div class="row my-3 hide">
+    {% include '_total.html' %}   
+    {% include '_read.html' %}   
+    {% include '_unread.html' %}   
+    {% include '_today.html' %}   
+</div>
+
+<form action="" class="hide">
+    <div class="row">
+        <div class="col-12 px-0">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search..." name="q" value="{{ request.GET.q }}">
+            <button class="btn btn-warning" title="Search"><i class="fas fa-search"></i></button>
+            <a href="{% url 'inbox' %}" class="btn btn-dark ms-1" title="Refresh"><i class="fas fa-sync-alt"></i></a>
+        </div>
+        </div>
+    </div>
+</form>
+
+<div class="row hide">
+    <div class="col-lg-12 px-0">
+        <table class="table bg-white table-responsive">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Received on</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in messages %}
+                <tr id="check_td">
+                    <td>{{ message.name }}</td>
+                    <td>{{ message.phone }}</td>
+                    <td>{{ message.email }}</td>
+                    <td>{{ message.subject }}</td>
+                    <td>{{ message.created|date:'m/d/y (H:i)' }}</td>
+                    <td class="text-{% if message.status == message.PENDING %}danger{% else %}success{% endif %}">{{ message.get_status_display }}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" title="View">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="position-absolute top-50 start-50 translate-middle">
+    <a class="d-block text-center text-success" href="{% url 'inbox' %}" id="refresh"></a>
+    <span class="text-danger fs-1" id="emptyMsg"></span>
+</div>
+
+{% endblock content %}

@@ -5,6 +5,29 @@ jQuery(function() {
         return false;
     }});
 
+    // Characters remaining counter
+    var start = 0;
+    var limit = 1000;
+    $("#id_message").keyup(function() {
+        start = this.value.length
+        if (start > limit) {
+            return false;
+        }
+        else if (start == 1000) {
+            $("#remainingCharacters").html("Characters remaining: " + (limit - start)).css('color', 'red');
+            swal("Oops!", "Characters limit exceeded!", "info");
+        }
+        else if (start > 984) {
+            $("#remainingCharacters").html("Characters remaining: " + (limit - start)).css('color', 'red');
+        }
+        else if (start < 1000) {
+            $("#remainingCharacters").html("Characters remaining: " + (limit - start)).css('color', 'black');
+        }
+        else {
+            $("#remainingCharacters").html("Characters remaining: " + (limit - start)).css('color', 'black');
+        }
+    });
+
     // File size limit
     $("#id_file, #id_file2").bind('change', function() {
         var a = (this.files[0].size);
@@ -250,4 +273,42 @@ function dependentSelect() {
         document.getElementById("id_subject").disabled = false;
     else
         document.getElementById("id_subject").disabled = true;
+}
+
+// Create Text pulse
+(function pulse() {
+    $('.text-pulse').fadeOut(1000).fadeIn(1000, pulse);
+})();
+
+// Live Time
+setInterval(function() {
+    var date = new Date();
+    $("#clock").html(
+        (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + 
+        (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ':' + 
+        (date.getSeconds() < 10 ? '0' : '') + date.getSeconds()
+    );
+}, 500);
+
+
+// Refresh window at (00:00 - 12 Midnight)
+function autoRefresh(hours, minutes, seconds){
+    var now = new Date(), then = new Date();
+    then.setHours(hours, minutes, seconds, 0);
+    if (then.getTime() < now.getTime()) {
+        then.setDate(now.getDate() + 1);
+    }
+    var timeout = (then.getTime() - now.getTime());
+    setTimeout(function() {
+        window.location.reload(true);
+    }, timeout);
+}
+autoRefresh(0,0,0)
+
+// Hide all contents, if no Messages
+var verify = $("#check_td").length;
+if (verify == 0) {
+    $(".hide").css("display", "none");
+    $("#emptyMsg").text("No message found");
+    $("#refresh").html('<i class="fas fa-sync-alt fa-3x"></i>');
 }

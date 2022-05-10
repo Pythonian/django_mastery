@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import format_html
 
 
 class RegisteredEmail(models.Model):
@@ -46,17 +47,39 @@ class Support(models.Model):
 
 
 class Message(models.Model):
-    DONE = 'D'
+    READ = 'R'
     PENDING = 'P'
     STATUS_CHOICES = (
-        (DONE, 'Done'),
+        (READ, 'Read'),
         (PENDING, 'Pending'),
     )
     status = models.CharField(
         max_length=1, choices=STATUS_CHOICES, default=PENDING)
+    name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=15)
+    email = models.EmailField(max_length=30)
+    subject = models.CharField(max_length=25)
     body = models.TextField(max_length=1000)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created']
+
+    def __str__(self):
+        return self.name
+
+    def report(self):
+        """
+        Function to color the status text.
+        """
+        if self.status == self.READ:
+            color = '#28a745'
+        else:
+            color = 'red'
+        return format_html(
+            f"<span style='color: {color}'>{self.status}</span>")
+    report.allow_tags = True
 
 
 class Vacancy(models.Model):

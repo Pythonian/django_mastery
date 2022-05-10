@@ -14,12 +14,13 @@
     <div id="preloader" class="rounded-circle position-absolute top-50 p-3"></div>
 
     <header class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <nav class="container px-lg-0">
+        <nav class="container px-lg-0 justify-content-between">
             <span class="navbar-brand text-white">
                 {% block navbrand %}
                 <i class="text-warning fas fa-cubes pe-1"></i> Django Mastery
                 {% endblock navbrand %}
             </span>
+            {% block datetime %}{% endblock datetime %}
             {% block secondarynav %}
             <button class="bg-transparent border-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
                 <i class="text-warning fas fa-bars"></i>
@@ -114,7 +115,6 @@
     {% include "modals/backend.html" %}
     {% include "modals/popup_support.html" %}
     {% include "modals/resume_duplicated_info.html" %}
-    {% include "modals/message_modal.html" %}
 
     <!-- jQuery -->
     <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>

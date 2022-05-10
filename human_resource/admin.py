@@ -34,6 +34,12 @@ class SupportAdmin(admin.ModelAdmin):
     status.allow_tags = True
 
 
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    readonly_fields = ['name', 'phone', 'email', 'subject', 'body']
+    list_display = ['name', 'email', 'subject', 'report']
+    list_filter = ['status']
+
+
 admin.site.register(RegisteredEmail)
-admin.site.register(Message)
 admin.site.register(Vacancy)

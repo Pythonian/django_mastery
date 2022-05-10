@@ -6,7 +6,16 @@
 <i class="text-warning fas fa-gauge pe-1"></i> Dashboard
 {% endblock navbrand %}
 
+{% block datetime %}
+<div class="text-light">
+    {% now "l (m/d/Y)" %} <span class="text-warning" id="clock"></span>
+</div>
+{% endblock datetime %}
+
 {% block offcanvasmenu %}
+<center class="mb-2 fw-bold">
+    Welcome: <span class="text-warning">{{ user.get_username }}</span>
+</center>
 <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
 {% if request.user.is_superuser %}
 <a href="{% url 'admin:index' %}" target="_blank" class="btn btn-dark">Admin</a>
@@ -54,10 +63,10 @@
             </div>
             <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
-                    <button class="btn btn-primary btn-lg">
+                    <a href="{% url 'inbox' %}" class="btn btn-primary btn-lg">
                         <i class="fas fa-envelope fa-7x"></i>
                         <span class="d-block">Inbox</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

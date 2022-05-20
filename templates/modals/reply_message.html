@@ -5,26 +5,14 @@
                 <h5 class="modal-title"><i class="fas fa-reply pe-1"></i> Reply</h5>
                 <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form class="was-validated" method="post" action="{% url 'reply_message' message.pk %}" autocomplete="off" enctype="multipart/form-data">
+            <form class="was-validated" method="post" action="" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-body">
                     <div>
                         To: <span class="text-success fw-bold">{{ message.name }} ({{ message.email }})</span>
                     </div>
                     <hr>
-                    <div class="form-group mb-2">
-                        <input type="text" class="form-control" id="id_subject" name="subject" placeholder="Subject..." maxlength="60" required>
-                    </div>
-                    <div class="form-group mb-2">
-                        <input type="email" class="form-control" id="id_cc" placeholder="CC (optional)" name="cc">
-                    </div>           
-                    <div class="mb-2">
-                        <textarea name="body" id="id_body" placeholder="Enter your reply here..." class="form-control" rows="7" required></textarea>
-                        <div class="invalid-feedback">Required</div>
-                    </div> 
-                    <div class="form-group mb-2">
-                        <input type="file" class="form-control" id="id_attachment" placeholder="Attachment (optional)" name="attachment" multiple>
-                    </div>
+                    {{ reply_form }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">Close</button>

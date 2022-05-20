@@ -13,9 +13,9 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('edit_vacancy/', views.edit_vacancy, name='edit_vacancy'),
     path('inbox/', views.inbox, name='inbox'),
-    path('reply_message/<int:pk>/', views.reply_message, name='reply_message'),
     path('message/<int:pk>/', views.message, name='message'),
     path('mark_as_read/<int:pk>/', views.mark_as_read, name='mark_as_read'),
     path('edit_countdown/', views.edit_countdown, name='edit_countdown'),
+    path('autologout/', views.autologout, name='autologout'),
     path('', views.home, name='home'),
 ]

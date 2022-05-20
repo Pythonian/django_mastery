@@ -52,6 +52,11 @@
         </div>
     </footer>
 
+    {% block autologout %}
+    <button id="autologoutWarning" class="btn d-none" data-bs-toggle="modal" data-bs-target="#autologoutwarningModal"></button>
+    <a href="{% url 'autologout' %}" id="autologoutInfo" class="btn d-none"></a>
+    {% endblock autologout %}
+
     <!-- Offcanvas menu -->
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
         <div class="offcanvas-header">
@@ -83,6 +88,8 @@
     <script>
         $(document).ready(function() {
             $('#supportModal').modal('show');
+            // Autologout info modal
+            $('#autologoutinfoModal').modal('show');
         });
     </script>
     {% endif %}
@@ -115,6 +122,8 @@
     {% include "modals/backend.html" %}
     {% include "modals/popup_support.html" %}
     {% include "modals/resume_duplicated_info.html" %}
+    {% include "modals/autologout_info.html" %}
+    {% include "modals/autologout_warning.html" %}
 
     <!-- jQuery -->
     <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>

@@ -233,3 +233,19 @@ if (verify == 0) {
     $("#emptyMsg").text("No message found");
     $("#refresh").html('<i class="fas fa-sync-alt fa-3x"></i>');
 }
+
+// Inform the user about autologout 5mins from time
+setTimeout(function() {
+    var notice = document.querySelector("#autologoutWarning");
+    if (notice) {
+        notice.click();
+    }    
+}, 25 * 60000); // 25mins of no usage
+
+// Autologout after 5mins elapses
+setTimeout(function() {
+    var action = document.querySelector("#autologoutInfo");
+    if (action) {
+        action.click();
+    }    
+}, 30 * 60000); // 30mins of no usage

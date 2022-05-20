@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
 from django.db.models import Q
+from django.contrib.auth import logout
 from datetime import datetime
 
 from .models import RegisteredEmail, Support, Message, Vacancy
@@ -220,23 +221,6 @@ def delete_message(request, pk):
 def message(request, pk):
     message = get_object_or_404(Message, pk=pk)
 
-    template_name = 'message.html'
-    context = {'message': message}
-
-    return render(request, template_name, context)
-
-
-def mark_as_read(request, pk):
-    message = get_object_or_404(Message, pk=pk)
-    if request.method == 'POST':
-        message.status = message.READ
-        message.save()
-        messages.success(request, "Message marked as read.")
-        return redirect('inbox')
-
-
-def reply_message(request, pk):
-    message = get_object_or_404(Message, pk=pk)
     from_email = settings.DEFAULT_FROM_EMAIL
     if request.method == 'POST':
         reply_form = ReplyMessage(request.POST, request.FILES)
@@ -255,9 +239,28 @@ def reply_message(request, pk):
             return redirect('inbox')
     else:
         reply_form = ReplyMessage()
-    return render(
-        request, 'message.html',
-        {'reply_form': reply_form, 'message': message})
+
+    template_name = 'message.html'
+    context = {'message': message, 'reply_form': reply_form}
+
+    return render(request, template_name, context)
+
+
+def mark_as_read(request, pk):
+    message = get_object_or_404(Message, pk=pk)
+    if request.method == 'POST':
+        message.status = message.READ
+        message.save()
+        messages.success(request, "Message marked as read.")
+        return redirect('inbox')
+
+
+def autologout(request):
+    logout(request)
+    request.user = None
+    # Pass the message in the HTML
+    messages.info(request, ".")
+    return redirect('home')
 
 
 def error_500(request):

@@ -1,0 +1,23 @@
+{% extends "modals/base_modal_dialog.html" %}
+
+{% block modal-id %}id="autologoutwarningModal"{% endblock modal-id %}
+
+{% block modal-title %}<i class="fas fa-exclamation-triangle pe-1"></i> Attention{% endblock modal-title %}
+
+{% block modal-body %}
+<div class="text-secondary">
+    <span class="fa-stack fa-3x">
+        <i class="fas fa-cloud fa-stack-2x"></i>
+        <i class="fas fa-user-shield fa-stack-1x fa-inverse"></i>
+    </span>
+</div>
+<div class="mt-3">
+    <span class="text-danger d-block">The system will log you out in 5 minutes...</span>
+    <span>Note: If you want to stay logged in for more than 30mins, click the button below:</span>
+</div>
+{% endblock modal-body %}
+
+{% block modal-button %}
+<a onclick="window.location.reload();" class="btn btn-outline-info btn-sm" id="autologout">+30 mins</a>
+<button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Ok">Ok</button>
+{% endblock modal-button %}

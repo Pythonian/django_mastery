@@ -57,7 +57,7 @@
                     <td><a href="{% url 'message' message.pk %}" class="text-decoration-none">{{ message.subject }}</a></td>
                     <td>{{ message.name }}</td>
                     <td>{{ message.email }}</td>
-                    <td>{{ message.created|date:'m/b/y g:ia' }}</td>
+                    <td>{{ message.created|date:'d/b/y g:ia' }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

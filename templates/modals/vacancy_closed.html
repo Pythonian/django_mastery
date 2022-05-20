@@ -2,14 +2,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="fas fa-code text-danger"></i>{% block modal-title %}{% endblock modal-title %} (closed)</h5>
+                <h5 class="modal-title">
+                    {% block modal-title %}{% endblock modal-title %}
+                </h5>
                 <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body text-center">
+            <div class="modal-body text-center my-3">
                 {% block modal-body %}{% endblock modal-body %}
             </div>
             <div class="modal-footer">
-                {% block modal-button %}{% endblock modal-button %}
+                <button class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

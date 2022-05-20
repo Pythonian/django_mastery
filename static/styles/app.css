@@ -23,10 +23,6 @@
     }
 }
 
-.watermark {
-    color: #e8e8e8;
-}
-
 .card-border-top {
     border-top: 6px solid #ffc107;
     border-radius: 10px;
@@ -85,15 +81,32 @@
     }    
 }
 
-.accordion-button:not(.collapsed) {
-    color: #111;
-    background-color: #fff3cd;
-    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .125);
-    font-weight: bold;
+#bg-spinner {
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    display: none;
+    background-color: rgba(1, 1, 1, 0.7);
 }
-
-.accordion-button:focus {
-    box-shadow: 0 0 8px rgba(250, 190, 88, 1);
+#position-spinner {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+#spinner {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    border: 6px #d3d3d3 solid;
+    border-top: 6px #198754 solid;
+    animation: loading 1s infinite linear;
+}
+@keyframes loading {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* Sweetalert Custom Styles */

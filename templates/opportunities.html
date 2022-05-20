@@ -15,7 +15,7 @@
 {% block content %}
 
 <div class="row mb-5">
-    <h6 class="bg-warning my-3 py-3 text-center fw-bold">
+    <h6 class="bg-warning my-3 py-2 text-center fw-bold">
         AVAILABLE JOB OPPORTUNITIES
     </h6>
     <div class="card p-3 bg-dark">
@@ -37,7 +37,7 @@
                     {% if vacancy.frontend == 0 %}
                     <button class="btn btn-outline-light btn-lg" disabled>
                     {% else %}
-                    <button class="btn btn-outline-warning btn-lg" data-bs-toggle="modal" data-bs-target="#frontendModal">
+                    <button class="btn btn-outline-warning btn-lg btn-disabled" data-bs-toggle="modal" data-bs-target="#frontendModal">
                     {% endif %}
                         <i class="fab fa-html5 fa-5x"></i>
                         <span class="d-block">Frontend</span>
@@ -76,14 +76,22 @@
     <i class="fas fa-lightbulb fa-2x"></i>
 </button>
 
+{% if vacancy.frontend == 0 and vacancy.backend == 0 and vacancy.design == 0 and vacancy.devops == 0 %}
+<button id="closedVacancy" data-bs-toggle="modal" data-bs-target="#countdownTimerClosed"></button>
+{% elif vacancy.frontend == 0 %}
+<button id="closedVacancy" data-bs-toggle="modal" data-bs-target="#frontendClosed"></button>
+{% endif %}
+
 <!-- Modals -->
 {% include "modals/opportunity_info_modal.html" %}
+{% include "modals/frontend_vacancy_closed.html" %}
+{% include "modals/countdown_timer_closed.html" %}
 
 {% endblock content %}
 
 {% block script %}
 <script>
-// Countdown timer
+// Countdown timer for Job vacancies
 var dataTime = new Date('{{ vacancy.timer }}').getTime();
 var control = setInterval(function() {
     var now = new Date().getTime();
@@ -99,8 +107,26 @@ var control = setInterval(function() {
         clearInterval(control);
         document.getElementById("timer").innerHTML = "JOB VACANCIES CLOSED";
         document.getElementById("timer").style.color = "red";
+        // Disable job vacancy when countdown is over
+        $(".btn-disabled").prop("disabled", true).css({'color': 'white', 'border-color': 'white'});
+        // Hide the vacancy count
+        $(".vacancy-count").css("display", "none");
+        // Modal for countdown over
+        $("#countdownTimerClosed").modal('show');
+        // Disable the send application button when countdown is over
+        $(".btn-send").prop("disabled", true);
+        // Hide individual modals when countdown is over
+        $("#closedVacancy").modal('hide');
     }
 }, 1000);
+
+// Call the closed vacancy modal
+setTimeout(function() {
+    var modal = document.querySelector("#closedVacancy");
+    if (modal) {
+        modal.click();
+    }
+}, 1 * 100); // (1s = 1000)
 
 </script>
 {% endblock script %}

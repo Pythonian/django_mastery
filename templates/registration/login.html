@@ -10,7 +10,7 @@
 <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
 <a data-bs-toggle="modal" data-bs-target="#popupSupport" class="btn btn-info">Support</a><hr>
 <center>
-    <i class="fas fa-key fa-7x watermark mt-5"></i>
+    <i class="fas fa-key fa-7x opacity-25 mt-5"></i>
 </center>
 {% endblock offcanvasmenu %}
 
@@ -20,7 +20,7 @@
     <div class="col-lg-4 mx-auto">
         <div class="card mt-5 card-border-top">
             <div class="card-body">
-                <h6 class="bg-dark text-white py-3 text-center my-3 text-pulse">
+                <h6 class="bg-dark text-white py-3 text-center my-3">
                     <i class="fas fa-lock pe-1"></i> RESTRICTED ACCESS
                 </h6>
                 <form method="post" action="" autocomplete="off" novalidate>
@@ -30,18 +30,15 @@
                         <input type="text" class="form-control" placeholder="Username" maxlength="40" name="username" id="id_username">
                     </div>
                     <div class="input-group mb-1">
-                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
                         <input type="password" class="form-control" placeholder="Password" maxlength="40" name="password" id="id_password">
-                    </div>
-                    <div class="form-check form-switch">
-                      <input class="form-check-input float-end" onclick="togglePassword()" type="checkbox" id="">
+                        <button class="btn btn-secondary opacity-75 border-0" type="button" id="id_password" onclick="togglePassword()"><i class="fas fa-eye"></i></button>
                     </div>
                     <div class="d-grid gap-2">
                         <input type="submit" class="btn btn-warning mt-3 rounded-pill" value="Login">
                     </div>
                 </form>
                 <center>
-                    <i class="fas fa-right-to-bracket fa-7x watermark my-5"></i>
+                    <i class="fas fa-right-to-bracket fa-7x opacity-25 my-5"></i>
                 </center>
             </div>
         </div>        

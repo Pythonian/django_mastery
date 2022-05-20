@@ -25,22 +25,22 @@
 <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
 <hr>
 <center>
-    <i class="fas fa-gauge fa-7x watermark mt-5"></i>
+    <i class="fas fa-gauge fa-7x opacity-25 mt-5"></i>
 </center>
 {% endblock offcanvasmenu %}
 
 {% block content %}
 
 <div class="row mb-5">
-    <h6 class="bg-warning my-3 py-3 text-center fw-bold">
+    <h6 class="bg-warning my-3 py-2 text-center fw-bold">
         CONTROL PANEL
     </h6>
-    <div class="border-dark card">
+    <div class="card">
         <div class="row">
             <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-success btn-lg">
-                        <i class="fas fa-user-alt fa-7x"></i>
+                        <i class="fas fa-user-alt fa-5x"></i>
                         <span class="d-block">Candidates</span>
                     </button>
                 </div>
@@ -48,7 +48,7 @@
             <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#vacancyModal">
-                        <i class="fas fa-users fa-7x"></i>
+                        <i class="fas fa-users fa-5x"></i>
                         <span class="d-block">Opportunities</span>
                     </button>
                 </div>
@@ -56,7 +56,7 @@
             <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#countdownModal">
-                        <i class="fas fa-clock fa-7x"></i>
+                        <i class="fas fa-clock fa-5x"></i>
                         <span class="d-block">Countdown</span>
                     </button>
                 </div>
@@ -64,7 +64,7 @@
             <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <a href="{% url 'inbox' %}" class="btn btn-primary btn-lg">
-                        <i class="fas fa-envelope fa-7x"></i>
+                        <i class="fas fa-envelope fa-5x"></i>
                         <span class="d-block">Inbox</span>
                     </a>
                 </div>

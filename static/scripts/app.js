@@ -1,14 +1,14 @@
 jQuery(function() {
     // Inputmask (Phone numbers)
-    $("input[name=phone]").inputmask("(+234) 999-9999999", {"onincomplete": function() {
-        swal("Oops!", "Incomplete phone number, please review!", "info");
-        return false;
-    }});
+    // $("input[name=phone]").inputmask("(+234) 999-9999999", {"onincomplete": function() {
+    //     swal("Oops!", "Incomplete phone number, please review!", "info");
+    //     return false;
+    // }});
 
     // Characters remaining counter
     var start = 0;
     var limit = 1000;
-    $("#id_message").keyup(function() {
+    $("#id_body").keyup(function() {
         start = this.value.length
         if (start > limit) {
             return false;
@@ -29,7 +29,7 @@ jQuery(function() {
     });
 
     // File size limit
-    $("#id_file, #id_file2").bind('change', function() {
+    $("#id_file").bind('change', function() {
         var a = (this.files[0].size);
         if (a > 2 * 1048576) {
             swal("Attention!", "Maximum allowed size is 2MB.", "info");
@@ -141,83 +141,9 @@ function validateFrontendForm() {
     }
 }
 
-// Backend Email validation
-function validateEmail(email) {
-    const regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    return regex.test(email);
-}
-
-// Backend Form Validation
-function validateBackendForm() {
-    const fullname = document.getElementById("id_fullname2").value;
-    const age = document.getElementById("id_age2").value;
-    const email = document.getElementById("id_email2").value;
-    const phone = document.getElementById("id_phone2").value;
-    const address = document.getElementById("id_address2").value;
-    const experience = document.getElementById("id_experience2").value;
-    const skills = document.getElementById("id_skills2").value;
-    const file = document.getElementById("id_file2").value;
-
-    if (fullname == "") {
-        swal("Oops!", "Fullname field cannot be empty.", "error");
-        return false;
-    }
-    else if (fullname == fullname.toUpperCase()) {
-        document.getElementById("id_fullname").value="";
-        swal("Oops!", "Fullname field cannot be UPPERCASE.", "info");
-        return false;
-    }
-    else if (fullname.split(' ').length < 2) {
-        swal("Oops!", "Your first and last name is required.", "info");
-        return false;
-    }
-    else if (age == "") {
-        swal("Oops!", "Age field cannot be empty.", "error");
-        return false;
-    }
-    else if ((age < 18) || (age > 60)) {
-        document.getElementById("id_age").value="";
-        swal("Oops!", "Age between 18 and 60.", "info");
-        return false;
-    }
-    else if (email == "") {
-        swal("Oops!", "Email field cannot be empty.", "error");
-        return false;
-    }
-    else if (!(validateEmail(email))) {
-        document.getElementById("id_email").value="";
-        swal("Oops!", "Enter a valid email address.", "error");
-        return false;
-    }
-    else if (phone == "") {
-        swal("Oops!", "Phone field cannot be empty.", "error");
-        return false;
-    }
-    else if (address == "") {
-        swal("Oops!", "Address field cannot be empty.", "error");
-        return false;
-    }
-    else if (experience == "") {
-        swal("Oops!", "Experience field cannot be empty.", "error");
-        return false;
-    }
-    else if (skills == "") {
-        swal("Oops!", "Skills field cannot be empty.", "error");
-        return false;
-    }
-    else if (file == "") {
-        swal("Oops!", "File field cannot be empty.", "error");
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-// Clear modal form when closed
-$("#frontendModal, #backendModal").on('hidden.bs.modal', function() {
+// Clear contents in modal form when closed
+$("#frontendModal").on('hidden.bs.modal', function() {
     $('#frontendModal form')[0].reset();
-    $('#backendModal form')[0].reset();
 });
 
 // Allow only letters in Fullname field
@@ -253,7 +179,7 @@ $("input[name=age]").on("input", function() {
     }
 });
 
-// Hide/show passwordt toggle
+// Hide/show password toggle
 function togglePassword() {
     var p = document.getElementById("id_password");
     if (p.type === 'password') {
@@ -265,10 +191,6 @@ function togglePassword() {
 
 // Dependent select option
 function dependentSelect() {
-    // if ($("#id_person").value != '')
-    //     $("#id_subject").prop('disabled', false);
-    // else
-    //     $("#id_subject").prop('disabled', 'disabled');
     if (document.getElementById("id_person").value != '')
         document.getElementById("id_subject").disabled = false;
     else
@@ -289,7 +211,6 @@ setInterval(function() {
         (date.getSeconds() < 10 ? '0' : '') + date.getSeconds()
     );
 }, 500);
-
 
 // Refresh window at (00:00 - 12 Midnight)
 function autoRefresh(hours, minutes, seconds){

@@ -16,3 +16,6 @@ if settings.DEBUG:
         settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(
         settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler500 = 'human_resource.views.error_500'
+handler404 = 'human_resource.views.error_404'

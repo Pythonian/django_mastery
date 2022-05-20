@@ -1,0 +1,20 @@
+{% extends "modals/base_modal_dialog.html" %}
+
+{% block modal-id %}id="markRead"{% endblock modal-id %}
+
+{% block modal-title %}<i class="fas fa-envelope-circle-check pe-1"></i> Mark as read{% endblock modal-title %}
+
+{% block modal-body %}
+<div class="text-center text-success mt-2 mb-3">
+    <span class="fa-stack fa-3x">
+        <i class="fas fa-cloud fa-stack-2x"></i>
+        <i class="fas fa-envelope-circle-check fa-stack-1x fa-inverse"></i>
+    </span>
+</div>
+<p class="mb-2">Would you like to mark this message as read?</p>
+{% endblock modal-body %}
+
+{% block modal-button %}
+<a href="{% url 'inbox' %}" class="btn btn-outline-dark btn-sm">No</a>
+<button class="btn btn-sm btn-outline-success">Yes Please</button>
+{% endblock modal-button %}

@@ -20,14 +20,14 @@
 
 {% block content %}
 
-<div class="row my-3 hide">
-    {% include '_total.html' %}   
-    {% include '_read.html' %}   
-    {% include '_unread.html' %}   
-    {% include '_today.html' %}   
+<div class="row my-3">
+    {% include 'partials/_total.html' %}   
+    {% include 'partials/_read.html' %}   
+    {% include 'partials/_unread.html' %}   
+    {% include 'partials/_today.html' %}   
 </div>
 
-<form action="" class="hide">
+<form action="" method="GET">
     <div class="row">
         <div class="col-12 px-0">
         <div class="input-group mb-3">
@@ -40,36 +40,24 @@
 </form>
 
 <div class="row hide">
-    <div class="col-lg-12 px-0">
-        <table class="table bg-white table-responsive">
-            <thead class="table-secondary">
+    <div class="col-lg-12 px-0 table-responsive">
+        <table class="table bg-white table-hover">
+            <caption class="text-white">Last account activity: 26 minutes ago</caption>
+            <thead class="table-secondary border-0">
                 <tr>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Subject</th>
-                    <th>Received on</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th class="col-5">Subject</th>
+                    <th class="col-3">Sender</th>
+                    <th class="col-2">Email</th>
+                    <th class="col-2">Received</th>
                 </tr>
             </thead>
             <tbody>
                 {% for message in messages %}
-                <tr id="check_td">
+                <tr class="{% if message.status == message.PENDING %}table-active fw-bold{% endif %}" id="check_td">
+                    <td><a href="{% url 'message' message.pk %}" class="text-decoration-none">{{ message.subject }}</a></td>
                     <td>{{ message.name }}</td>
-                    <td>{{ message.phone }}</td>
                     <td>{{ message.email }}</td>
-                    <td>{{ message.subject }}</td>
-                    <td>{{ message.created|date:'m/d/y (H:i)' }}</td>
-                    <td class="text-{% if message.status == message.PENDING %}danger{% else %}success{% endif %}">{{ message.get_status_display }}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" title="View">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
+                    <td>{{ message.created|date:'m/b/y g:ia' }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

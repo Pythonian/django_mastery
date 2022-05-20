@@ -20,12 +20,11 @@
 {% endblock content %}
 
 {% block offcanvasmenu %}
-<a href="{% url 'faq' %}" class="btn btn-secondary">FAQ</a>
 <a data-bs-toggle="modal" data-bs-target="#popupSupport" class="btn btn-info">Support</a>
 <a href="{% url 'dashboard' %}" class="btn btn-warning">{% if request.user.is_authenticated %}Dashboard{% else %}Login{% endif %}</a>
 <hr>
 <center>
-    <i class="fas fa-cubes fa-7x watermark mt-5"></i>
+    <i class="fas fa-cubes fa-7x opacity-25 mt-5"></i>
 </center>
 {% endblock offcanvasmenu %}
 

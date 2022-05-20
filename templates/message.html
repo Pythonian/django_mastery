@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Message: {{ message.name }}{% endblock %}
+
+{% block navbrand %}
+<i class="text-warning fas fa-book-open pe-1"></i> {{ message.name }}
+{% endblock navbrand %}
+
+{% block secondarynav %}
+<a href="{% url 'inbox' %}" class="text-decoration-none" title="Go Back">
+    <i class="text-warning fas fa-angle-double-left"></i>
+</a>
+{% endblock secondarynav %}
+
+{% block content %}
+
+<div class="row mb-5">
+    <div class="col-12 px-0">
+        <div class="card mt-5 card-border-top">
+            <div class="card-header text-center">
+                Received on: {{ message.created|date:'m/d/Y'}} at {{ message.created|date:'g:ia' }}
+            </div>
+            <div class="card-body">
+                <form action="{% url 'mark_as_read' message.pk %}" class="mb-4" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ message.id }}">
+                    <div class="input-group mb-2">
+                        <span class="input-group-text justify-content-center"><i class="fas fa-user-edit"></i></span>
+                        <input type="text" class="form-control" value="{{ message.subject }}" readonly>
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text justify-content-center"><i class="fas fa-envelope"></i></span>
+                        <input type="text" class="form-control" value="{{ message.email }}" readonly>
+                    </div>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text justify-content-center"><i class="fas fa-phone-alt"></i></span>
+                        <input type="text" class="form-control" value="{{ message.phone }}" readonly>
+                    </div>
+                    <div class="input-group mb-2">
+                        <textarea class="form-control" rows="10" readonly>{{ message.body }}</textarea>
+                    </div>
+                    <div class="input-group mb-2">
+                        <a href="/media/message.file/" class="bg-dark text-light input-group-text justify-content-center text-decoration-none">
+                            <i class="fas fa-paperclip"></i>
+                        </a>
+                        
+                        <input type="text" class="form-control" value="{% if message.file %}{{ message.file }}{% else %}No attachment{% endif %}" readonly>
+                    </div>
+                    {% include 'modals/mark_as_read.html' %}
+                </form>
+                <hr>
+
+                {% if message.status == message.PENDING %}
+                <a data-bs-toggle="modal" data-bs-target="#markRead" class="btn btn-dark" title="Mark as read">
+                {% else %}
+                <a href="{% url 'inbox' %}" class="btn btn-dark" title="Back">
+                {% endif %}
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <a class="btn btn-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteMessage{{ message.pk }}">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+                <a data-bs-toggle="modal" data-bs-target="#replyMessage" class="btn btn-success" title="Reply"><i class="fas fa-reply"></i> Reply</a>
+                <center>
+                    <i class="fas fa-book-open fa-7x opacity-25 my-5"></i>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="bg-spinner">
+    <div id="position-spinner">
+        <span id="spinner"></span>
+    </div>
+</div>
+
+{% include 'modals/delete_message.html' %}
+{% include 'modals/reply_message.html' %}
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    $(document).ajaxSend(function() {
+        $("#bg-spinner").fadeIn(500);
+    });
+    $(".btn-send").click(function() {
+        $.ajax({
+            type: 'GET',
+            success: function(data) {
+                var d = $.parseJSON(data);
+                alert(d.Test);
+            }
+        }).done(function() {
+            setTimeout(function() {
+                $("#bg-spinner").fadeOut(500);
+            }, 700);
+        });
+    });
+    // Close modal after send button is clicked
+    $(".btn-send").click(function() {
+        var subject = $("#id_subject").val();
+        var body = $("#id_body").val();
+        if ((subject != '') && (body != '')) {
+            $("#replyMessage").modal('hide');
+        }
+    });
+</script>
+{% endblock script %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Error 500{% endblock title %}
+
+{% block secondarynav %}
+<a href="{% url 'home' %}" class="text-decoration-none" title="Go Home">
+    <i class="text-warning fas fa-angle-double-left"></i>
+</a>
+{% endblock secondarynav %}
+
+{% block content %}
+<div class="position-absolute top-50 start-50 translate-middle text-danger">
+    <span class="fa-stack fa-6x text-center">
+        <i class="fas fa-bug fa-2x"></i>
+    </span>
+    <h2 class="mt-4 text-center">SERVER ERROR</h2>    
+</div>
+
+{% endblock content %}

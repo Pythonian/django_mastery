@@ -1,23 +1,22 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, EmailMessage
 from django.template import loader
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
-from django.core.paginator import Paginator
 from django.db.models import Q
 from datetime import datetime
 
 from .models import RegisteredEmail, Support, Message, Vacancy
-from .forms import MessageForm
+from .forms import MessageForm, ReplyMessage
 
 
 def home(request):
 
     template_name = 'home.html'
-    context = {}
+    context = {'form': MessageForm()}
 
     return render(request, template_name, context)
 
@@ -158,13 +157,6 @@ def send_message(request):
             messages.success(
                 request, "Your message has been sent to us.")
             return redirect("home")
-        # if request.POST.get('message'):
-        #     message = Message()
-        #     message.body = request.POST.get('message')
-        #     message.save()
-        #     messages.success(
-        #         request, "Your message has been sent to us.")
-        #     return redirect("home")
     else:
         form = MessageForm()
     return render(request, 'home.html', {'form': form})
@@ -186,14 +178,6 @@ def dashboard(request):
     return render(request, template_name, context)
 
 
-def faq(request):
-
-    template_name = 'faq.html'
-    context = {}
-
-    return render(request, template_name, context)
-
-
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required
 def edit_vacancy(request):
@@ -210,10 +194,6 @@ def edit_vacancy(request):
             return redirect("dashboard")
     else:
         return render(request, 'dashboard.html')
-    # template_name = 'edit_vacancy.html'
-    # context = {}
-
-    # return render(request, template_name, context)
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -226,3 +206,63 @@ def edit_countdown(request):
             vacancy.save()
             messages.success(request, "Countdown timer updated.")
             return redirect("dashboard")
+
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required
+def delete_message(request, pk):
+    message = get_object_or_404(Message, pk=pk)
+    message.delete()
+    messages.success(request, "Message successfully deleted.")
+    return redirect('inbox')
+
+
+def message(request, pk):
+    message = get_object_or_404(Message, pk=pk)
+
+    template_name = 'message.html'
+    context = {'message': message}
+
+    return render(request, template_name, context)
+
+
+def mark_as_read(request, pk):
+    message = get_object_or_404(Message, pk=pk)
+    if request.method == 'POST':
+        message.status = message.READ
+        message.save()
+        messages.success(request, "Message marked as read.")
+        return redirect('inbox')
+
+
+def reply_message(request, pk):
+    message = get_object_or_404(Message, pk=pk)
+    from_email = settings.DEFAULT_FROM_EMAIL
+    if request.method == 'POST':
+        reply_form = ReplyMessage(request.POST, request.FILES)
+        if reply_form.is_valid():
+            subject = reply_form.cleaned_data['subject']
+            body = reply_form.cleaned_data['body']
+            to_email = message.email
+            cc = reply_form.cleaned_data['cc']
+            attachments = request.FILES.getlist('attachments')
+
+            mail = EmailMessage(subject, body, from_email, [to_email], [cc])
+            for file in attachments:
+                mail.attach(file.name, file.read(), file.content_type)
+            mail.send()
+            messages.success(request, 'Reply sent successfully.')
+            return redirect('inbox')
+    else:
+        reply_form = ReplyMessage()
+    return render(
+        request, 'message.html',
+        {'reply_form': reply_form, 'message': message})
+
+
+def error_500(request):
+    return render(request, '500.html')
+
+
+def error_404(request, exception):
+    return render(request, '404.html')

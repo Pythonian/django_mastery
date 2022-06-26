@@ -218,6 +218,7 @@ def delete_message(request, pk):
     return redirect('inbox')
 
 
+@login_required
 def message(request, pk):
     message = get_object_or_404(Message, pk=pk)
 
@@ -246,6 +247,7 @@ def message(request, pk):
     return render(request, template_name, context)
 
 
+@login_required
 def mark_as_read(request, pk):
     message = get_object_or_404(Message, pk=pk)
     if request.method == 'POST':

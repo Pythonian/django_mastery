@@ -22,7 +22,7 @@
     </h6>
     <div class="card p-3 bg-dark">
         <div class="row">
-            <div class="col-lg-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-6 p-1">
                 <div class="card bg-transparent">
                     {% if vacancy.design == 0 %}
                     <button class="btn btn-outline-light btn-lg" disabled>
@@ -34,7 +34,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-6 p-1">
                 <div class="card bg-transparent">
                     {% if vacancy.frontend == 0 %}
                     <button class="btn btn-outline-light btn-lg" disabled>
@@ -46,7 +46,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-6 p-1">
                 <div class="card bg-transparent">
                     {% if vacancy.backend == 0 %}
                     <button class="btn btn-outline-light btn-lg" disabled>
@@ -58,7 +58,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6 p-1">
+            <div class="col-lg-3 col-6 p-1">
                 <div class="card bg-transparent">
                     {% if vacancy.devops == 0 %}
                     <button class="btn btn-outline-light btn-lg" disabled>
@@ -79,7 +79,7 @@
 </button>
 
 {% if vacancy.frontend == 0 and vacancy.backend == 0 and vacancy.design == 0 and vacancy.devops == 0 %}
-<button id="closedVacancy" data-bs-toggle="modal" data-bs-target="#countdownTimerClosed"></button>
+<button id="1closedVacancy" data-bs-toggle="modal" data-bs-target="#countdownTimerClosed"></button>
 {% elif vacancy.frontend == 0 %}
 <button id="closedVacancy" data-bs-toggle="modal" data-bs-target="#frontendClosed"></button>
 {% endif %}

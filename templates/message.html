@@ -82,6 +82,7 @@
 
 {% block script %}
 <script>
+    // Spinner to show loading when submit button clicked
     $(document).ajaxSend(function() {
         $("#bg-spinner").fadeIn(500);
     });
@@ -105,6 +106,12 @@
         if ((subject != '') && (body != '')) {
             $("#replyMessage").modal('hide');
         }
+    });
+
+    // Prevent browser window back button
+    history.pushState(null, null, null);
+    window.addEventListener('popstate', function() {
+        history.pushState(null, null, null);
     });
 </script>
 {% endblock script %}

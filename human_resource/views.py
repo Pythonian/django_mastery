@@ -6,12 +6,14 @@ from django.template import loader
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_control
-from django.db.models import Q
+from django.db.models import Q, Value
 from django.contrib.auth import logout
 from datetime import datetime
+from django.core.files.storage import FileSystemStorage
+from django.db.models.functions import Concat
 
-from .models import RegisteredEmail, Support, Message, Vacancy
-from .forms import MessageForm, ReplyMessage
+from .models import RegisteredEmail, Support, Message, Vacancy, Waiting, Candidate
+from .forms import MessageForm, ReplyMessage, CandidateForm
 
 
 def home(request):
@@ -108,19 +110,12 @@ def frontend_email(request):
             return HttpResponseRedirect("/")
 
 
-def backend_email(request):
-
-    template_name = 'backend_email.html'
-    context = {}
-
-    return render(request, template_name, context)
-
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def support(request):
     if request.method == 'POST':
         email = request.POST['email']
         if Support.objects.filter(email=email).exists():
-            messages.info(request, ".")
+            messages.warning(request, ".")
             return HttpResponseRedirect('/support/')
         else:
             support = Support()
@@ -169,11 +164,13 @@ def send_message(request):
 def dashboard(request):
     total_candidates = RegisteredEmail.objects.all().count()
     vacancy = Vacancy.objects.first()
+    unread_messages = Message.objects.filter(status=Message.PENDING).count()
 
     template_name = 'dashboard.html'
     context = {
         'total_candidates': total_candidates,
         'vacancy': vacancy,
+        'unread_messages': unread_messages,
     }
 
     return render(request, template_name, context)
@@ -263,6 +260,72 @@ def autologout(request):
     # Pass the message in the HTML
     messages.info(request, ".")
     return redirect('home')
+
+
+def waiting(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        if Waiting.objects.filter(email=email).exists():
+            messages.warning(request, "You have sent something")
+            return redirect('/waiting/')
+        else:
+            file = request.FILES['resume']
+            attach = FileSystemStorage()
+            resume_document = attach.save(file.name, file)
+
+            waiting = Waiting(
+                job=request.POST.get('job'),
+                email=request.POST.get('email'),
+                message=request.POST.get('message'),
+                resume=resume_document)
+            waiting.save()
+            messages.success(request, "Successful")
+            return redirect('/')
+    else:
+        return render(request, 'waiting.html')
+
+
+def application(request):
+    if request.method == 'POST':
+        form = CandidateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your form was sent successfully.")
+            return redirect('application')
+    else:
+        form = CandidateForm()
+
+    return render(request, 'application.html', {'form': form})
+
+
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def candidates(request):
+    if request.method == 'POST':
+        job = request.POST.get('job')
+        gender = request.POST.get('gender')
+        filter_qs = Candidate.objects.filter(Q(job=job) | Q(gender=gender))
+        return render(request, 'candidates.html', {'candidates': filter_qs})
+    elif 'q' in request.GET:
+        q = request.GET['q']
+        candidates = Candidate.objects.annotate(fullname=Concat('firstname', Value(' '), 'lastname')).filter(
+            Q(fullname__icontains=q) | Q(firstname__icontains=q) | Q(lastname__icontains=q) |
+            Q(email__icontains=q))
+    else:
+        candidates = Candidate.objects.all()
+
+    return render(
+        request, 'candidates.html',
+        {'candidates': candidates})
+
+
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def candidate(request, id):
+    candidate = get_object_or_404(Candidate, id=id)
+    return render(
+        request, 'candidate.html',
+        {'candidate': candidate,})
 
 
 def error_500(request):

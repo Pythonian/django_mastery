@@ -112,7 +112,7 @@ var control = setInterval(function() {
         // Disable job vacancy when countdown is over
         $(".btn-disabled").prop("disabled", true).css({'color': 'white', 'border-color': 'white'});
         // Hide the vacancy count
-        $(".vacancy-count").css("display", "none");
+        $(".vacancy-count, .vacancy-closed").css("display", "none");
         // Modal for countdown over
         $("#countdownTimerClosed").modal('show');
         // Disable the send application button when countdown is over

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Candidates{% endblock %}
+
+{% block bg-image %}{% endblock %}
+
+{% block navbrand %}
+<i class="text-warning fas fa-users pe-1"></i> Candidates
+{% endblock navbrand %}
+
+{% block datetime %}
+<div class="text-light">
+    {% now "l (m/d/Y)" %} <span class="text-warning" id="clock"></span>
+</div>
+{% endblock datetime %}
+
+{% block secondarynav %}
+<a href="{% url 'dashboard' %}" class="text-decoration-none" title="Go Back">
+    <i class="text-warning fas fa-angle-double-left"></i>
+</a>
+{% endblock secondarynav %}
+
+{% block content %}
+
+<div class="my-5">
+    <form action="" method="GET">
+        <div class="row">
+            <div class="col-12 px-0">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search..." name="q" value="{{ request.GET.q }}">
+                    <button class="btn btn-warning" title="Search"><i class="fas fa-search"></i></button>
+                    <a href="{% url 'candidates' %}" class="btn btn-dark ms-1" title="Refresh"><i
+                            class="fas fa-sync-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <div class="col-12 px-0">
+                <div class="btn btn-group ps-0">
+                    <input type="submit" class="btn-check" value="FE-22" name="job" id="jobradio1">
+                    <label for="jobradio1" class="btn {% if request.POST.job == 'FE-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">FE-22</label>
+
+                    <input type="submit" class="btn-check" value="BE-22" name="job" id="jobradio2">
+                    <label for="jobradio2" class="btn {% if request.POST.job == 'BE-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">BE-22</label>
+
+                    <input type="submit" class="btn-check" value="FS-22" name="job" id="jobradio3">
+                    <label for="jobradio3" class="btn {% if request.POST.job == 'FS-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">FS-22</label>
+                </div>
+                <div class="btn btn-group ps-0">
+                    <input type="submit" class="btn-check" value="M" name="gender" id="genderradio4">
+                    <label for="genderradio4" class="btn {% if request.POST.gender == 'M' %}btn-primary{% else %}btn-outline-primary{% endif %}">Male</label>
+                    
+                    <input type="submit" class="btn-check" value="F" name="gender" id="genderradio5">
+                    <label for="genderradio5" class="btn {% if request.POST.gender == 'F' %}btn-danger{% else %}btn-outline-danger{% endif %}">Female</label>
+                </div>
+                <a href="{% url 'candidates' %}" class="btn btn-dark"><i class="fas fa-refresh"></i></a>
+            </div>
+        </div>
+    </form>
+    
+    <div class="row hide">
+        <div class="col-12 px-0 table-responsive">
+            <table class="table bg-white table-hover">
+                <thead class="table-secondary border-0">
+                    <tr>
+                        <th class="col">#</th>
+                        <th class="col">Name</th>
+                        <th class="col">Email</th>
+                        <th class="col">Phone</th>
+                        <th class="col">Gender</th>
+                        <th class="col">Age</th>
+                        <th class="col">Job</th>
+                        <th class="col">Status</th>
+                        <th class="col">Received</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for candidate in candidates %}
+                    <tr id="check_td">
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'candidate' candidate.pk %}" class="text-decoration-none">{{ candidate }}</a>
+                        </td>
+                        <td>{{ candidate.email }}</td>
+                        <td>{{ candidate.phonenumber }}</td>
+                        <td>{{ candidate.get_gender_display }}</td>
+                        <td>{{ candidate.age }}</td>
+                        <td>
+                            {% if candidate.job == 'FE-22' %}Frontend{% elif candidate.job == 'BE-22' %}Backend{% else %}Fullstack{% endif %}
+                        </td>
+                        <td>{{ candidate.get_status_display }}</td>
+                        <td>{{ candidate.created|date:"F j, Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <td colspan="9">No record found</td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <a class="d-block text-center text-success" href="{% url 'candidates' %}" title="Refresh" id="refresh"></a>
+        <span class="text-warning fs-1" id="emptyMsg"></span>
+    </div>
+
+</div>
+
+{% endblock content %}

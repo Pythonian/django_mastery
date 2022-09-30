@@ -1,20 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Support{% endblock title %}
+{% block title %}Waiting List{% endblock title %}
 
 {% block navbrand %}
-<i class="text-warning fas fa-headset pe-1"></i> Support
+<i class="text-warning fas fa-history pe-1"></i> Waiting List
 {% endblock navbrand %}
 
 {% block offcanvasmenu %}
 <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
-<a href="{% url 'application' %}" class="btn btn-secondary">Application</a>
 {% if request.user.is_staff %}
 <a href="{% url 'dashboard' %}" class="btn btn-warning">Dashboard</a>
 {% endif %}
 <hr>
 <center>
-    <i class="fas fa-headset fa-7x opacity-25 mt-5"></i>
+    <i class="fas fa-history fa-7x opacity-25 mt-5"></i>
 </center>
 {% endblock offcanvasmenu %}
 
@@ -26,16 +25,18 @@
         <div class="card mt-5 card-border-top">
             <div class="card-body">
                 <h6 class="bg-dark text-white py-3 text-center my-3">
-                    <i class="fas fa-tools pe-1"></i> TECHNICAL SUPPORT
+                    <i class="fas fa-user-clock pe-1"></i> CANDIDATE WAITING LIST
                 </h6>
-                <form method="post" action="" autocomplete="off" novalidate 1class="was-validated">
+                <form method="post" action="/waiting/" autocomplete="off" class="was-validated" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <textarea class="form-control" name="message" id="id_message" rows="6" maxlength="1000" placeholder="Describe your problem here..." required></textarea>
+                        <textarea class="form-control" name="message" id="id_message" rows="6" maxlength="1000"
+                            placeholder="Describe your problem here..." required></textarea>
                         <div class="invalid-feedback">Summarize as much as possible</div>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" value="True" name="terms" type="checkbox" id="id_terms" required>
+                        <input class="form-check-input" value="True" name="terms" type="checkbox" id="id_terms"
+                            required>
                         <label for="id_terms" class="form-check-label">I take responsibility</label>
                         <div class="invalid-feedback">You will take responsibility</div>
                     </div>
@@ -47,12 +48,12 @@
                     </div>
                     <div class="mb-3">
                         <select class="form-select" name="subject" id="id_subject" required>
-                            <!-- <option value="">Select a subject</option>
+                            <option value="">Select a subject</option>
                             <option value="I lost my account">I lost my account</option>
-                            <option value="My password does not work">My password does not work</option> -->
+                            <option value="My password does not work">My password does not work</option>
                             <option value="Others">Others</option>
                         </select>
-                        <!-- <div class="invalid-feedback">Only one topic</div> -->
+                        <div class="invalid-feedback">Only one topic</div>
                     </div>
                     {% else %}
                     <div class="mb-3">
@@ -75,18 +76,16 @@
                     </div>
                     {% endif %}
                     <div class="mb-4">
-                        {% if request.user.is_staff %}
-                        <input type="email" name="email" id="id_email" class="form-control" value="{{ request.user.email }}" required>
-                        {% else %} 
-                        <input type="email" name="email" id="id_email" maxlength="50" class="form-control" placeholder="Your email" required>
-                        {% endif %}
+                        <input type="email" name="email" id="id_email" maxlength="50" class="form-control"
+                            placeholder="Your email" required>
                     </div>
                     <hr>
                     <div class="mt-4">
                         <button type="submit" class="btn btn-outline-success mb-3">
                             Submit <i class="fas fa-paper-plane ps-1"></i>
                         </button>
-                        <a href="{% url 'home' %}" class="btn btn-outline-danger mb-3 ms-2" title="Exit"><i class="fas fa-times"></i></a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-danger mb-3 ms-2" title="Exit"><i
+                                class="fas fa-times"></i></a>
                         <button type="submit" class="btn btn-outline-dark mb-3 ms-2 border-dark" title="Help">
                             <i class="fas fa-question"></i>
                         </button>
@@ -96,7 +95,7 @@
                     <i class="fas fa-paper-plane fa-7x opacity-25 my-5"></i>
                 </center>
             </div>
-        </div>        
+        </div>
     </div>
 </div>
 

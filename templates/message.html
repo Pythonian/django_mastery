@@ -75,6 +75,17 @@
     </div>
 </div>
 
+{% comment %}
+{% if message.status == message.PENDING %}
+<a id="mark-as-read" class="btn d-none" href="{% url 'mark_as_read' message.pk %}">Mark</a>
+<script>
+    window.onload = function() {
+        document.getElementById("mark-as-read").click();
+    }
+</script>
+{% endif %}
+{% endcomment %}
+
 {% include 'modals/delete_message.html' %}
 {% include 'modals/reply_message.html' %}
 
@@ -109,6 +120,7 @@
     });
 
     // Prevent browser window back button
+    // to force user to use the provided back button
     history.pushState(null, null, null);
     window.addEventListener('popstate', function() {
         history.pushState(null, null, null);

@@ -18,7 +18,7 @@
                                     <span class="d-block fs-6">Design</span>
                                 </button>
                                 <div class="input-group input-group-sm mb-2">
-                                    <input type="text" class="form-control text-center" name="design" id="id_design" value="{{ vacancy.design }}">
+                                    <input type="text" class="form-control text-center vacancy_input" name="design" id="id_design" value="{{ vacancy.design }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
@@ -27,7 +27,7 @@
                                     <span class="d-block fs-6">Frontend</span>
                                 </button>
                                 <div class="input-group input-group-sm mb-2">
-                                    <input type="text" class="form-control text-center" name="frontend" id="id_frontend" value="{{ vacancy.frontend }}">
+                                    <input type="text" class="form-control text-center vacancy_input" name="frontend" id="id_frontend" value="{{ vacancy.frontend }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
@@ -36,7 +36,7 @@
                                     <span class="d-block fs-6">Backend</span>
                                 </button>
                                 <div class="input-group input-group-sm mb-2">
-                                    <input type="text" class="form-control text-center" name="backend" id="id_backend" value="{{ vacancy.backend }}">
+                                    <input type="text" class="form-control text-center vacancy_input" name="backend" id="id_backend" value="{{ vacancy.backend }}">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-sm-6">
@@ -45,7 +45,7 @@
                                     <span class="d-block fs-6">DevOps</span>
                                 </button>
                                 <div class="input-group input-group-sm mb-2">
-                                    <input type="text" class="form-control text-center" name="devops" id="id_devops" value="{{ vacancy.devops }}">
+                                    <input type="text" class="form-control text-center vacancy_input" name="devops" id="id_devops" value="{{ vacancy.devops }}">
                                 </div>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">Close</button>
-                    <button type="submit" class="btn btn-warning btn-sm">Update</button>
+                    <button type="submit" class="btn btn-warning btn-sm" id="save-vacancies">Update</button>
                 </div>
             </form>
         </div>

@@ -6,7 +6,6 @@ urlpatterns = [
     path('opportunities/', views.opportunities, name='opportunities'),
     path('support/', views.support, name='support'),
     path('frontend_email/', views.frontend_email, name='frontend_email'),
-    path('backend_email/', views.backend_email, name='backend_email'),
     path('send_message/', views.send_message, name='send_message'),
     path('delete_message/<int:pk>/',
          views.delete_message, name='delete_message'),
@@ -17,5 +16,9 @@ urlpatterns = [
     path('mark_as_read/<int:pk>/', views.mark_as_read, name='mark_as_read'),
     path('edit_countdown/', views.edit_countdown, name='edit_countdown'),
     path('autologout/', views.autologout, name='autologout'),
+    path('waiting/', views.waiting, name='waiting'),
+    path('candidates/', views.candidates, name='candidates'),
+    path('candidate/<int:id>/', views.candidate, name='candidate'),
+    path('application/', views.application, name='application'),
     path('', views.home, name='home'),
 ]

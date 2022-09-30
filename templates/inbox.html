@@ -20,7 +20,7 @@
 
 {% block content %}
 
-<div class="row my-3 gx-2">
+<div class="row my-3">
     {% include 'partials/_total.html' %}   
     {% include 'partials/_read.html' %}   
     {% include 'partials/_unread.html' %}   
@@ -65,8 +65,8 @@
 </div>
 
 <div class="position-absolute top-50 start-50 translate-middle">
-    <a class="d-block text-center text-success" href="{% url 'inbox' %}" id="refresh"></a>
-    <span class="text-danger fs-1" id="emptyMsg"></span>
+    <a class="d-block text-center text-success" href="{% url 'inbox' %}" title="Refresh" id="refresh"></a>
+    <span class="text-warning fs-1" id="emptyMsg"></span>
 </div>
 
 {% endblock content %}

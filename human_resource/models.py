@@ -1,5 +1,9 @@
+from email.policy import default
 from django.db import models
 from django.utils.html import format_html
+from datetime import date
+
+from multiselectfield import MultiSelectField
 
 
 class RegisteredEmail(models.Model):
@@ -88,3 +92,171 @@ class Vacancy(models.Model):
     devops = models.PositiveIntegerField(default=0)
     design = models.PositiveIntegerField(default=0)
     timer = models.CharField(max_length=100)
+
+
+class Waiting(models.Model):
+    JOB = (
+        ('Frontend', 'Frontend'),
+        ('Backend', 'Backend'),
+    )
+
+    job = models.CharField(max_length=100, choices=JOB)
+    email = models.EmailField(max_length=100)
+    message = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    resume = models.FileField(upload_to='resume')
+    company_note = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.job
+
+
+class Candidate(models.Model):
+    APPROVED = 'A'
+    DISAPPROVED = 'D'
+    PENDING = 'P'
+    STATUS_CHOICES = (
+        (APPROVED, 'Approved'),
+        (DISAPPROVED, 'Disapproved'),
+        (PENDING, 'Pending'))
+
+    PERSONALITY_CHOICES = (
+        ('I am outgoing', 'I am outgoing'),
+        ('I am antisocial', 'I am antisocial'),
+        ('I am serious', 'I am serious'))
+
+    YES = 'Y'
+    NO = 'N'
+    SMOKER_CHOICES = (
+        (YES, 'Yes'),
+        (NO, 'No'))
+
+    DATABASES = (
+        ('PostgreSQL', 'PostgreSQL'),
+        ('MySQL', 'MySQL'),
+        ('Redis', 'Redis'),
+        ('Cassandra', 'Cassandra'),
+        ('Sqlite3', 'Sqlite3'),
+        ('Oracle', 'Oracle'),
+    )
+
+    FRAMEWORKS = (
+        ('Laravel', 'Laravel'),
+        ('Angular', 'Angular'),
+        ('Django', 'Django'),
+        ('Vue', 'Vue'),
+        ('Flask', 'Flask'),
+        ('Others', 'Others'),
+    )
+
+    LANGUAGES = (
+        ('Python', 'Python'),
+        ('Javascript', 'Javascript'),
+        ('Ruby', 'Ruby'),
+        ('Go', 'Go'),
+        ('Java', 'Java'),
+        ('Haskell', 'Haskell'),
+    )
+
+    LIBRARIES = (
+        ('jQuery', 'jQuery'),
+        ('Bootstrap', 'Bootstrap'),
+        ('Ajax', 'Ajax'),
+        ('HTMX', 'HTMX'),
+        ('AlpineJS', 'AlpineJS'),
+        ('Tensorflow', 'Tensorflow'),
+    )
+
+    MOBILE = (
+        ('React native', 'React native'),
+        ('Kivy', 'Kivy'),
+        ('Flutter', 'Flutter'),
+        ('Dart', 'Dart'),
+        ('Xamarin', 'Xamarin'),
+        ('Ionic', 'Ionic'),
+    )
+
+    OTHERS = (
+        ('UML', 'UML'),
+        ('VScode', 'VScode'),
+        ('Docker', 'Docker'),
+        ('GIT', 'GIT'),
+        ('GraphQL', 'GraphQL'),
+        ('Linux', 'Linux'),
+    )
+
+    COURSE_STATUS_CHOICES = (
+        ('', 'Select course status'),
+        ('I am studying', 'I am studying'),
+        ('I want to study course', 'I want to study course'),
+        ('I have completed the course', 'I have completed the course'),
+    )
+
+    MALE = 'M'
+    FEMALE = 'F'
+    GENDER_CHOICES = (
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+    )
+
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PENDING)
+    firstname = models.CharField(max_length=50)
+    lastname = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
+    # age = models.CharField(max_length=3)
+    birth_date = models.DateField()
+    phonenumber = models.CharField(max_length=18)
+    job = models.CharField(verbose_name='Job code', max_length=5)
+    personality = models.CharField(max_length=50, choices=PERSONALITY_CHOICES, null=True)
+    salary = models.CharField(verbose_name='Salary expectation', max_length=50)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    experience = models.BooleanField(null=True)
+    smoker = models.CharField(max_length=1, choices=SMOKER_CHOICES, default="")
+    message = models.TextField() # Professional summary
+    file = models.FileField(upload_to='files')
+    image = models.ImageField(upload_to='images')
+    note = models.TextField(blank=True)
+    # address/location; certifications; interests; Languages; social media profiles
+    
+    # Skills
+    languages = MultiSelectField(choices=LANGUAGES, max_length=50)
+    frameworks = MultiSelectField(choices=FRAMEWORKS, max_length=50)
+    databases = MultiSelectField(choices=DATABASES, max_length=50)
+    libraries = MultiSelectField(choices=LIBRARIES, max_length=50)
+    mobile = MultiSelectField(choices=MOBILE, max_length=50)
+    others = MultiSelectField(choices=OTHERS, max_length=50)
+
+    # Education
+    institution = models.CharField(max_length=50)
+    course = models.CharField(max_length=50)
+    started_course = models.DateField()
+    finished_course = models.DateField(blank=True, null=True)
+    course_description = models.TextField()
+    course_status = models.CharField(max_length=50, choices=COURSE_STATUS_CHOICES)
+
+    # Work history / Experience
+    # If finished date is not provided, then it should be marked as 'Current'
+    company = models.CharField(max_length=50)
+    position = models.CharField(max_length=50)
+    started_job = models.DateField()
+    finished_job = models.DateField()
+    about_job = models.TextField()
+    employed = models.BooleanField(verbose_name='I am employed')
+    remote = models.BooleanField(verbose_name='I agree to work remotely')
+    travel = models.BooleanField(verbose_name='I am available for travel')
+    
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+
+    def __str__(self):
+        return f'{self.firstname} {self.lastname}'
+
+    def clean(self):
+        self.firstname = self.firstname.capitalize()
+        self.lastname = self.lastname.capitalize()
+
+    def age(self):
+        today = date.today()
+        return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))

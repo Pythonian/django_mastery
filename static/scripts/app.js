@@ -67,6 +67,7 @@ function validateEmail(email) {
 
 // Frontend Form Validation
 function validateFrontendForm() {
+    // Using jquery: var fullname = $("#id_fullname").val();
     const fullname = document.getElementById("id_fullname").value;
     const age = document.getElementById("id_age").value;
     const email = document.getElementById("id_email").value;
@@ -109,6 +110,7 @@ function validateFrontendForm() {
     }
     else if (!(validateEmail(email))) {
         document.getElementById("id_email").value="";
+        // $("#id_email").val("");
         swal("Oops!", "Enter a valid email address.", "error");
         return false;
     }
@@ -153,8 +155,27 @@ $("input[name=fullname]").keyup(function() {
     }
 })
 
-// Prevent excess whitespace in Fullname field
-$("input[name=fullname]").on('keydown', function() {
+// Capitalize the first letter in each word in the field9s)
+$("input[name=fullname], input[name=firstname], input[name=lastname]").keyup(function () {
+    var txt = $(this).val();
+    $(this).val(txt.replace(/^(.)|\s(.)/g, function($1) {
+        return $1.toUpperCase( );
+    }))
+});
+
+// Allow only first and last name in Fullname field
+$("input[name=fullname]").keyup(function () {
+    var fullname = $("input[name=fullname]").val();
+    if (fullname.split(' ').length == 3) {
+        swal("Oops!", "Only first and last name required.", "info");
+        // Clears the Fullname field
+        // $("input[name=fullname]").val("");
+        return false;
+    }
+});
+
+// Prevent excess whitespace in the field(s)
+$("input[name=fullname], input[name=firstname], input[name=lastname]").on('keydown', function() {
     var $this = $(this);
     $(this).val($this.val().replace(/(\s{2,})|[^a-zA-Z0-9_']/g, ' ').replace(/^\s*/, ''));
 });
@@ -166,7 +187,7 @@ $("input[type='text'], input[type='tel'], textarea").on('keypress', function(e) 
 });
 
 // Allow only numbers in Age field
-$("input[name=age]").keyup(function() {
+$("input[name=age], .vacancy_input").keyup(function() {
     if (!/^[0-9]*$/.test(this.value)) {
         this.value = this.value.split(/[^0-9]/).join('');
     }
@@ -230,7 +251,7 @@ autoRefresh(0,0,0)
 var verify = $("#check_td").length;
 if (verify == 0) {
     $(".hide").css("display", "none");
-    $("#emptyMsg").text("No message found");
+    $("#emptyMsg").text("No data found");
     $("#refresh").html('<i class="fas fa-sync-alt fa-3x"></i>');
 }
 
@@ -249,3 +270,7 @@ setTimeout(function() {
         action.click();
     }    
 }, 30 * 60000); // 30mins of no usage
+
+// $(document).ready(function() {
+
+// });

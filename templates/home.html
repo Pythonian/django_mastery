@@ -22,6 +22,7 @@
 {% endblock content %}
 
 {% block offcanvasmenu %}
+<a href="{% url 'application' %}" class="btn btn-secondary">Application</a>
 <a data-bs-toggle="modal" data-bs-target="#popupSupport" class="btn btn-info">Support</a>
 <a href="{% url 'dashboard' %}" class="btn btn-warning">{% if request.user.is_authenticated %}Dashboard{% else %}Login{% endif %}</a>
 <hr>

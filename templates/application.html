@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Application{% endblock title %}
+
+{% block navbrand %}
+<i class="text-warning fas fa-user-plus pe-1"></i> Application
+{% endblock navbrand %}
+
+{% block offcanvasmenu %}
+<a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+<a data-bs-toggle="modal" data-bs-target="#popupSupport" class="btn btn-info">Support</a>
+{% if request.user.is_staff %}
+<a href="{% url 'dashboard' %}" class="btn btn-warning">Dashboard</a>
+{% endif %}
+<hr>
+<center>
+    <i class="fas fa-user-plus fa-7x opacity-25 mt-5"></i>
+</center>
+{% endblock offcanvasmenu %}
+
+{% block autologout %}{% endblock autologout %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-lg-12">
+        <div class="card mt-5 card-border-top">
+            <div class="card-body">
+                <h6 class="bg-dark text-white py-3 text-center text-uppercase my-3">
+                    <i class="fas fa-user-plus pe-1"></i> Create Application
+                </h6>
+
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" action="" enctype="multipart/form-data" autocomplete="off" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="card border border-dark p-3 mb-3">
+                        <h6 class="bg-secondary text-white py-2 text-center text-uppercase">
+                            Frontend: FE-22 | Backend: BE-22 | Fullstack: FS-22
+                        </h6>
+                        <div class="row">
+                            <div class="col-4">{{ form.firstname|as_crispy_field }}</div>
+                            <div class="col-4">{{ form.lastname|as_crispy_field }}</div>
+                            <div class="col-4">{{ form.job|as_crispy_field }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">{{ form.birth_date|as_crispy_field }}</div>
+                            <div class="col-4">{{ form.email|as_crispy_field }}</div>
+                            <div class="col-4">{{ form.phonenumber|as_crispy_field }}</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-4">{{ form.personality|as_crispy_field }}</div>
+                            <div class="col-4">{{ form.salary|as_crispy_field }}</div>
+                            <div class="col-2">{{ form.gender|as_crispy_field }}</div>
+                            <div class="col-2">{{ form.smoker|as_crispy_field }}</div>
+                        </div>
+                        <div class="col-12">
+                            {{ form.experience|as_crispy_field }}
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            {{ form.message|as_crispy_field }}
+                            {{ form.file|as_crispy_field }}
+                            {{ form.image|as_crispy_field }}
+                        </div>
+                        
+                    </div>
+
+                    <div class="card border border-dark p-3 mb-3">
+                        <h6 class="bg-secondary text-white py-2 text-center text-uppercase">
+                            Select your skills
+                        </h6>
+                        <div class="row">
+                            <div class="col-2">{{ form.frameworks|as_crispy_field }}</div>
+                            <div class="col-2">{{ form.languages|as_crispy_field }}</div>
+                            <div class="col-2">{{ form.mobile|as_crispy_field }}</div>
+                            <div class="col-2">{{ form.databases|as_crispy_field }}</div>
+                            <div class="col-2">{{ form.libraries|as_crispy_field }}</div>
+                            <div class="col-2">{{ form.others|as_crispy_field }}</div>
+                        </div>
+                    </div>
+
+                    <div class="card border border-dark p-3 mb-3">
+                        <h6 class="bg-secondary text-white py-2 text-center text-uppercase">
+                            Education
+                        </h6>
+                        <div class="row">
+                            <div class="col-4">{{ form.institution|as_crispy_field }}</div>
+                            <div class="col-4">{{ form.course|as_crispy_field }}</div>
+                            <div class="col-2">{{ form.started_course|as_crispy_field }}</div>
+                            <div class="col-2">{{ form.finished_course|as_crispy_field }}</div>
+                            <div class="col-12">{{ form.course_description|as_crispy_field }}</div>
+                            <div class="col-3">{{ form.course_status|as_crispy_field }}</div>
+                        </div>
+                    </div>
+
+                    <div class="card border border-dark p-3 mb-3">
+                        <h6 class="bg-secondary text-white py-2 text-center text-uppercase">
+                            Profession
+                        </h6>
+                        <div class="row">
+                            <div class="col-3">{{ form.company|as_crispy_field }}</div>
+                            <div class="col-3">{{ form.position|as_crispy_field }}</div>
+                            <div class="col-3">{{ form.started_job|as_crispy_field }}</div>
+                            <div class="col-3">{{ form.finished_job|as_crispy_field }}</div>
+                            <div class="col-12">{{ form.about_job|as_crispy_field }}</div>
+                            <div class="col-4">{{ form.employed|as_crispy_field }}</div>
+                            <div class="col-4">{{ form.remote|as_crispy_field }}</div>
+                            <div class="col-4">{{ form.travel|as_crispy_field }}</div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success" type="submit">Send</button>
+                    <button class="btn btn-dark" type="reset">Reset</button>
+                    <a href="{% url 'home' %}" class="btn btn-primary">Cancel</a>
+                </form>
+                <center>
+                    <i class="fas fa-user-plus fa-7x opacity-25 my-5"></i>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

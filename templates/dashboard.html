@@ -39,16 +39,16 @@
         <div class="row">
             <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
-                    <button class="btn btn-success btn-lg">
-                        <i class="fas fa-user-alt fa-5x"></i>
+                    <a href="{% url 'candidates' %}" class="btn btn-success btn-lg">
+                        <i class="fas fa-users fa-5x"></i>
                         <span class="d-block">Candidates</span>
-                    </button>
+                    </a>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
                     <button class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#vacancyModal">
-                        <i class="fas fa-users fa-5x"></i>
+                        <i class="fas fa-user-alt fa-5x"></i>
                         <span class="d-block">Opportunities</span>
                     </button>
                 </div>
@@ -63,9 +63,14 @@
             </div>
             <div class="col-lg-3 col-sm-6 p-1">
                 <div class="card bg-transparent">
-                    <a href="{% url 'inbox' %}" class="btn btn-primary btn-lg">
+                    <a href="{% url 'inbox' %}" class="btn btn-primary btn-lg position-relative">
                         <i class="fas fa-envelope fa-5x"></i>
                         <span class="d-block">Inbox</span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {% if unread_messages > 9 %} 9+
+                            {% else %} {{ unread_messages }}
+                            {% endif %}
+                        </span>
                     </a>
                 </div>
             </div>
@@ -77,3 +82,24 @@
 {% include "modals/countdown.html" %}
 
 {% endblock content %}
+
+{% block script %} 
+<script>
+    // Disable the submit button if no changes has been made to the form input
+    const form = document.querySelectorAll("input, textarea");
+        for (const data of form) {
+            data.saved = data.value;
+        }
+        (btnEnabled = function () {
+            var btn = true;
+            for (const data of form) {
+                if (data.saved !== data.value) {
+                    btn = false;
+                    break;
+                }
+            }
+            $("#save-vacancies").prop("disabled", btn);
+        })();
+        document.oninput = btnEnabled
+</script>
+{% endblock script %}

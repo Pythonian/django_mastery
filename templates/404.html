@@ -2,21 +2,27 @@
 
 {% block title %}Error 404{% endblock title %}
 
+{% block bg-image %}{% endblock bg-image %}
+
 {% block secondarynav %}
 <a href="{% url 'home' %}" class="text-decoration-none" title="Go Home">
     <i class="text-warning fas fa-angle-double-left"></i>
 </a>
 {% endblock secondarynav %}
 
+<!-- Prevent autologout from working in the error page -->
 {% block autologout %}{% endblock autologout %}
 
 {% block content %}
-<div class="position-absolute top-50 start-50 translate-middle text-danger">
-    <span class="fa-stack fa-8x text-center">
-        <i class="fas fa-ban fa-stack-2x"></i>
-        <i class="text-dark fas fa-file fa-stack-1x fa-inverse"></i>
-    </span>
-    <h2 class="mt-4 text-center">PAGE NOT FOUND</h2>    
+<div class="position-absolute top-50 start-50 translate-middle">
+    <div class="text-center text-warning">
+        <span class="fa-stack fa-8x">
+            <i class="fas fa-cloud fa-stack-2x"></i>
+            <i class="text-dark fas fa-tools fa-stack-1x fa-inverse"></i>
+        </span>
+        <h1 class="text-dark mt-5 fw-bold display-1">404</h1>
+        <p class="text-danger fw-bold">The page you are trying to visit no longer exists.</p>
+    </div>
 </div>
 
 {% endblock content %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ candidate }}{% endblock title %}
+
+{% block bg-image %}{% endblock %}
+
+{% block navbrand %}
+<i class="text-warning fas {% if candidate.gender == 'F' %}fa-female{% else %}fa-male{% endif %} pe-1"></i> {{ candidate }}
+{% endblock navbrand %}
+
+{% block secondarynav %}
+<a href="{% url 'candidates' %}" class="text-decoration-none" title="All candidates">
+    <i class="text-warning fas fa-angle-double-left"></i>
+</a>
+{% endblock secondarynav %}
+
+{% block content %} 
+
+<div class="my-5">
+    <div class="d-flex justify-content-between">
+        <h6>CANDIDATE: {{ candidate }}</h6>
+        <a href="{{ candidate.file.url }}"
+                class="d-print-none btn {% if candidate.gender == 'F' %}btn-danger{% else %}btn-primary{% endif %} btn-sm">Download CV</a>
+    </div>
+    <hr>
+    <div class="float-end">
+        <img src="{{ candidate.image.url }}" class="img-fluid img-thumbnail" width="150px" alt="">
+        <div class="text-center mt-2 text-sm">{{ candidate.age }} years old.</div>
+    </div>
+
+    <h6 class="{% if candidate.gender == 'F' %}text-danger{% else %}text-primary{% endif %} my-4">PERSONAL</h6>
+    
+    <p>
+        <strong>Occupation: </strong>
+        {% if candidate.job == 'FE-22' %}Frontend{% elif candidate.job == 'BE-22' %}Backend{% else %}Fullstack{% endif %}
+    </p>
+    
+    <p><strong>Gender:</strong> {{ candidate.get_gender_display }}</p>
+    <p><strong>Phone:</strong> {{ candidate.phonenumber }}</p>
+    <p><strong>Email:</strong> {{ candidate.email }}</p>
+    <p><strong>Birth date:</strong> {{ candidate.birth_date }}</p>
+    <p><strong>Personality:</strong> {{ candidate.personality }}</p>
+    <p><strong>Smoker:</strong> {{ candidate.get_smoker_display }}</p>
+    <p><strong>Salary expectation:</strong> {{ candidate.salary }}</p>
+    <p><strong>Experience:</strong> {% if candidate.experience == True %}Yes{% else %}No{% endif %}</p>
+    <p><strong>About:</strong> {{ candidate.message }}</p>
+
+    <hr>
+    <h6 class="{% if candidate.gender == 'F' %}text-danger{% else %}text-primary{% endif %} my-4">SKILLS</h6>
+    <p><strong>Frameworks:</strong> {{ candidate.frameworks }}</p>
+    <p><strong>Languages:</strong> {{ candidate.languages }}</p>
+    <p><strong>Databases:</strong> {{ candidate.databases }}</p>
+    <p><strong>Libraries:</strong> {{ candidate.libraries }}</p>
+    <p><strong>Mobile:</strong> {{ candidate.mobile }}</p>
+    <p><strong>Others:</strong> {{ candidate.others }}</p>
+
+    <hr>
+    <h6 class="{% if candidate.gender == 'F' %}text-danger{% else %}text-primary{% endif %} my-4">EDUCATION</h6>
+    <p><strong>Institution:</strong> {{ candidate.institution }}</p>
+    <p><strong>Course:</strong> {{ candidate.course }}</p>
+    <p><strong>Started:</strong> {{ candidate.started_course }}</p>
+    <p><strong>Finished:</strong> {{ candidate.finished_course }}</p>
+    <p><strong>Status:</strong> {{ candidate.course_status }}</p>
+
+    <hr>
+    <h6 class="{% if candidate.gender == 'F' %}text-danger{% else %}text-primary{% endif %} my-4">PROFESSION</h6>
+    <p><strong>Company:</strong> {{ candidate.company }}</p>
+    <p><strong>Position:</strong> {{ candidate.position }}</p>
+    <p><strong>Started:</strong> {{ candidate.started_job }}</p>
+    <p><strong>Finished:</strong> {{ candidate.finished_job }}</p>
+    <p><strong>Role:</strong> {{ candidate.about_job }}</p>
+
+    <hr>
+    <h6 class="{% if candidate.gender == 'F' %}text-danger{% else %}text-primary{% endif %} my-4">NOTE</h6>
+    <p><strong>Employed:</strong> {% if candidate.employed == True %}Yes{% else %}No{% endif %}</p>
+    <p><strong>Accept to work Remote:</strong> {% if candidate.remote == True %}Yes{% else %}No{% endif %}</p>
+    <p><strong>Willing to Travel:</strong> {% if candidate.travel == True %}Yes{% else %}No{% endif %}</p>
+
+    <hr>
+    <a href="{% url 'candidates' %}" class="btn btn-secondary">All candidates</a>
+</div>
+
+{% endblock content %} 

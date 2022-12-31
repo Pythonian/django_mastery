@@ -19,6 +19,10 @@ urlpatterns = [
     path('waiting/', views.waiting, name='waiting'),
     path('candidates/', views.candidates, name='candidates'),
     path('candidate/<int:id>/', views.candidate, name='candidate'),
+    path('candidate/<int:id>/delete/',
+         views.delete_candidate, name='delete_candidate'),
+    path('export/<int:id>/', views.export_to_pdf, name='export_to_pdf'),
+    path('pdf/<int:id>/', views.generate_pdf, name='generate_pdf'),
     path('application/', views.application, name='application'),
     path('', views.home, name='home'),
 ]

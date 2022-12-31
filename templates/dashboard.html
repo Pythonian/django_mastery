@@ -86,7 +86,7 @@
 {% block script %} 
 <script>
     // Disable the submit button if no changes has been made to the form input
-    const form = document.querySelectorAll("input, textarea");
+    const form = document.querySelectorAll("input, textarea, datetime-local");
         for (const data of form) {
             data.saved = data.value;
         }
@@ -100,6 +100,6 @@
             }
             $("#save-vacancies").prop("disabled", btn);
         })();
-        document.oninput = btnEnabled
+        document.oninput = btnEnabled // Call
 </script>
 {% endblock script %}

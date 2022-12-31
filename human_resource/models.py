@@ -238,8 +238,8 @@ class Candidate(models.Model):
     # If finished date is not provided, then it should be marked as 'Current'
     company = models.CharField(max_length=50)
     position = models.CharField(max_length=50)
-    started_job = models.DateField()
-    finished_job = models.DateField()
+    started_job = models.DateField(blank=True, null=True)
+    finished_job = models.DateField(blank=True, null=True)
     about_job = models.TextField()
     employed = models.BooleanField(verbose_name='I am employed')
     remote = models.BooleanField(verbose_name='I agree to work remotely')
@@ -260,3 +260,66 @@ class Candidate(models.Model):
     def age(self):
         today = date.today()
         return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+
+
+# from django.db import models
+# from django.utils.translation import gettext_lazy as _
+# from django.contrib.auth.models import AbstractUser, BaseUserManager
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+
+
+# class User(AbstractUser):
+    # class Role(models.TextChoices):
+    #     ADMIN = 'ADMIN', 'Admin'
+    #     COMPANY = 'COMPANY', 'Company'
+    #     EMPLOYEE = 'EMPLOYEE', 'Employee'
+
+    # base_role = Role.COMPANY
+
+    # role = models.CharField(_('Role'), max_length=50, choices=Role.choices)
+
+    # is_company = models.BooleanField(default=False)
+    # is_employee = models.BooleanField(default=False)
+
+    # def save(self, *args, **kwargs):
+    #     if not self.pk:
+    #         self.role = self.base_role
+    #         return super().save(*args, **kwargs)
+
+
+# class EmployeeManager(BaseUserManager):
+#     """Return only users with the Employee role."""
+#     def get_queryset(self, *args, **kwargs):
+#         results = super().get_queryset(*args, **kwargs)
+#         return results.filter(role=User.Role.EMPLOYEE)
+
+# class EmployeeManager(models.Manager):
+#     def get_queryset(self, *args, **kwargs):
+#         return super().get_queryset(*args, **kwargs).filter(role=User.Role.EMPLOYEE)
+
+
+# class Employee(User):
+#     # Employee.objects.create(username='user', email='a@a.com')
+#     base_role = User.Role.EMPLOYEE
+#     employee = EmployeeManager()
+#     objects = EmployeeManager()
+
+#     class Meta:
+#         proxy = True
+
+    # def save(self, *args, **kwargs):
+    #     if not self.pk:
+    #         self.role = User.Role.EMPLOYEE
+    #     return super().save(*args, **kwargs)
+
+
+# class EmployeeProfile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     about = models.TextField(null=True, blank=True)
+
+
+# @receiver(post_save, sender=Employee)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created and instance.role == 'EMPLOYEE':
+#         EmployeeProfile.objects.create(user=instance)

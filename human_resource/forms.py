@@ -2,6 +2,7 @@ import datetime
 from datetime import date
 from django import forms
 from django.core.validators import RegexValidator
+from django.utils import timezone
 
 from .models import Message, Candidate
 
@@ -57,7 +58,11 @@ class CandidateForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'placeholder': 'Last name'}))
     job = Uppercase(
         label='Job Code', min_length=5, max_length=5,
-        widget=forms.TextInput(attrs={'placeholder': 'Ex: FE-22', 'data-mask': 'AA-00'}))
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Ex: FE-22', 
+            'data-mask': 'AA-00',
+            # 'x-data x-mask': 'aa-99'
+            }))
     email = Lowercase(
         label='Email address', min_length=8, max_length=50,
         validators=[RegexValidator(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$', message='Enter a valid email address.')],
@@ -67,7 +72,15 @@ class CandidateForm(forms.ModelForm):
     #     validators=[RegexValidator(r'^[0-9]*$', message='Only numbers are allowed.')],
     #     widget=forms.TextInput(attrs={'placeholder': 'Age'}))
     gender = forms.CharField(widget=forms.RadioSelect(choices=Candidate.GENDER_CHOICES))
-    experience = forms.BooleanField(label='I have experience')
+    experience = forms.BooleanField(
+        label='I have experience',
+        required=False,
+        widget=forms.CheckboxInput(
+            attrs={
+                'id': 'emp'
+            }
+        )
+    )
     message = forms.CharField(
         label='About you', min_length=50, max_length=1000,
         widget=forms.Textarea(attrs={'placeholder': 'Tell us about yourself.', 'rows': 5}))
@@ -75,8 +88,15 @@ class CandidateForm(forms.ModelForm):
     image = forms.FileField(label='Photo', widget=forms.ClearableFileInput(attrs={'accept': 'image/png, image/jpeg'}))
     institution = forms.CharField(min_length=3, max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Name of the institution'}))
     course = forms.CharField(max_length=50, min_length=3, widget=forms.TextInput(attrs={'placeholder': 'Your college course'}))
-    company = forms.CharField(label='Last company', max_length=50, min_length=3, widget=forms.TextInput(attrs={'placeholder': 'Name of the company'}))
-    position = forms.CharField(max_length=50, min_length=3, widget=forms.TextInput(attrs={'placeholder': 'Position held'}))
+    company = forms.CharField(label='Company', max_length=50, min_length=3, widget=forms.TextInput(attrs={'placeholder': 'Name of the company', 'class': 'emp'}))
+    position = forms.CharField(max_length=50, min_length=3, widget=forms.TextInput(attrs={'placeholder': 'Position held', 'class': 'emp'}))
+    employed = forms.BooleanField(
+        label='I am employed',
+        required=False,
+        widget=forms.CheckboxInput(
+            attrs={'id': 'exp', 'class': 'emp'}
+        )
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -104,16 +124,15 @@ class CandidateForm(forms.ModelForm):
         # Pass in a default value for a select field before the choices
         self.fields['personality'].choices = [('', 'Select a personality'),] + list(self.fields['personality'].choices)[0:]
 
-        unrequired_fields = ['experience', 'employed', 'remote', 'travel']
+        unrequired_fields = ['experience', 'employed', 'remote', 'travel', 'company', 'position', 'started_job', 'finished_job', 'about_job']
         for field in unrequired_fields:
             self.fields[field].required = False
             # self.fields[field].widget.attrs['autocomplete'] = 'off'
 
-        custome_error_fields = ['job', 'email']
-        for field in custome_error_fields:
+        custom_error_fields = ['job', 'email']
+        for field in custom_error_fields:
             self.fields[field].error_messages.update({'required': 'This information is required.'})
         
-
     class Meta:
         model = Candidate
         fields = ['firstname', 'lastname', 'job', 'email', 'birth_date',
@@ -143,10 +162,14 @@ class CandidateForm(forms.ModelForm):
 
         widgets = {
             'course_description': forms.Textarea(attrs={'rows': 4}),
-            'about_job': forms.Textarea(attrs={'rows': 4}),
+            'about_job': forms.Textarea(attrs={'rows': 4, 'class': 'emp'}),
             'salary': forms.Select(
                 choices=SALARY, attrs={'class': 'form-control'}),
-            'course_status': forms.Select(attrs={'class': 'form-control'}),
+            'course_status': forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'onChange': 'statusCourse(this)'}
+                ),
             'smoker': forms.RadioSelect(
                 choices=Candidate.SMOKER_CHOICES,
                 attrs={'class': 'btn-check'}),
@@ -156,6 +179,7 @@ class CandidateForm(forms.ModelForm):
                     'onkeydown': 'return false',
                     'min': '1957-01-01',
                     'max': '2004-12-31'}),
+            # 'birth_date': forms.SelectDateWidget(years=range(1957,2005)),
             'started_course': forms.DateInput(
                 attrs={
                     'type': 'date', 
@@ -166,18 +190,23 @@ class CandidateForm(forms.ModelForm):
                 attrs={
                     'type': 'date', 
                     'onkeydown': 'return false',
+                    'disabled': 'true',
                     'min': '2000-01-01',
                     'max': '2022-12-31'}),
+            # Move this two fields below away from the widgets section into their own fields above
             'started_job': forms.DateInput(
                 attrs={
                     'type': 'date', 
                     'onkeydown': 'return false',
+                    'class': 'emp',
                     'min': '2000-01-01',
                     'max': '2022-12-31'}),
             'finished_job': forms.DateInput(
                 attrs={
                     'type': 'date', 
                     'onkeydown': 'return false',
+                    'class': 'emp',
+                    'id': 'go',
                     'min': '2000-01-01',
                     'max': '2022-12-31'}),
         }
@@ -244,13 +273,15 @@ class CandidateForm(forms.ModelForm):
     def clean_started_job(self):
         """Prevent future date"""
         started_job = self.cleaned_data['started_job']
-        if started_job > datetime.date.today():
+        if started_job is not None and started_job > timezone.now():
             raise forms.ValidationError('Future date is invalid.')
-        return started_job
+        else:
+            return started_job
 
     def clean_finished_job(self):
         """Prevent future date"""
         finished_job = self.cleaned_data['finished_job']
-        if finished_job > datetime.date.today():
-            raise forms.ValidationError('Future date is invalid.')
+        if finished_job is not None:
+            if finished_job > datetime.date.today():
+                raise forms.ValidationError('Future date is invalid.')
         return finished_job

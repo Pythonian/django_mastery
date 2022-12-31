@@ -7,3 +7,9 @@
 
 - Candidates can send their Resume from the Frontend
 - Admin can view all Cnadidates records in the Backend
+
+- Message form page : message.html
+- Resume form page: application.html
+- A candidate's page: candidate.html
+- All candidate's list page: candidates.html
+- Use sessions to track if a new message has been opened, and mark as read. 

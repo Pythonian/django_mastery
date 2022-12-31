@@ -11,8 +11,11 @@
 </head>
 <body class="d-flex flex-column h-100 vh-100 {% block bg-image %}background-image{% endblock %}">
     
+    {% block preloader %}
     <div id="preloader" class="rounded-circle position-absolute top-50 p-3"></div>
+    {% endblock preloader %}
 
+    {% block header %}
     <header class="d-print-none navbar navbar-expand-lg navbar-dark bg-dark">
         <nav class="container px-lg-0 justify-content-between">
             <span class="navbar-brand text-white">
@@ -28,11 +31,13 @@
             {% endblock secondarynav %}
         </nav>
     </header>
+    {% endblock header %}
 
     <main class="container">
         {% block content %}{% endblock content %}
     </main>
 
+    {% block footer %}
     <footer class="d-print-none bg-dark py-4 mt-auto">
         <div class="container px-0">
             <div class="row align-items-center justify-content-between flex-column flex-sm-row">
@@ -51,6 +56,7 @@
             </div>
         </div>
     </footer>
+    {% endblock footer %}
 
     {% block autologout %}
     <button id="autologoutWarning" class="btn d-none" data-bs-toggle="modal" data-bs-target="#autologoutwarningModal"></button>

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from .forms import CandidateForm
-from .models import RegisteredEmail, Support, Message, Vacancy, Candidate
+from .models import RegisteredEmail, Support, Message, Vacancy, Candidate, Waiting
 
 
 @admin.register(Message)
@@ -78,3 +78,4 @@ class CandidateAdmin(admin.ModelAdmin):
 admin.site.register(RegisteredEmail)
 admin.site.register(Vacancy)
 admin.site.register(Support)
+admin.site.register(Waiting)

@@ -32,9 +32,13 @@
                         <input type="text" class="form-control" placeholder="Username" maxlength="40" name="username" id="id_username">
                     </div>
                     <div class="input-group mb-1">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
                         <input type="password" class="form-control" placeholder="Password" maxlength="40" name="password" id="id_password">
-                        <button class="btn btn-secondary opacity-75 border-0" type="button" id="id_password" onclick="togglePassword()"><i class="fas fa-eye"></i></button>
                     </div>
+                    <div class="form-check form-switch float-end">
+                        <input class="form-check-input" type="checkbox" role="switch" id="id_password" onclick="togglePassword()">
+                    </div>
+                    <div class="clearfix"></div>
                     <div class="d-grid gap-2">
                         <input type="submit" class="btn btn-warning mt-3 rounded-pill" value="Login">
                     </div>

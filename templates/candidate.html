@@ -16,11 +16,14 @@
 
 {% block content %} 
 
-<div class="my-5">
+<div class="{% block margin-top %}my-5{% endblock margin-top %} ">
     <div class="d-flex justify-content-between">
+        {% block datetime-user %}{% endblock datetime-user %}
         <h6>CANDIDATE: {{ candidate }}</h6>
+        {% block btn-resume %}
         <a href="{{ candidate.file.url }}"
                 class="d-print-none btn {% if candidate.gender == 'F' %}btn-danger{% else %}btn-primary{% endif %} btn-sm">Download CV</a>
+        {% endblock btn-resume %}
     </div>
     <hr>
     <div class="float-end">
@@ -64,11 +67,15 @@
 
     <hr>
     <h6 class="{% if candidate.gender == 'F' %}text-danger{% else %}text-primary{% endif %} my-4">PROFESSION</h6>
+    {% if candidate.company %}
     <p><strong>Company:</strong> {{ candidate.company }}</p>
     <p><strong>Position:</strong> {{ candidate.position }}</p>
     <p><strong>Started:</strong> {{ candidate.started_job }}</p>
     <p><strong>Finished:</strong> {{ candidate.finished_job }}</p>
     <p><strong>Role:</strong> {{ candidate.about_job }}</p>
+    {% else %}
+    <p class="text-danger">This candidate has no experience.</p>
+    {% endif %}
 
     <hr>
     <h6 class="{% if candidate.gender == 'F' %}text-danger{% else %}text-primary{% endif %} my-4">NOTE</h6>
@@ -76,8 +83,12 @@
     <p><strong>Accept to work Remote:</strong> {% if candidate.remote == True %}Yes{% else %}No{% endif %}</p>
     <p><strong>Willing to Travel:</strong> {% if candidate.travel == True %}Yes{% else %}No{% endif %}</p>
 
+    {% block btn-bottom %}
     <hr>
-    <a href="{% url 'candidates' %}" class="btn btn-secondary">All candidates</a>
+    <a href="{% url 'candidates' %}" class="btn btn-secondary">Back</a>
+    <a href="{% url 'admin:human_resource_candidate_change' candidate.id %}" class="btn btn-dark" target="_blank">Note</a>
+    <a href="{% url 'export_to_pdf' candidate.id %}" class="btn btn-warning">Export to PDF</a>
+    {% endblock btn-bottom %}
 </div>
 
 {% endblock content %} 

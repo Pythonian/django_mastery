@@ -1,0 +1,23 @@
+{% extends 'candidate.html' %} 
+
+{% block preloader %}{% endblock preloader %}
+{% block header %}{% endblock header %}
+{% block secondarynav %}{% endblock secondarynav %}
+
+{% block navbrand %}
+<i class="text-warning fas {% if candidate.gender == 'F' %}fa-female{% else %}fa-male{% endif %} pe-1"></i>
+{{ candidate }}
+{% endblock navbrand %}
+
+{% block margin-top %}{% endblock margin-top %} 
+
+{% block datetime-user %}
+<div class="mb-4 bg-light text-center">
+    <strong>Generated at:</strong> {% now "m/d/y" %} 
+    <strong>By:</strong> {{ user.get_username }}
+</div>
+{% endblock datetime-user %}
+
+{% block btn-resume %}{% endblock btn-resume %}
+{% block btn-bottom %}{% endblock btn-bottom %}
+{% block footer %}{% endblock footer %}

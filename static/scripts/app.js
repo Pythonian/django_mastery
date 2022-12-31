@@ -15,7 +15,7 @@ jQuery(function() {
         }
         else if (start == 1000) {
             $("#remainingCharacters").html("Characters remaining: " + (limit - start)).css('color', 'red');
-            swal("Oops!", "Characters limit exceeded!", "info");
+            // swal("Oops!", "Characters limit exceeded!", "info");
         }
         else if (start > 984) {
             $("#remainingCharacters").html("Characters remaining: " + (limit - start)).css('color', 'red');
@@ -40,6 +40,11 @@ jQuery(function() {
     // Convert email to Lowercase
     $("input[name=email]").keyup(function() {
         this.value = this.value.toLowerCase();
+    });
+
+    // Convert Job to Uppercase
+    $("input[name=job]").keyup(function () {
+        this.value = this.value.toUpperCase();
     });
 
     // Enable/Disable select options
@@ -155,7 +160,7 @@ $("input[name=fullname]").keyup(function() {
     }
 })
 
-// Capitalize the first letter in each word in the field9s)
+// Capitalize the first letter in each word in the fields)
 $("input[name=fullname], input[name=firstname], input[name=lastname]").keyup(function () {
     var txt = $(this).val();
     $(this).val(txt.replace(/^(.)|\s(.)/g, function($1) {
@@ -271,6 +276,49 @@ setTimeout(function() {
     }    
 }, 30 * 60000); // 30mins of no usage
 
-// $(document).ready(function() {
+// Copy the value being entered in an input into another input
+// document.getElementById("title").onkeyup=function(){
+//     document.getElementById("slug").value = document.getElementById("title").value.toLowerCase().replace(" ", "-");
+// }
 
-// });
+// Enable/Disable Professional Card. [X] I have experience
+$(document).ready(function() {
+    $(function() {
+        Emp();
+        $("#emp").click(Emp);
+    });
+    function Emp() {
+        if (this.checked) {
+            $("input.emp, textarea.emp").removeAttr("disabled");
+        }
+        else {
+            $("input.emp, textarea.emp").attr("disabled", true);
+        }
+    }
+});
+
+// Enable/Disable Finished Date. 
+// [X] I am employed = Disable
+$(function () {
+    Exp();
+    $("#exp").click(Exp);
+});
+function Exp() {
+    if (this.checked) {
+        $("input#go").attr("disabled", true);
+        $("#go").val(''); // clear existing data to prevent sending data
+    }
+    else {
+        $("input#go").removeAttr("disabled");
+    }
+}
+
+// Enable/Disable Finished date (Education)
+// If course is completed, enable finished date
+function statusCourse(edu) {
+    var x = document.getElementsByName("finished_course");
+    for(var j=0; j < x.length; j++) {
+        x[j].disabled = !(edu.value == "I have completed the course")
+        x[j].value = ''; // clear existing input
+    }
+}

@@ -1,0 +1,26 @@
+{% extends "modals/base_modal_dialog.html" %}
+
+{% block modal-id %}id="noteModal{{ candidate.pk }}"{% endblock modal-id %}
+
+{% block modal-title %}<i class="fas fa-clipboard pe-1"></i> Company Note{% endblock modal-title %}
+
+{% block modal-body %}
+<div class="d-flex justify-content-start">
+    {% if candidate.status == 'A' %}
+    <h6 class="btn btn-success"></h6>
+    {% elif candidate.status == 'P' %} 
+    <h6 class="btn btn-warning"></h6>
+    {% else %} 
+    <h6 class="btn btn-danger"></h6>
+    {% endif %}
+    <h6 class="ms-1">{{ candidate }}</h6>
+</div>
+<div class="card p-3 mt-2 text-start">
+    <p class="fw-bold">NOTE:</p>
+    <p>{{ candidate.note }}</p>
+</div>
+{% endblock modal-body %}
+
+{% block modal-button %}
+<button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">Close</button>
+{% endblock modal-button %}

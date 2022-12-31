@@ -1,19 +1,22 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect
-from django.contrib import messages
-from django.core.mail import EmailMultiAlternatives, EmailMessage
-from django.template import loader
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.cache import cache_control
-from django.db.models import Q, Value
-from django.contrib.auth import logout
 from datetime import datetime
-from django.core.files.storage import FileSystemStorage
-from django.db.models.functions import Concat
 
-from .models import RegisteredEmail, Support, Message, Vacancy, Waiting, Candidate
-from .forms import MessageForm, ReplyMessage, CandidateForm
+import pdfkit
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.db.models import Q, Value
+from django.db.models.functions import Concat
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template import loader
+from django.views.decorators.cache import cache_control
+
+from .forms import CandidateForm, MessageForm, ReplyMessage
+from .models import (Candidate, Message, RegisteredEmail, Support, Vacancy,
+                     Waiting)
 
 
 def home(request):
@@ -139,8 +142,10 @@ def support(request):
             else:
                 return redirect('home')
 
+    vacancy = Vacancy.objects.first()
+
     template_name = 'support.html'
-    context = {}
+    context = {'vacancy': vacancy}
 
     return render(request, template_name, context)
 
@@ -290,8 +295,10 @@ def application(request):
         form = CandidateForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "Your form was sent successfully.")
+            messages.success(request, "Your application form was sent to us successfully.")
             return redirect('application')
+        else:
+            messages.warning(request, "An error occured during the submission of your form.")
     else:
         form = CandidateForm()
 
@@ -301,11 +308,10 @@ def application(request):
 @login_required
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def candidates(request):
-    if request.method == 'POST':
-        job = request.POST.get('job')
-        gender = request.POST.get('gender')
-        filter_qs = Candidate.objects.filter(Q(job=job) | Q(gender=gender))
-        return render(request, 'candidates.html', {'candidates': filter_qs})
+    if 'f' in request.GET:
+        f = request.GET['f']
+        candidates = Candidate.objects.filter(Q(job__iexact=f) |
+            Q(gender__iexact=f))
     elif 'q' in request.GET:
         q = request.GET['q']
         candidates = Candidate.objects.annotate(fullname=Concat('firstname', Value(' '), 'lastname')).filter(
@@ -314,9 +320,18 @@ def candidates(request):
     else:
         candidates = Candidate.objects.all()
 
+    total_candidates = candidates.count()
+    fullstack_candidates = candidates.filter(job='FS-22').count()
+    frontend_candidates = candidates.filter(job='FE-22').count()
+    backend_candidates = candidates.filter(job='BE-22').count()
+
     return render(
         request, 'candidates.html',
-        {'candidates': candidates})
+        {'candidates': candidates,
+         'total_candidates': total_candidates,
+         'fullstack_candidates': fullstack_candidates,
+         'frontend_candidates': frontend_candidates,
+         'backend_candidates': backend_candidates})
 
 
 @login_required
@@ -328,9 +343,47 @@ def candidate(request, id):
         {'candidate': candidate,})
 
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required
+def delete_candidate(request, id):
+    candidate = get_object_or_404(Candidate, id=id)
+    candidate.delete()
+    messages.success(request, "Candidate successfully deleted.")
+    return redirect('candidates')
+
+
 def error_500(request):
     return render(request, '500.html')
 
 
 def error_404(request, exception):
     return render(request, '404.html')
+
+
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def export_to_pdf(request, id):
+    candidate = get_object_or_404(Candidate, id=id)
+    cookies = request.COOKIES
+    # Pass in the cookie dict to allow the pdf library access the restricted page
+    options = {
+        'page-size': 'Letter',
+        'encoding': "UTF-8",
+        'cookie': [
+            ('csrftoken', cookies['csrftoken']),
+            ('sessionid', cookies['sessionid'])
+        ]
+    }
+    pdf_name = candidate.firstname + '_' + candidate.lastname + '.pdf'
+    pdf = pdfkit.from_url('http://127.0.0.1:8000/pdf/' + str(candidate.id), False, options=options)
+    # pdf = pdfkit.from_url('http://127.0.0.1:8000/candidate/' + str(c.id), False, options=options)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-disposition'] = 'attachment; filename={}'.format(pdf_name)
+    return response
+
+
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def generate_pdf(request, id):
+    candidate = get_object_or_404(Candidate, id=id)
+    return render(request, 'pdf.html', {'candidate': candidate})

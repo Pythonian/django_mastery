@@ -22,6 +22,13 @@
 
 {% block content %}
 
+<div class="row my-3">
+    {% include 'partials/_application_total.html' %}
+    {% include 'partials/_frontend.html' %}
+    {% include 'partials/_backend.html' %}
+    {% include 'partials/_fullstack.html' %}
+</div>
+
 <div class="my-5">
     <form action="" method="GET">
         <div class="row">
@@ -36,25 +43,24 @@
         </div>
     </form>
 
-    <form method="POST">
-        {% csrf_token %}
+    <form method="get">
         <div class="row mb-3">
             <div class="col-12 px-0">
                 <div class="btn btn-group ps-0">
-                    <input type="submit" class="btn-check" value="FE-22" name="job" id="jobradio1">
+                    <input type="submit" class="btn-check" value="FE-22" name="f" id="jobradio1">
                     <label for="jobradio1" class="btn {% if request.POST.job == 'FE-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">FE-22</label>
 
-                    <input type="submit" class="btn-check" value="BE-22" name="job" id="jobradio2">
+                    <input type="submit" class="btn-check" value="BE-22" name="f" id="jobradio2">
                     <label for="jobradio2" class="btn {% if request.POST.job == 'BE-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">BE-22</label>
 
-                    <input type="submit" class="btn-check" value="FS-22" name="job" id="jobradio3">
+                    <input type="submit" class="btn-check" value="FS-22" name="f" id="jobradio3">
                     <label for="jobradio3" class="btn {% if request.POST.job == 'FS-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">FS-22</label>
                 </div>
                 <div class="btn btn-group ps-0">
-                    <input type="submit" class="btn-check" value="M" name="gender" id="genderradio4">
+                    <input type="submit" class="btn-check" value="M" name="f" id="genderradio4">
                     <label for="genderradio4" class="btn {% if request.POST.gender == 'M' %}btn-primary{% else %}btn-outline-primary{% endif %}">Male</label>
                     
-                    <input type="submit" class="btn-check" value="F" name="gender" id="genderradio5">
+                    <input type="submit" class="btn-check" value="F" name="f" id="genderradio5">
                     <label for="genderradio5" class="btn {% if request.POST.gender == 'F' %}btn-danger{% else %}btn-outline-danger{% endif %}">Female</label>
                 </div>
                 <a href="{% url 'candidates' %}" class="btn btn-dark"><i class="fas fa-refresh"></i></a>
@@ -64,8 +70,8 @@
     
     <div class="row hide">
         <div class="col-12 px-0 table-responsive">
-            <table class="table bg-white table-hover">
-                <thead class="table-secondary border-0">
+            <table class="table bg-white table-hover text-center table-bordered">
+                <thead class="table-secondary">
                     <tr>
                         <th class="col">#</th>
                         <th class="col">Name</th>
@@ -76,14 +82,14 @@
                         <th class="col">Job</th>
                         <th class="col">Status</th>
                         <th class="col">Received</th>
+                        <th class="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for candidate in candidates %}
                     <tr id="check_td">
                         <td>{{ forloop.counter }}</td>
-                        <td><a href="{% url 'candidate' candidate.pk %}" class="text-decoration-none">{{ candidate }}</a>
-                        </td>
+                        <td>{{ candidate }}</td>
                         <td>{{ candidate.email }}</td>
                         <td>{{ candidate.phonenumber }}</td>
                         <td>{{ candidate.get_gender_display }}</td>
@@ -93,9 +99,16 @@
                         </td>
                         <td>{{ candidate.get_status_display }}</td>
                         <td>{{ candidate.created|date:"F j, Y" }}</td>
+                        <td>
+                            <a href="{% url 'candidate' candidate.pk %}" class="btn btn-secondary"><i class="fas fa-eye"></i></a>
+                            <button data-bs-toggle="modal" data-bs-target="#noteModal{{ candidate.pk }}" class="btn {% if not candidate.note %}btn-outline-warning{% else %}btn-warning{% endif %} text-dark" title="Company note" {% if not candidate.note %}disabled{% endif %}><i class="fas fa-question"></i></button>
+                            <a data-bs-toggle="modal" data-bs-target="#deleteCandidate{{ candidate.id }}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                        </td>
                     </tr>
+                    {% include 'modals/application_note.html' %}
+                    {% include 'modals/delete_candidate.html' %}
                     {% empty %}
-                    <td colspan="9">No record found</td>
+                    <td colspan="10">No record found</td>
                     {% endfor %}
                 </tbody>
             </table>

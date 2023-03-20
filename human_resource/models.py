@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.html import format_html
 from datetime import date
 from django.urls import reverse
+from django.utils import timezone
 
 from multiselectfield import MultiSelectField
 
@@ -215,7 +216,7 @@ class Candidate(models.Model):
     remote = models.BooleanField(verbose_name='I agree to work remotely')
     travel = models.BooleanField(verbose_name='I am available for travel')
 
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(default=timezone.now)
     message = models.TextField(blank=True)
 
     class Meta:

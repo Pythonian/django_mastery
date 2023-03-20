@@ -41,7 +41,7 @@ class Command(BaseCommand):
         gender_choices = [x[0] for x in Candidate.GENDER_CHOICES]
 
         for i in range(total):
-            candidate = Candidate.objects.create(
+            Candidate.objects.create(
                 status=choice(candidate_status),
                 firstname=fake.unique.first_name(),
                 lastname=fake.unique.last_name(),

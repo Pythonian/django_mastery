@@ -359,7 +359,7 @@ def candidate_delete(request, id):
     fullname = f'{candidate.firstname} {candidate.lastname}'
     candidate.delete()
     messages.success(request, f"Candidate: {fullname} successfully deleted.")
-    return redirect('candidate_list')
+    return redirect('candidates')
 
 
 @login_required

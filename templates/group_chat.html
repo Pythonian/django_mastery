@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Group Chat: {{ candidate }}{% endblock %}
+
+{% block navbrand %}
+<i class="text-warning fas fa-comment-alt pe-1"></i> {{ candidate }}
+{% endblock navbrand %}
+
+{% block secondarynav %}
+<a href="{% url 'candidates' %}" class="text-decoration-none" title="Go Back">
+    <i class="text-warning fas fa-angle-double-left"></i>
+</a>
+{% endblock secondarynav %}
+
+{% block content %}
+
+<div class="row mb-5">
+    <div class="col-12 px-0">
+        <div class="card mt-5 card-border-top">
+            <div class="card-header text-center">
+                {{ candidate }} 
+                <small>{% if candidate.status == 'A' %}
+                <h6 class="badge bg-success">Approved</h6>
+                {% elif candidate.status == 'P' %}
+                <h6 class="badge bg-warning">Pending</h6>
+                {% else %}
+                <h6 class="badge bg-danger">Disapproved</h6>
+                {% endif %}</small>
+            </div>
+            <div class="card-body">
+                
+                <hr>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="bg-spinner">
+    <div id="position-spinner">
+        <span id="spinner"></span>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    // Spinner to show loading when submit button clicked
+    $(document).ajaxSend(function () {
+        $("#bg-spinner").fadeIn(500);
+    });
+    $(".btn-send").click(function () {
+        $.ajax({
+            type: 'GET',
+            success: function (data) {
+                var d = $.parseJSON(data);
+                alert(d.Test);
+            }
+        }).done(function () {
+            setTimeout(function () {
+                $("#bg-spinner").fadeOut(500);
+            }, 700);
+        });
+    });
+</script>
+{% endblock script %}

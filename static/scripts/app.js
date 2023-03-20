@@ -1,14 +1,8 @@
 jQuery(function() {
-    // Inputmask (Phone numbers)
-    // $("input[name=phone]").inputmask("(+234) 999-9999999", {"onincomplete": function() {
-    //     swal("Oops!", "Incomplete phone number, please review!", "info");
-    //     return false;
-    // }});
-
     // Characters remaining counter
     var start = 0;
     var limit = 1000;
-    $("#id_body").keyup(function() {
+    $("#id_body, #id_message").keyup(function() {
         start = this.value.length
         if (start > limit) {
             return false;
@@ -26,25 +20,6 @@ jQuery(function() {
         else {
             $("#remainingCharacters").html("Characters remaining: " + (limit - start)).css('color', 'black');
         }
-    });
-
-    // File size limit
-    $("#id_file").bind('change', function() {
-        var a = (this.files[0].size);
-        if (a > 2 * 1048576) {
-            swal("Attention!", "Maximum allowed size is 2MB.", "info");
-            this.value = "";
-        }
-    });
-
-    // Convert email to Lowercase
-    $("input[name=email]").keyup(function() {
-        this.value = this.value.toLowerCase();
-    });
-
-    // Convert Job to Uppercase
-    $("input[name=job]").keyup(function () {
-        this.value = this.value.toUpperCase();
     });
 
     // Enable/Disable select options
@@ -153,19 +128,56 @@ $("#frontendModal").on('hidden.bs.modal', function() {
     $('#frontendModal form')[0].reset();
 });
 
-// Allow only letters in Fullname field
-$("input[name=fullname]").keyup(function() {
+// Allow only letters in field
+$("input[name=fullname], input[name=firstname], input[name=lastname]").keyup(function() {
     if (!/^[a-zA-Z _]*$/.test(this.value)) {
         this.value = this.value.split(/[^a-zA-Z _]/).join('');
     }
 })
 
-// Capitalize the first letter in each word in the fields)
+// Capitalize the first letter in each word in the fields
 $("input[name=fullname], input[name=firstname], input[name=lastname]").keyup(function () {
     var txt = $(this).val();
     $(this).val(txt.replace(/^(.)|\s(.)/g, function($1) {
         return $1.toUpperCase( );
     }))
+});
+
+// Convert Job to Uppercase
+$("input[name=job]").keyup(function () {
+    this.value = this.value.toUpperCase();
+});
+
+// File size limit
+$("#id_file").bind('change', function () {
+    var a = (this.files[0].size);
+    if (a > 2 * 1048576) {
+        swal("Attention!", "File size too large! Maximum allowed size is 2MB.", "info");
+        this.value = "";
+    }
+});
+
+// Convert email to Lowercase
+$("input[name=email]").keyup(function () {
+    this.value = this.value.toLowerCase();
+});
+
+// Allow only first name in Firstname field
+$("input[name=firstname]").keyup(function () {
+    var firstname = $("input[name=firstname]").val();
+    if (firstname.split(' ').length == 2) {
+        swal("Oops!", "Only first name required.", "info");
+        return false;
+    }
+});
+
+// Allow only last name in lastname field
+$("input[name=lastname]").keyup(function () {
+    var lastname = $("input[name=lastname]").val();
+    if (lastname.split(' ').length == 2) {
+        swal("Oops!", "Only last name required.", "info");
+        return false;
+    }
 });
 
 // Allow only first and last name in Fullname field
@@ -322,3 +334,20 @@ function statusCourse(edu) {
         x[j].value = ''; // clear existing input
     }
 }
+
+// Disable the submit button if no changes has been made to the form input
+const form = document.querySelectorAll("input, textarea, datetime-local");
+for (const data of form) {
+    data.saved = data.value;
+}
+(btnEnabled = function () {
+    var btn = true;
+    for (const data of form) {
+        if (data.saved !== data.value) {
+            btn = false;
+            break;
+        }
+    }
+    $("#save-vacancies").prop("disabled", btn);
+})();
+document.oninput = btnEnabled // Call

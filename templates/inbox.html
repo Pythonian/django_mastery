@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-12 px-0">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search..." name="q" value="{{ request.GET.q }}">
+                <input type="text" id="search" class="form-control" placeholder="Search..." name="q" value="{{ request.GET.q }}">
                 <button class="btn btn-warning" title="Search"><i class="fas fa-search"></i></button>
                 <a href="{% url 'inbox' %}" class="btn btn-dark ms-1" title="Refresh"><i class="fas fa-sync-alt"></i></a>
             </div>
@@ -43,9 +43,9 @@
 
 <div class="row hide">
     <div class="col-12 px-0 table-responsive">
-        <table class="table bg-white table-hover">
+        <table class="table bg-white table-hover" id="inbox">
             <thead class="table-secondary border-0">
-                <tr>
+                <tr class="chk-th">
                     <th class="col-5">Subject</th>
                     <th class="col-3">Sender</th>
                     <th class="col-2">Email</th>
@@ -53,12 +53,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for message in messages %}
-                <tr class="{% if message.status == message.PENDING %}table-active fw-bold{% endif %}" id="check_td">
-                    <td><a href="{% url 'message' message.pk %}" class="text-decoration-none">{{ message.subject }}</a></td>
-                    <td>{{ message.name }}</td>
-                    <td>{{ message.email }}</td>
-                    <td>{{ message.created|date:'d/b/y g:ia' }}</td>
+                {% for msg in all_messages %}
+                <tr class="{% if msg.status == msg.PENDING %}table-active fw-bold{% endif %}" id="check_td">
+                    <td><a href="{% url 'message' msg.pk %}" class="text-decoration-none">{{ msg.subject }}</a></td>
+                    <td>{{ msg.name }}</td>
+                    <td>{{ msg.email }}</td>
+                    <td>{{ msg.created|date:'d/b/y g:ia' }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -72,3 +72,35 @@
 </div>
 
 {% endblock content %}
+
+{% block script %}
+<script>
+    $("#search").on("keyup", function() {
+        var value = $(this).val();
+        $("table tr").each(function(e) {
+            if (e !== 0) {
+                $go = $(this)
+                $go.find("td").each(function() {
+                    var id = $(this).text();
+                    if (id.indexOf(value) !== 0 && id.toLowerCase().indexOf(value.toLowerCase()) < 0) {
+                        $go.hide();
+                    }
+                    else {
+                        $go.show();
+                        return false;
+                    }
+                });
+            }
+            var isNone = $("#inbox tr:not('.chk-th'):visible");
+            if (isNone.length == 0) {
+                $("#refresh").html('<i class="fas fa-sync-alt fa-3x"></i>').show();
+                $("#emptyMsg").text("No message found").show();
+            }
+            else {
+                $("#refresh").html('<i class="fas fa-sync-alt fa-3x"></i>').hide();
+                $("#emptyMsg").text("No message found").hide();
+            }
+        });
+    });
+</script>
+{% endblock script %}

@@ -1,0 +1,25 @@
+<div class="modal fade" id="sendMessage" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="fas fa-paper-plane pe-1"></i> Send Message</h5>
+                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div>
+                        To: <span class="text-success fw-bold">{{ candidate.fullname }} ({{ candidate.email }})</span>
+                    </div>
+                    <hr>
+                    {{ message_form }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal"
+                        aria-label="Close">Close</button>
+                    <button type="submit" class="btn btn-warning btn-sm btn-send">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,10 @@
 import datetime
 from datetime import date
+
 from django import forms
 from django.core.validators import RegexValidator
-from django.utils import timezone
 
-from .models import Message, Candidate
+from .models import Candidate, Message, GroupChat
 
 
 class Lowercase(forms.CharField):
@@ -45,6 +45,17 @@ class ReplyMessage(forms.Form):
         widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
 
+class MessageCandidate(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs['class'] = 'form-control'
+
+    subject = forms.CharField(max_length=60)
+    body = forms.CharField(label='Message', widget=forms.Textarea(
+        attrs={'rows': '7', 'placeholder': 'Enter your message...'}))
+
+
 class CandidateForm(forms.ModelForm):
 
     firstname = forms.CharField(
@@ -65,6 +76,7 @@ class CandidateForm(forms.ModelForm):
             }))
     email = Lowercase(
         label='Email address', min_length=8, max_length=50,
+        error_messages={'required': 'Sorry, you will need an email'},
         validators=[RegexValidator(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$', message='Enter a valid email address.')],
         widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     # age = forms.CharField(
@@ -273,7 +285,7 @@ class CandidateForm(forms.ModelForm):
     def clean_started_job(self):
         """Prevent future date"""
         started_job = self.cleaned_data['started_job']
-        if started_job is not None and started_job > timezone.now():
+        if started_job is not None and started_job > datetime.date.today():
             raise forms.ValidationError('Future date is invalid.')
         else:
             return started_job
@@ -285,3 +297,11 @@ class CandidateForm(forms.ModelForm):
             if finished_job > datetime.date.today():
                 raise forms.ValidationError('Future date is invalid.')
         return finished_job
+
+
+class GroupChatForm(forms.ModelForm):
+
+    class Meta:
+        model = GroupChat
+        fields = '__all__'
+        

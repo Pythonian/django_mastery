@@ -1,7 +1,7 @@
-from email.policy import default
 from django.db import models
 from django.utils.html import format_html
 from datetime import date
+from django.urls import reverse
 
 from multiselectfield import MultiSelectField
 
@@ -10,7 +10,7 @@ class RegisteredEmail(models.Model):
     """ Class to track and prevent duplicated email. """
     email = models.CharField(max_length=40)
 
-    def __str__(self):
+    def __str__(self): # pragma: no cover
         return self.email
 
 
@@ -46,7 +46,7 @@ class Support(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    def __str__(self): # pragma: no cover
         return self.person
 
 
@@ -70,20 +70,8 @@ class Message(models.Model):
     class Meta:
         ordering = ['-created']
 
-    def __str__(self):
+    def __str__(self): # pragma: no cover
         return self.name
-
-    def report(self):
-        """
-        Function to color the status text.
-        """
-        if self.status == self.READ:
-            color = '#28a745'
-        else:
-            color = 'red'
-        return format_html(
-            f"<span style='color: {color}'>{self.status}</span>")
-    report.allow_tags = True
 
 
 class Vacancy(models.Model):
@@ -92,23 +80,6 @@ class Vacancy(models.Model):
     devops = models.PositiveIntegerField(default=0)
     design = models.PositiveIntegerField(default=0)
     timer = models.CharField(max_length=100)
-
-
-class Waiting(models.Model):
-    JOB = (
-        ('Frontend', 'Frontend'),
-        ('Backend', 'Backend'),
-    )
-
-    job = models.CharField(max_length=100, choices=JOB)
-    email = models.EmailField(max_length=100)
-    message = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    resume = models.FileField(upload_to='resume')
-    company_note = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.job
 
 
 class Candidate(models.Model):
@@ -199,25 +170,24 @@ class Candidate(models.Model):
         (FEMALE, 'Female'),
     )
 
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PENDING)
+    status = models.CharField(
+        max_length=1, choices=STATUS_CHOICES, default=PENDING)
     firstname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
     email = models.EmailField(max_length=50)
-    # age = models.CharField(max_length=3)
     birth_date = models.DateField()
     phonenumber = models.CharField(max_length=18)
     job = models.CharField(verbose_name='Job code', max_length=5)
-    personality = models.CharField(max_length=50, choices=PERSONALITY_CHOICES, null=True)
+    personality = models.CharField(
+        max_length=50, choices=PERSONALITY_CHOICES, null=True)
     salary = models.CharField(verbose_name='Salary expectation', max_length=50)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     experience = models.BooleanField(null=True)
     smoker = models.CharField(max_length=1, choices=SMOKER_CHOICES, default="")
-    message = models.TextField() # Professional summary
     file = models.FileField(upload_to='files')
-    image = models.ImageField(upload_to='images')
+    image = models.ImageField(upload_to='images', default='images/picture.jpg')
     note = models.TextField(blank=True)
-    # address/location; certifications; interests; Languages; social media profiles
-    
+
     # Skills
     languages = MultiSelectField(choices=LANGUAGES, max_length=50)
     frameworks = MultiSelectField(choices=FRAMEWORKS, max_length=50)
@@ -232,10 +202,10 @@ class Candidate(models.Model):
     started_course = models.DateField()
     finished_course = models.DateField(blank=True, null=True)
     course_description = models.TextField()
-    course_status = models.CharField(max_length=50, choices=COURSE_STATUS_CHOICES)
+    course_status = models.CharField(
+        max_length=50, choices=COURSE_STATUS_CHOICES)
 
     # Work history / Experience
-    # If finished date is not provided, then it should be marked as 'Current'
     company = models.CharField(max_length=50)
     position = models.CharField(max_length=50)
     started_job = models.DateField(blank=True, null=True)
@@ -244,82 +214,38 @@ class Candidate(models.Model):
     employed = models.BooleanField(verbose_name='I am employed')
     remote = models.BooleanField(verbose_name='I agree to work remotely')
     travel = models.BooleanField(verbose_name='I am available for travel')
-    
+
     created = models.DateTimeField(auto_now_add=True)
+    message = models.TextField(blank=True)
 
     class Meta:
         ordering = ['-created']
 
     def __str__(self):
         return f'{self.firstname} {self.lastname}'
+    
+    def get_absolute_url(self):
+        return reverse('candidate', args=[self.id])
 
     def clean(self):
         self.firstname = self.firstname.capitalize()
         self.lastname = self.lastname.capitalize()
 
+    def fullname(self):
+        return f'{self.firstname} {self.lastname}'
+
     def age(self):
         today = date.today()
-        return today.year - self.birth_date.year - ((today.month, today.day) < (self.birth_date.month, self.birth_date.day))
+        return today.year - self.birth_date.year - ((today.month, today.day)
+                                                    < (self.birth_date.month,
+                                                       self.birth_date.day))
 
 
-# from django.db import models
-# from django.utils.translation import gettext_lazy as _
-# from django.contrib.auth.models import AbstractUser, BaseUserManager
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
+class GroupChat(models.Model):
+    candidate_email = models.CharField(max_length=200)
+    user = models.CharField(max_length=50)
+    chat = models.CharField(max_length=500)
+    created = models.DateTimeField(auto_now_add=True)
 
-
-# class User(AbstractUser):
-    # class Role(models.TextChoices):
-    #     ADMIN = 'ADMIN', 'Admin'
-    #     COMPANY = 'COMPANY', 'Company'
-    #     EMPLOYEE = 'EMPLOYEE', 'Employee'
-
-    # base_role = Role.COMPANY
-
-    # role = models.CharField(_('Role'), max_length=50, choices=Role.choices)
-
-    # is_company = models.BooleanField(default=False)
-    # is_employee = models.BooleanField(default=False)
-
-    # def save(self, *args, **kwargs):
-    #     if not self.pk:
-    #         self.role = self.base_role
-    #         return super().save(*args, **kwargs)
-
-
-# class EmployeeManager(BaseUserManager):
-#     """Return only users with the Employee role."""
-#     def get_queryset(self, *args, **kwargs):
-#         results = super().get_queryset(*args, **kwargs)
-#         return results.filter(role=User.Role.EMPLOYEE)
-
-# class EmployeeManager(models.Manager):
-#     def get_queryset(self, *args, **kwargs):
-#         return super().get_queryset(*args, **kwargs).filter(role=User.Role.EMPLOYEE)
-
-
-# class Employee(User):
-#     # Employee.objects.create(username='user', email='a@a.com')
-#     base_role = User.Role.EMPLOYEE
-#     employee = EmployeeManager()
-#     objects = EmployeeManager()
-
-#     class Meta:
-#         proxy = True
-
-    # def save(self, *args, **kwargs):
-    #     if not self.pk:
-    #         self.role = User.Role.EMPLOYEE
-    #     return super().save(*args, **kwargs)
-
-
-# class EmployeeProfile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     about = models.TextField(null=True, blank=True)
-
-
-# @receiver(post_save, sender=Employee)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created and instance.role == 'EMPLOYEE':
-#         EmployeeProfile.objects.create(user=instance)
+    def __str__(self): # pragma: no cover
+        return self.user

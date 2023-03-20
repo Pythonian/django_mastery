@@ -69,6 +69,8 @@
                         <hr>
                         <div class="col-12">
                             {{ form.message|as_crispy_field }}
+                            <span class="float-end small mb-3" id="remainingCharacters"></span>
+                            <span class="clearfix"></span>
                             {{ form.file|as_crispy_field }}
                             {{ form.image|as_crispy_field }}
                         </div>

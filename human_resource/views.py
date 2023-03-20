@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.db.models import Q, Value
@@ -14,9 +15,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.views.decorators.cache import cache_control
 
-from .forms import CandidateForm, MessageForm, ReplyMessage
-from .models import (Candidate, Message, RegisteredEmail, Support, Vacancy,
-                     Waiting)
+from .forms import CandidateForm, GroupChatForm, MessageCandidate, MessageForm, ReplyMessage
+from .models import Candidate, GroupChat, Message, RegisteredEmail, Support, Vacancy
+from .utils import mk_paginator
 
 
 def home(request):
@@ -32,12 +33,12 @@ def home(request):
 def inbox(request):
     if 'q' in request.GET:
         q = request.GET['q']
-        messages = Message.objects.filter(
+        all_messages = Message.objects.filter(
             Q(name__icontains=q) | Q(email__icontains=q) |
             Q(subject__icontains=q) | Q(body__icontains=q) |
             Q(status__icontains=q))
     else:
-        messages = Message.objects.all()
+        all_messages = Message.objects.all()
 
     total_messages = Message.objects.count()
     read_messages = Message.objects.filter(status=Message.READ).count()
@@ -47,7 +48,7 @@ def inbox(request):
 
     template_name = 'inbox.html'
     context = {
-        'messages': messages,
+        'all_messages': all_messages,
         'today': today,
         'total_messages': total_messages,
         'read_messages': read_messages,
@@ -167,13 +168,11 @@ def send_message(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required
 def dashboard(request):
-    total_candidates = RegisteredEmail.objects.all().count()
     vacancy = Vacancy.objects.first()
     unread_messages = Message.objects.filter(status=Message.PENDING).count()
 
     template_name = 'dashboard.html'
     context = {
-        'total_candidates': total_candidates,
         'vacancy': vacancy,
         'unread_messages': unread_messages,
     }
@@ -209,15 +208,6 @@ def edit_countdown(request):
             vacancy.save()
             messages.success(request, "Countdown timer updated.")
             return redirect("dashboard")
-
-
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required
-def delete_message(request, pk):
-    message = get_object_or_404(Message, pk=pk)
-    message.delete()
-    messages.success(request, "Message successfully deleted.")
-    return redirect('inbox')
 
 
 @login_required
@@ -259,38 +249,33 @@ def mark_as_read(request, pk):
         return redirect('inbox')
 
 
-def autologout(request):
-    logout(request)
-    request.user = None
-    # Pass the message in the HTML
-    messages.info(request, ".")
-    return redirect('home')
+# def waiting(request):
+#     if request.method == 'POST':
+#         email = request.POST['email']
+#         if Waiting.objects.filter(email=email).exists():
+#             messages.warning(request, "You have sent something")
+#             return redirect('/waiting/')
+#         else:
+#             file = request.FILES['resume']
+#             attach = FileSystemStorage()
+#             resume_document = attach.save(file.name, file)
 
+#             waiting = Waiting(
+#                 job=request.POST.get('job'),
+#                 email=request.POST.get('email'),
+#                 message=request.POST.get('message'),
+#                 resume=resume_document)
+#             waiting.save()
+#             messages.success(request, "Successful")
+#             return redirect('/')
+#     else:
+#         return render(request, 'waiting.html')
 
-def waiting(request):
-    if request.method == 'POST':
-        email = request.POST['email']
-        if Waiting.objects.filter(email=email).exists():
-            messages.warning(request, "You have sent something")
-            return redirect('/waiting/')
-        else:
-            file = request.FILES['resume']
-            attach = FileSystemStorage()
-            resume_document = attach.save(file.name, file)
+############################################
+#               CANDIDATES                 #
+############################################
 
-            waiting = Waiting(
-                job=request.POST.get('job'),
-                email=request.POST.get('email'),
-                message=request.POST.get('message'),
-                resume=resume_document)
-            waiting.save()
-            messages.success(request, "Successful")
-            return redirect('/')
-    else:
-        return render(request, 'waiting.html')
-
-
-def application(request):
+def candidate_create(request):
     if request.method == 'POST':
         form = CandidateForm(request.POST, request.FILES)
         if form.is_valid():
@@ -307,11 +292,15 @@ def application(request):
 
 @login_required
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def candidates(request):
+def candidate_list(request):
     if 'f' in request.GET:
         f = request.GET['f']
         candidates = Candidate.objects.filter(Q(job__iexact=f) |
-            Q(gender__iexact=f))
+            Q(gender__iexact=f) | Q(status=f))
+    elif 'asc' in request.GET:
+        candidates = Candidate.objects.order_by('firstname')
+    elif 'desc' in request.GET:
+        candidates = Candidate.objects.order_by('-firstname')
     elif 'q' in request.GET:
         q = request.GET['q']
         candidates = Candidate.objects.annotate(fullname=Concat('firstname', Value(' '), 'lastname')).filter(
@@ -325,39 +314,52 @@ def candidates(request):
     frontend_candidates = candidates.filter(job='FE-22').count()
     backend_candidates = candidates.filter(job='BE-22').count()
 
-    return render(
-        request, 'candidates.html',
-        {'candidates': candidates,
+    candidates = mk_paginator(request, candidates, 15)
+
+    context = {'candidates': candidates,
          'total_candidates': total_candidates,
          'fullstack_candidates': fullstack_candidates,
          'frontend_candidates': frontend_candidates,
-         'backend_candidates': backend_candidates})
+         'backend_candidates': backend_candidates}
 
-
-@login_required
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def candidate(request, id):
-    candidate = get_object_or_404(Candidate, id=id)
     return render(
-        request, 'candidate.html',
-        {'candidate': candidate,})
+        request, 'candidates.html', context)
+
+
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def candidate_detail(request, id):
+    candidate = get_object_or_404(Candidate, id=id)
+
+    from_email = settings.DEFAULT_FROM_EMAIL
+    if request.method == 'POST':
+        message_form = MessageCandidate(request.POST)
+        if message_form.is_valid():
+            subject = message_form.cleaned_data['subject']
+            body = message_form.cleaned_data['body']
+            to_email = candidate.email
+            
+            mail = EmailMessage(subject, body, from_email, [to_email])
+            mail.send()
+            messages.success(request, 'Message sent successfully.')
+            return redirect(candidate)
+    else:
+        message_form = MessageCandidate()
+
+    template = 'candidate.html'
+    context = {'candidate': candidate, 'message_form': message_form}
+
+    return render(request, template, context)
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required
-def delete_candidate(request, id):
+def candidate_delete(request, id):
     candidate = get_object_or_404(Candidate, id=id)
+    fullname = f'{candidate.firstname} {candidate.lastname}'
     candidate.delete()
-    messages.success(request, "Candidate successfully deleted.")
-    return redirect('candidates')
-
-
-def error_500(request):
-    return render(request, '500.html')
-
-
-def error_404(request, exception):
-    return render(request, '404.html')
+    messages.success(request, f"Candidate: {fullname} successfully deleted.")
+    return redirect('candidate_list')
 
 
 @login_required
@@ -387,3 +389,36 @@ def export_to_pdf(request, id):
 def generate_pdf(request, id):
     candidate = get_object_or_404(Candidate, id=id)
     return render(request, 'pdf.html', {'candidate': candidate})
+
+
+@login_required
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def group_chat(request, id):
+    candidate = get_object_or_404(Candidate, id=id)
+    group_chat = GroupChat.objects.all().order_by('-created')
+    users = User.objects.all()
+    form = GroupChatForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('group_chat', id=candidate.id)
+    return render(request, 'group_chat.html', {'form': form, 'group_chat': group_chat, 'users': users, 'candidate': candidate})
+
+
+############################################
+#               ERROR PAGES                #
+############################################
+
+def error_500(request):
+    return render(request, '500.html')
+
+
+def error_404(request, exception):
+    return render(request, '404.html')
+
+
+def autologout(request):
+    logout(request)
+    request.user = None
+    # Pass the message in the HTML
+    messages.info(request, ".")
+    return redirect('home')

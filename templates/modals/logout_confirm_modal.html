@@ -12,5 +12,6 @@
 {% endblock modal-body %}
 
 {% block modal-button %}
-<a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Logout</a>
+<button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">Close</button>
+<a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
 {% endblock modal-button %}

@@ -17,7 +17,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="{% url 'delete_candidate' candidate.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                <a href="{% url 'delete_candidate' candidate.id %}" class="btn btn-danger btn-sm">Delete</a>
             </div>
         </div>
     </div>

@@ -5,26 +5,36 @@
 {% block bg-image %}{% endblock %}
 
 {% block navbrand %}
-<i class="text-warning fas fa-users pe-1"></i> Candidates
+<i class="text-warning fas fa-people-group pe-1"></i> Candidates
 {% endblock navbrand %}
 
 {% block datetime %}
 <div class="text-light">
-    {% now "l (m/d/Y)" %} <span class="text-warning" id="clock"></span>
+    {% now "l (d/m/Y)" %} <span class="text-warning" id="clock"></span>
 </div>
 {% endblock datetime %}
 
-{% block secondarynav %}
-<a href="{% url 'dashboard' %}" class="text-decoration-none" title="Go Back">
-    <i class="text-warning fas fa-angle-double-left"></i>
-</a>
-{% endblock secondarynav %}
+{% block offcanvasmenu %}
+<center class="mb-2 fw-bold">
+    Welcome: <span class="text-success">{{ user.get_username|title }}</span>
+</center>
+<a href="{% url 'dashboard' %}" class="btn btn-primary">Dashboard</a>
+<a href="{% url 'application' %}" class="btn btn-secondary">Application</a>
+<a href="{% url 'admin:index' %}" target="_blank" class="btn btn-dark">Admin</a>
+<a href="{% url 'support' %}" class="btn btn-info">Support</a>
+<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+<hr>
+<center>
+    <i class="fas fa-people-group fa-7x opacity-25 mt-5"></i>
+</center>
+{% endblock offcanvasmenu %}
 
 {% block content %}
 
-{% include 'partials/_alert.html' %}
-
-<div class="row my-3">
+<div class="row mt-3">
+    <h6 class="text-warning mb-3 bg-dark py-2 text-center fw-bold">
+        CONTROL PANEL
+    </h6>
     {% include 'partials/_application_total.html' %}
     {% include 'partials/_frontend.html' %}
     {% include 'partials/_backend.html' %}
@@ -37,44 +47,44 @@
             <form action="" method="GET">
                 <div class="btn btn-group ps-0">
                     <input type="submit" class="btn-check" value="FE-22" name="f" id="jobradio1">
-                    <label for="jobradio1" class="btn {% if request.GET.f == 'FE-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">FE-22</label>
+                    <label for="jobradio1" title="Frontend" class="btn {% if request.GET.f == 'FE-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">FE-22</label>
 
                     <input type="submit" class="btn-check" value="BE-22" name="f" id="jobradio2">
-                    <label for="jobradio2" class="btn {% if request.GET.f == 'BE-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">BE-22</label>
+                    <label for="jobradio2" title="Backend" class="btn {% if request.GET.f == 'BE-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">BE-22</label>
 
                     <input type="submit" class="btn-check" value="FS-22" name="f" id="jobradio3">
-                    <label for="jobradio3" class="btn {% if request.GET.f == 'FS-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">FS-22</label>
+                    <label for="jobradio3" title="Fullstack" class="btn {% if request.GET.f == 'FS-22' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">FS-22</label>
                 </div>
 
                 <div class="btn btn-group ps-0">
                     <input type="submit" class="btn-check" value="P" name="f" id="status4">
-                    <label for="status4"
+                    <label for="status4" title="Pending"
                         class="btn {% if request.GET.f == 'P' %}btn-warning{% else %}btn-outline-warning{% endif %}"><i class="fas fa-question"></i></label>
                 
                     <input type="submit" class="btn-check" value="A" name="f" id="statusradio5">
-                    <label for="statusradio5"
+                    <label for="statusradio5" title="Approved"
                         class="btn {% if request.GET.f == 'A' %}btn-success{% else %}btn-outline-success{% endif %}"><i class="fas fa-check"></i></label>
                 
                     <input type="submit" class="btn-check" value="D" name="f" id="statusradio6">
-                    <label for="statusradio6"
+                    <label for="statusradio6" title="Disapproved"
                         class="btn {% if request.GET.f == 'D' %}btn-danger{% else %}btn-outline-danger{% endif %}"><i class="fas fa-xmark"></i></label>
                 </div>
 
                 <div class="btn btn-group ps-0">
                     <input type="submit" class="btn-check" value="M" name="f" id="genderradio7">
-                    <label for="genderradio7" class="btn {% if request.GET.f == 'M' %}btn-primary{% else %}btn-outline-primary{% endif %}"><i class="fas fa-person"></i></label>
+                    <label for="genderradio7" title="Male" class="btn {% if request.GET.f == 'M' %}btn-primary{% else %}btn-outline-primary{% endif %}"><i class="fas fa-person"></i></label>
                     
                     <input type="submit" class="btn-check" value="F" name="f" id="genderradio8">
-                    <label for="genderradio8" class="btn {% if request.GET.f == 'F' %}btn-danger{% else %}btn-outline-danger{% endif %}"><i class="fas fa-person-dress"></i></label>
+                    <label for="genderradio8" title="Female" class="btn {% if request.GET.f == 'F' %}btn-danger{% else %}btn-outline-danger{% endif %}"><i class="fas fa-person-dress"></i></label>
                 </div>
 
                 <div class="btn btn-group ps-0">
                     <input type="submit" class="btn-check" value="ascending" name="asc" id="alphabetradio8">
-                    <label for="alphabetradio8"
+                    <label for="alphabetradio8" title="Sort Ascending"
                         class="btn {% if request.GET.asc == 'ascending' %}btn-secondary{% else %}btn-outline-secondary{% endif %}"><i class="fas fa-arrow-up-a-z"></i></label>
                 
                     <input type="submit" class="btn-check" value="descending" name="desc" id="alphabetradio9">
-                    <label for="alphabetradio9"
+                    <label for="alphabetradio9" title="Sort Descending"
                         class="btn {% if request.GET.desc == 'descending' %}btn-secondary{% else %}btn-outline-secondary{% endif %}"><i class="fas fa-arrow-down-z-a"></i></label>
                 </div>
             </form>
@@ -93,7 +103,7 @@
 
     </div>
     
-    <div class="row hide">
+    <div class="row">
         <div class="col-12 px-0 table-responsive">
             <table class="table bg-white table-hover text-center table-bordered">
                 <thead class="table-secondary">
@@ -110,7 +120,7 @@
                 </thead>
                 <tbody>
                     {% for candidate in candidates %}
-                    <tr id="check_td">
+                    <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>{{ candidate.fullname }}</td>
                         <td>{{ candidate.email }}</td>
@@ -141,10 +151,6 @@
             </div>
             
         </div>
-    </div>
-    
-    <div class="position-absolute top-50 start-50 translate-middle">
-        <span class="text-warning fs-1" id="emptyMsg"></span>
     </div>
 
 </div>

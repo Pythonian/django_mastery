@@ -3,18 +3,10 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET_KEY = 'django-insecure-@+23%%^0ds)b9i^frt$8^$ob&&s(xu*p)3*ck#&u6k=#5%9_dt'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'insecure')
 
-# DEBUG = True
+DEBUG = int(os.environ.get('DEBUG', default=1))
 
-# ALLOWED_HOSTS = ['*']
-
-SECRET_KEY = os.environ.get('SECRET_KEY')
-
-DEBUG = int(os.environ.get('DEBUG', default=0))
-
-# 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
-# For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', default='localhost').split(' ')
 
 INSTALLED_APPS = [

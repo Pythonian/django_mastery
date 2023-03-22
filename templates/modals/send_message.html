@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <div class="modal fade" id="sendMessage" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -12,12 +13,12 @@
                         To: <span class="text-success fw-bold">{{ candidate.fullname }} ({{ candidate.email }})</span>
                     </div>
                     <hr>
-                    {{ message_form }}
+                    {{ message_form|crispy }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal"
                         aria-label="Close">Close</button>
-                    <button type="submit" class="btn btn-warning btn-sm btn-send">Send Message</button>
+                    <button type="submit" class="btn btn-success btn-sm btn-send">Send Message</button>
                 </div>
             </form>
         </div>

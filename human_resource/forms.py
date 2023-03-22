@@ -52,7 +52,7 @@ class MessageCandidate(forms.Form):
             field.field.widget.attrs['class'] = 'form-control'
 
     subject = forms.CharField(max_length=60)
-    body = forms.CharField(label='Message', widget=forms.Textarea(
+    body = forms.CharField(label='', widget=forms.Textarea(
         attrs={'rows': '7', 'placeholder': 'Enter your message...'}))
 
 

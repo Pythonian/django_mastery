@@ -36,7 +36,7 @@ RUN chmod +x $APP_HOME/entrypoint.sh
 # copy project
 COPY . $APP_HOME
 
-# copy project and chown all the files to the app user
+# chown all the files to the app user
 RUN chown -R app:app $APP_HOME
 
 # change to the app user

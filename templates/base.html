@@ -78,27 +78,6 @@
         </div>
     </div>
 
-    <!-- Message notifications -->
-    {% comment %}
-    {% for message in messages %}
-        {% if message.tags == 'success' %}
-        <script src="{% static 'scripts/sweetalert.min.js' %}"></script>        
-        <script>
-            var m = "{{ message }}";
-            swal("Perfect!", m, "success")
-        </script>
-        {% endif %}
-    {% endfor %}
-    {% endcomment %}
-
-    <!-- Login errors -->
-    {% if form.errors %}
-        <script src="{% static 'scripts/sweetalert.min.js' %}"></script>
-        <script>
-            swal("Denied!", "Enter your data correctly.", "error")
-        </script>
-    {% endif %}
-
     {% for message in messages %}
     <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>
         {% if message.tags == 'info' %}

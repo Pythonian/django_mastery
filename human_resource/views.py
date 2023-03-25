@@ -283,7 +283,8 @@ def candidate_create(request):
             messages.success(request, "Your application form was sent to us successfully.")
             return redirect('application')
         else:
-            messages.warning(request, "An error occured during the submission of your form.")
+            messages.warning(
+                request, "An error occured during the submission of your form. Please check below.")
     else:
         form = CandidateForm()
 
@@ -420,5 +421,5 @@ def autologout(request):
     logout(request)
     request.user = None
     # Pass the message in the HTML
-    messages.info(request, ".")
+    messages.info(request, "You have been automatically logged out. Your account is now secure!")
     return redirect('home')

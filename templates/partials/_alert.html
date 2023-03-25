@@ -1,7 +1,7 @@
 {% if messages %}
     {% for message in messages %}
         <div class="m-0 rounded-0 alert alert-{{ message.tags }}" role="alert">
-            <div class="container">
+            <div class="container ps-0">
                 <i class="fa-solid fa-{% if message.tags == 'info' %}circle-info{% elif message.tags == 'warning' %}warning{% elif message.tags == 'success' %}check{% elif message.tags == 'error' %}xmark{% endif %} me-1"></i>
                 {{ message }}
             </div>

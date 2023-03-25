@@ -1,0 +1,11 @@
+venv
+.git
+.gitignore
+*.pyc
+**/*.pyo
+**/*.mo
+__pycache__
+db.sqlite3
+.idea
+*.DS_Store
+**/*.md

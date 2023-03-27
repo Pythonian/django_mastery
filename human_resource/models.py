@@ -3,6 +3,7 @@ from django.utils.html import format_html
 from datetime import date
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from multiselectfield import MultiSelectField
 

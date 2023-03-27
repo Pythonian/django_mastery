@@ -7,17 +7,11 @@
 <i class="text-warning fas fa-user-plus pe-1"></i> Application
 {% endblock navbrand %}
 
-{% block offcanvasmenu %}
-<a href="{% url 'home' %}" class="btn btn-primary">Home</a>
-<a data-bs-toggle="modal" data-bs-target="#popupSupport" class="btn btn-info">Support</a>
-{% if request.user.is_staff %}
-<a href="{% url 'dashboard' %}" class="btn btn-warning">Dashboard</a>
-{% endif %}
-<hr>
-<center>
-    <i class="fas fa-user-plus fa-7x opacity-25 mt-5"></i>
-</center>
-{% endblock offcanvasmenu %}
+{% block secondarynav %}
+<a href="{% url 'home' %}" class="text-decoration-none" title="Back home">
+    <i class="text-warning fas fa-angle-double-left"></i>
+</a>
+{% endblock secondarynav %}
 
 {% block autologout %}{% endblock autologout %}
 

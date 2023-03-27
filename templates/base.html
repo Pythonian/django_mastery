@@ -80,40 +80,42 @@
 
     {% for message in messages %}
     <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>
-        {% if message.tags == 'info' %}
+        {# if message.tags == 'info' #}
         <!-- Autologout info modal -->
-        <script>
+        <!-- <script>
             $(document).ready(function() {
                 $('#autologoutinfoModal').modal('show');
             });
-        </script>
-        {% elif message.tags == 'error' %}
+        </script> -->
+        {% if message.tags == 'error' %}
         <!-- Modal message for duplicated resume -->
         <script>
             $(document).ready(function () {
                 $('#popupDuplicateinfo').modal('show');
             });
         </script>
-        {% elif message.tags == 'warning' %}
+        {% endif %}
+        {# elif message.tags == 'warning' #}
         <!-- Support message for pending request (duplicated request) -->
-        <script>
+        <!-- <script>
             $(document).ready(function () {
                 $('#supportModal').modal('show');
             });
-        </script>
-        {% endif %}
+        </script> -->
+        
     {% endfor %}
 
     <!--=== Modals ===-->
-    {% include "modals/support_dialog_modal.html" %}
     {% include "modals/logout_confirm_modal.html" %}
-    {% include "modals/frontend_modal_form.html" %}
-    {% include "modals/backend.html" %}
-    {% include "modals/popup_support.html" %}
-    {% include "modals/resume_duplicated_info.html" %}
-    {% include "modals/autologout_info.html" %}
     {% include "modals/autologout_warning.html" %}
-
+    
+    {# include "modals/support_dialog_modal.html" #}
+    {# include "modals/frontend_modal_form.html" #}
+    {# include "modals/backend.html" #}
+    {# include "modals/popup_support.html" #}
+    {# include "modals/resume_duplicated_info.html" #}
+    {# include "modals/autologout_info.html" #}
+    
     <!-- jQuery -->
     <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>
     <!-- Bootstrap JS bundle -->

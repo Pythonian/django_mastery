@@ -1,5 +1,6 @@
 # pull official base image
 FROM python:3.9.6-alpine
+# FROM python:3.11-slim
 
 # set environment variables
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
@@ -12,15 +13,17 @@ RUN mkdir -p /home/app
 # create the app user
 RUN addgroup -S app && adduser -S app -G app
 
-# create directories and set work directory
+# create the appropriate directories
 ENV HOME=/home/app
 ENV APP_HOME=/home/app/web
 RUN mkdir $APP_HOME
 RUN mkdir $APP_HOME/staticfiles
 RUN mkdir $APP_HOME/mediafiles
+
+# Set work directory
 WORKDIR $APP_HOME
 
-# install psycopg2 dependencies
+# install psycopg2 dependencies 'cuz of alpine image
 RUN apk update \
     && apk add postgresql-dev gcc python3-dev musl-dev
 
@@ -44,3 +47,6 @@ USER app
 
 # run entrypoint.sh
 ENTRYPOINT ["/home/app/web/entrypoint.sh"]
+
+# Verify the running processes are healthy
+HEALTHCHECK --interval=30s --timeout=30s --start-period=30s --retries=3 CMD curl --fail http://localhost:8000/ || exit 1

@@ -6,13 +6,11 @@
 <i class="text-warning fas fa-key pe-1"></i> Login
 {% endblock navbrand %}
 
-{% block offcanvasmenu %}
-<a href="{% url 'home' %}" class="btn btn-primary">Home</a>
-<a data-bs-toggle="modal" data-bs-target="#popupSupport" class="btn btn-info">Support</a><hr>
-<center>
-    <i class="fas fa-key fa-7x opacity-25 mt-5"></i>
-</center>
-{% endblock offcanvasmenu %}
+{% block secondarynav %}
+<a href="{% url 'home' %}" class="text-decoration-none" title="Back Home">
+    <i class="text-warning fas fa-angle-double-left"></i>
+</a>
+{% endblock secondarynav %}
 
 {% block autologout %}{% endblock autologout %}
 

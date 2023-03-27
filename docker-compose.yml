@@ -5,6 +5,7 @@ services:
     build: .
     command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
     volumes:
+      # - .:/home/app/web/
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
     expose:
@@ -28,6 +29,7 @@ services:
       - 1337:80
     depends_on:
       - web
+    restart: 'on-failure'
 
 volumes:
   postgres_data:

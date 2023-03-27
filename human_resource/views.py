@@ -315,7 +315,7 @@ def candidate_list(request):
     frontend_candidates = candidates.filter(job='FE-22').count()
     backend_candidates = candidates.filter(job='BE-22').count()
 
-    candidates = mk_paginator(request, candidates, 15)
+    candidates = mk_paginator(request, candidates, 20)
 
     context = {'candidates': candidates,
          'total_candidates': total_candidates,
@@ -342,7 +342,7 @@ def candidate_detail(request, id):
             
             mail = EmailMessage(subject, body, from_email, [to_email])
             mail.send()
-            messages.success(request, 'Message sent successfully.')
+            messages.success(request, f'Your message to {candidate} was mailed successfully.')
             return redirect(candidate)
     else:
         message_form = MessageCandidate()

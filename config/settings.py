@@ -109,7 +109,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_PORT = os.environ.get('EMAIL_PORT', '2525')
 EMAIL_USE_TLS = True
 
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'candidates'
 
 LOGOUT_REDIRECT_URL = 'home'
 

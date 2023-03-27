@@ -22,6 +22,6 @@ urlpatterns = [
     path('pdf/<int:id>/', views.generate_pdf, name='generate_pdf'),
     path('application/', views.candidate_create, name='application'),
     path('group_chat/<int:id>/', views.group_chat, name='group_chat'),
-#     path('generate-pdf/', views.GeneratePDF.as_view(), name='generate_pdf_cbv'),
+    # path('generate-pdf/', views.GeneratePDF.as_view(), name='generate_pdf_cbv'),
     path('', views.home, name='home'),
 ]

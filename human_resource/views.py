@@ -297,7 +297,7 @@ def candidate_list(request):
     if 'f' in request.GET:
         f = request.GET['f']
         candidates = Candidate.objects.filter(Q(job__iexact=f) |
-            Q(gender__iexact=f) | Q(status=f))
+                                              Q(gender__iexact=f) | Q(status=f))
     elif 'asc' in request.GET:
         candidates = Candidate.objects.order_by('firstname')
     elif 'desc' in request.GET:
@@ -317,11 +317,13 @@ def candidate_list(request):
 
     candidates = mk_paginator(request, candidates, 20)
 
-    context = {'candidates': candidates,
-         'total_candidates': total_candidates,
-         'fullstack_candidates': fullstack_candidates,
-         'frontend_candidates': frontend_candidates,
-         'backend_candidates': backend_candidates}
+    context = {
+        'candidates': candidates,
+        'total_candidates': total_candidates,
+        'fullstack_candidates': fullstack_candidates,
+        'frontend_candidates': frontend_candidates,
+        'backend_candidates': backend_candidates
+    }
 
     return render(
         request, 'candidates.html', context)
@@ -339,7 +341,7 @@ def candidate_detail(request, id):
             subject = message_form.cleaned_data['subject']
             body = message_form.cleaned_data['body']
             to_email = candidate.email
-            
+
             mail = EmailMessage(subject, body, from_email, [to_email])
             mail.send()
             messages.success(request, f'Your message to {candidate} was mailed successfully.')

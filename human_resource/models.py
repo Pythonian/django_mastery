@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.html import format_html
 from datetime import date
 from django.urls import reverse
 from django.utils import timezone
@@ -12,7 +11,7 @@ class RegisteredEmail(models.Model):
     """ Class to track and prevent duplicated email. """
     email = models.CharField(max_length=40)
 
-    def __str__(self): # pragma: no cover
+    def __str__(self):  # pragma: no cover
         return self.email
 
 
@@ -48,7 +47,7 @@ class Support(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self): # pragma: no cover
+    def __str__(self):  # pragma: no cover
         return self.person
 
 
@@ -72,7 +71,7 @@ class Message(models.Model):
     class Meta:
         ordering = ['-created']
 
-    def __str__(self): # pragma: no cover
+    def __str__(self):  # pragma: no cover
         return self.name
 
 
@@ -174,7 +173,7 @@ class Candidate(models.Model):
 
     status = models.CharField(
         max_length=1, choices=STATUS_CHOICES, default=PENDING)
-    firstname = models.CharField(max_length=50)
+    firstname = models.CharField(_('First name'), max_length=50)
     lastname = models.CharField(max_length=50)
     email = models.EmailField(max_length=50)
     birth_date = models.DateField()
@@ -225,7 +224,7 @@ class Candidate(models.Model):
 
     def __str__(self):
         return f'{self.firstname} {self.lastname}'
-    
+
     def get_absolute_url(self):
         return reverse('candidate', args=[self.id])
 
@@ -249,5 +248,5 @@ class GroupChat(models.Model):
     chat = models.CharField(max_length=500)
     created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self): # pragma: no cover
+    def __str__(self):  # pragma: no cover
         return self.user

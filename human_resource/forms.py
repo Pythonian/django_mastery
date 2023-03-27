@@ -70,9 +70,8 @@ class CandidateForm(forms.ModelForm):
     job = Uppercase(
         label='Job Code', min_length=5, max_length=5,
         widget=forms.TextInput(attrs={
-            'placeholder': 'Ex: FE-22', 
+            'placeholder': 'Ex: FE-22',
             'data-mask': 'AA-00',
-            # 'x-data x-mask': 'aa-99'
             }))
     email = Lowercase(
         label='Email address', min_length=8, max_length=50,
@@ -129,7 +128,7 @@ class CandidateForm(forms.ModelForm):
 
         # Set a custom error message for a field
         self.fields['lastname'].error_messages.update({'required': 'Your lastname is required.'})
-        
+
         # Update the attr of a field
         self.fields['phonenumber'].widget.attrs.update({'data-mask': '9999-9999-999', 'placeholder': '0706-1234-567'})
 
@@ -144,7 +143,7 @@ class CandidateForm(forms.ModelForm):
         custom_error_fields = ['job', 'email']
         for field in custom_error_fields:
             self.fields[field].error_messages.update({'required': 'This information is required.'})
-        
+
     class Meta:
         model = Candidate
         fields = ['firstname', 'lastname', 'job', 'email', 'birth_date',
@@ -187,20 +186,20 @@ class CandidateForm(forms.ModelForm):
                 attrs={'class': 'btn-check'}),
             'birth_date': forms.DateInput(
                 attrs={
-                    'type': 'date', 
+                    'type': 'date',
                     'onkeydown': 'return false',
                     'min': '1957-01-01',
                     'max': '2004-12-31'}),
             # 'birth_date': forms.SelectDateWidget(years=range(1957,2005)),
             'started_course': forms.DateInput(
                 attrs={
-                    'type': 'date', 
+                    'type': 'date',
                     'onkeydown': 'return false',
                     'min': '2000-01-01',
                     'max': '2022-12-31'}),
             'finished_course': forms.DateInput(
                 attrs={
-                    'type': 'date', 
+                    'type': 'date',
                     'onkeydown': 'return false',
                     'disabled': 'true',
                     'min': '2000-01-01',
@@ -208,14 +207,14 @@ class CandidateForm(forms.ModelForm):
             # Move this two fields below away from the widgets section into their own fields above
             'started_job': forms.DateInput(
                 attrs={
-                    'type': 'date', 
+                    'type': 'date',
                     'onkeydown': 'return false',
                     'class': 'emp',
                     'min': '2000-01-01',
                     'max': '2022-12-31'}),
             'finished_job': forms.DateInput(
                 attrs={
-                    'type': 'date', 
+                    'type': 'date',
                     'onkeydown': 'return false',
                     'class': 'emp',
                     'id': 'go',
@@ -252,7 +251,8 @@ class CandidateForm(forms.ModelForm):
 
     def clean_file(self):
         file = self.cleaned_data.get('file', False)
-        EXT = ['pdf', 'doc', 'docx'] # Allowed extensions
+        # Allowed extensions
+        EXT = ['pdf', 'doc', 'docx']
         ext = str(file).split('.')[-1]
         ext_type = ext.lower()
         if ext_type not in EXT:
@@ -304,4 +304,3 @@ class GroupChatForm(forms.ModelForm):
     class Meta:
         model = GroupChat
         fields = '__all__'
-        

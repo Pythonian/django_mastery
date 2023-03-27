@@ -20,6 +20,7 @@ fake = Faker()
 fake.add_provider(university_provider)
 fake.add_provider(job_code_provider)
 
+
 class Command(BaseCommand):
     # In the shell: python manage.py create_users 5
     help = 'Create random candidates'

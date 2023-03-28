@@ -37,5 +37,5 @@ test: venv # Run tests
 check: venv # Perform system check
 	@python manage.py check
 
-lint: venv # Check code style with flake8
+lint: venv # Check code style
 	@$(FLAKE8) --exit-zero

@@ -1,26 +1,76 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Error 500{% endblock title %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/images/favicon.ico">
+    <link rel="stylesheet" href="/static/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles/fontawesome/all.min.css">
+    <link rel="stylesheet" href="/static/styles/app.css">
+    <title>Server Error | Django Mastery</title>
+</head>
 
-{% block bg-image %}{% endblock bg-image %}
+<body class="d-flex flex-column h-100 vh-100 ">
 
-{% block secondarynav %}
-<a href="{% url 'home' %}" class="text-decoration-none" title="Go Home">
-    <i class="text-warning fas fa-angle-double-left"></i>
-</a>
-{% endblock secondarynav %}
+    <div id="preloader" class="rounded-circle position-absolute top-50 p-3"></div>
+    <header class="d-print-none navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="container px-lg-0 justify-content-between">
+            <span class="navbar-brand text-white">
+                <i class="text-warning fas fa-cubes pe-1"></i> Django Mastery
+            </span>
+            <a href="/" class="text-decoration-none" title="Go Home">
+                <i class="text-warning fas fa-angle-double-left"></i>
+            </a>
+        </nav>
+    </header>
 
-{% block autologout %}{% endblock autologout %}
+    <main class="container">
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="text-center text-warning">
+                <span class="fa-stack fa-8x">
+                    <i class="fas fa-bug fa-2x"></i>
+                </span>
+                <h1 class="text-dark mt-4 fw-bold display-1"><i class="fa-solid fa-5"></i><i class="fa-solid fa-0 px-1"></i><i class="fa-solid fa-0"></i></h1>
+                <p class="text-danger fw-bold">A server error occured. We are working on it.</p>
+            </div>
+        </div>
+    </main>
 
-{% block content %}
-<div class="position-absolute top-50 start-50 translate-middle">
-    <div class="text-center text-warning">
-        <span class="fa-stack fa-8x">
-            <i class="fas fa-bug fa-2x"></i>
-        </span>
-        <h1 class="text-dark mt-4 fw-bold display-1">500</h1>
-        <p class="text-danger fw-bold">A server error occured. We are working on it.</p>
-    </div>
-</div>
+    <footer class="d-print-none bg-dark py-4 mt-auto">
+        <div class="container px-0">
+            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                <div class="col-auto">
+                    <div class="small m-0 text-warning">
+                        &copy;2023
+                        <span class="text-white mx-1">&middot;</span>
+                        Django Mastery
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <span class="text-white mx-1">&middot;</span>
+                    <a class="link-warning small" href="/">Seyi Pythonian</a>
+                    <span class="text-white mx-1">&middot;</span>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-{% endblock content %}
+    <!-- jQuery -->
+    <script src="/static/scripts/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS bundle -->
+    <script src="/static/scripts/bootstrap.bundle.min.js"></script>
+    <!-- Inputmask -->
+    <script src="/static/scripts/jquery.mask.min.js"></script>
+    <script src="/static/scripts/jquery.inputmask.js"></script>
+    <!-- Sweetalert JS-->
+    <script src="/static/scripts/sweetalert.min.js"></script>
+    <!-- TypedJS-->
+    <script src="/static/scripts/typed.js"></script>
+    <!-- Custom JS-->
+    <script src="/static/scripts/app.js"></script>
+
+
+</body>
+
+</html>

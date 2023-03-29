@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/fontawesome/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/app.css' %}">
     <title>{% block title %}{% endblock %} | Django Mastery</title>
 </head>
 <body class="d-flex flex-column h-100 vh-100 {% block bg-image %}background-image{% endblock %}">
-    
+
     {% block preloader %}
     <div id="preloader" class="rounded-circle position-absolute top-50 p-3"></div>
     {% endblock preloader %}
@@ -45,8 +46,8 @@
             <div class="row align-items-center justify-content-between flex-column flex-sm-row">
                 <div class="col-auto">
                     <div class="small m-0 text-warning">
-                        &copy;{% now "Y" %} 
-                        <span class="text-white mx-1">&middot;</span> 
+                        &copy;{% now "Y" %}
+                        <span class="text-white mx-1">&middot;</span>
                         Django Mastery
                     </div>
                 </div>
@@ -102,20 +103,20 @@
                 $('#supportModal').modal('show');
             });
         </script> -->
-        
+
     {% endfor %}
 
     <!--=== Modals ===-->
     {% include "modals/logout_confirm_modal.html" %}
     {% include "modals/autologout_warning.html" %}
-    
+
     {# include "modals/support_dialog_modal.html" #}
     {# include "modals/frontend_modal_form.html" #}
     {# include "modals/backend.html" #}
     {# include "modals/popup_support.html" #}
     {# include "modals/resume_duplicated_info.html" #}
     {# include "modals/autologout_info.html" #}
-    
+
     <!-- jQuery -->
     <script src="{% static 'scripts/jquery-3.6.0.min.js' %}"></script>
     <!-- Bootstrap JS bundle -->

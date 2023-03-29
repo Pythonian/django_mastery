@@ -11,7 +11,7 @@ Source code of Project from the Django Mastery Youtube Channel
 
 _Follow the steps below to get the program working on your system locally._
 
-### Local setup without Docker
+### Local setup using Makefile utility commands
 
 1. Clone the repo
     ```sh
@@ -23,21 +23,25 @@ _Follow the steps below to get the program working on your system locally._
     ```
 3. Create a virtual environment and activate it
     ```sh
-    python3 -m venv venv
+    make venv
     source venv/bin/activate
     ```
-4. Run your migration and create a superuser account
+4. Install the project requirements
     ```sh
-    python manage.py migrate
-    python manage.py createsuperuser
+    make install
     ```
-5. Populate the database with fake data (optional step)
+5. Run your db migration and create an admin account
+    ```sh
+    make migrations
+    make admin
+    ```
+6. Populate the database with fake data (optional step)
     ```sh
     python manage.py create_candidates 500
     ```
-6. Start your development server
+7. Start your development server
     ```sh
-    http://127.0.0.1:8000/
+    make runserver
     ```
 
 ### Local setup with Docker

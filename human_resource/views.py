@@ -381,7 +381,6 @@ def export_to_pdf(request, id):
     }
     pdf_name = candidate.firstname + '_' + candidate.lastname + '.pdf'
     pdf = pdfkit.from_url('http://127.0.0.1:8000/pdf/' + str(candidate.id), False, options=options)
-    # pdf = pdfkit.from_url('http://127.0.0.1:8000/candidate/' + str(c.id), False, options=options)
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-disposition'] = 'attachment; filename={}'.format(pdf_name)
     return response

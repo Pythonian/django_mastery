@@ -2,9 +2,6 @@
 ROOT_DIR:=./
 VENV_BIN_DIR:=venv/bin
 
-REQUIREMENTS_DIR:="requirements"
-REQUIREMENTS_LOCAL:="$(REQUIREMENTS_DIR)/development.txt"
-
 PIP:="$(VENV_BIN_DIR)/pip"
 FLAKE8:="$(VENV_BIN_DIR)/flake8"
 
@@ -18,14 +15,14 @@ endef
 venv: # Create virtual environment
 	@$(create-venv)
 
-install: venv # Install local dependencies
-	@$(PIP) install -r $(REQUIREMENTS_LOCAL)
+install: venv # Install project dependencies
+	@$(PIP) install -r requirements.txt
 
 migrations: venv # Run database migrations
 	@python manage.py makemigrations
 	@python manage.py migrate
 
-superuser: venv # Create admin superuser
+admin: venv # Create admin superuser
 	@python manage.py createsuperuser
 
 runserver: venv # Run development server

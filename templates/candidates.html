@@ -62,11 +62,11 @@
                     <input type="submit" class="btn-check" value="P" name="f" id="status4">
                     <label for="status4" title="Pending"
                         class="btn {% if request.GET.f == 'P' %}btn-warning{% else %}btn-outline-warning{% endif %}"><i class="fas fa-question"></i></label>
-                
+
                     <input type="submit" class="btn-check" value="A" name="f" id="statusradio5">
                     <label for="statusradio5" title="Approved"
                         class="btn {% if request.GET.f == 'A' %}btn-success{% else %}btn-outline-success{% endif %}"><i class="fas fa-check"></i></label>
-                
+
                     <input type="submit" class="btn-check" value="D" name="f" id="statusradio6">
                     <label for="statusradio6" title="Disapproved"
                         class="btn {% if request.GET.f == 'D' %}btn-danger{% else %}btn-outline-danger{% endif %}"><i class="fas fa-xmark"></i></label>
@@ -75,7 +75,7 @@
                 <div class="btn btn-group ps-0">
                     <input type="submit" class="btn-check" value="M" name="f" id="genderradio7">
                     <label for="genderradio7" title="Male" class="btn {% if request.GET.f == 'M' %}btn-primary{% else %}btn-outline-primary{% endif %}"><i class="fas fa-person"></i></label>
-                    
+
                     <input type="submit" class="btn-check" value="F" name="f" id="genderradio8">
                     <label for="genderradio8" title="Female" class="btn {% if request.GET.f == 'F' %}btn-danger{% else %}btn-outline-danger{% endif %}"><i class="fas fa-person-dress"></i></label>
                 </div>
@@ -84,7 +84,7 @@
                     <input type="submit" class="btn-check" value="ascending" name="asc" id="alphabetradio8">
                     <label for="alphabetradio8" title="Sort Ascending"
                         class="btn {% if request.GET.asc == 'ascending' %}btn-secondary{% else %}btn-outline-secondary{% endif %}"><i class="fas fa-arrow-up-a-z"></i></label>
-                
+
                     <input type="submit" class="btn-check" value="descending" name="desc" id="alphabetradio9">
                     <label for="alphabetradio9" title="Sort Descending"
                         class="btn {% if request.GET.desc == 'descending' %}btn-secondary{% else %}btn-outline-secondary{% endif %}"><i class="fas fa-arrow-down-z-a"></i></label>
@@ -104,7 +104,7 @@
         </div>
 
     </div>
-    
+
     <div class="row">
         <div class="col-12 px-0 table-responsive">
             <table class="table bg-white table-hover text-center table-bordered">
@@ -151,7 +151,7 @@
                         class="fw-bold">{{ candidates.paginator.count }}</span> candidate{{ candidates.paginator.count|pluralize }}</p>
                 {% include 'partials/_pagination.html' with page_obj=candidates %}
             </div>
-            
+
         </div>
     </div>
 

@@ -9,7 +9,7 @@ help:
 	@egrep -h '\s#\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?# "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 define create-venv
-python3 -m venv venv
+python -m venv venv
 endef
 
 venv: # Create virtual environment
@@ -17,6 +17,9 @@ venv: # Create virtual environment
 
 install: venv # Install project dependencies
 	@$(PIP) install -r requirements.txt
+
+freeze: venv # Freeze project dependencies
+	@$(PIP) freeze > requirements.txt
 
 migrations: venv # Run database migrations
 	@python manage.py makemigrations
@@ -36,3 +39,6 @@ check: venv # Perform system check
 
 lint: venv # Check code style
 	@$(FLAKE8) --exit-zero
+
+dockerdown: # Shut down docker compose
+	@docker-compose down -v

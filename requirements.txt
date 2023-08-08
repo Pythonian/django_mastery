@@ -1,13 +1,18 @@
-crispy-bootstrap5==0.6
+boto3==1.26.106
+celery==5.2.7
 coverage==7.2.2
-Django==4.1.7
+crispy-bootstrap5==0.7
+Django==4.2
 django-cleanup==7.0.0
+django-crispy-forms==2.0
 django-multiselectfield==0.1.12
+django-storages==1.13.2
+Faker==18.3.4
 flake8==6.0.0
-Faker==17.6.0
 gunicorn==20.1.0
 isort==5.12.0
 pdfkit==1.0.0
-Pillow==9.4.0
-psycopg2-binary==2.9.5
-python-decouple==3.6
+Pillow==9.5.0
+psycopg==3.1.8
+# psycopg2-binary==2.9.5
+python-decouple==3.8
